@@ -200,11 +200,11 @@ jobs:
       - name: Install build dependencies
         run: |
           uv sync
-          uv run python -m pip install build
+          uv add --dev build
 
       - name: Build package
         run: |
-          python -m build
+          uv run python -m build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
