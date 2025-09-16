@@ -1,6 +1,8 @@
 from datetime import datetime
-from typing import Optional, List, Dict, Any
+from typing import Any
+
 from pydantic import BaseModel, ConfigDict
+
 from app.schemas.product import ProductResponse
 from app.schemas.user import UserResponse
 
@@ -19,9 +21,9 @@ class OrderItemCreate(BaseModel):
 
 class OrderItemResponse(OrderItemBase):
     id: int
-    product_snapshot: Optional[Dict[str, Any]] = None
+    product_snapshot: dict[str, Any] | None = None
     created_at: datetime
-    product: Optional[ProductResponse] = None
+    product: ProductResponse | None = None
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -33,42 +35,42 @@ class OrderBase(BaseModel):
     tax_amount: float = 0
     shipping_amount: float = 0
     discount_amount: float = 0
-    shipping_address: Optional[Dict[str, Any]] = None
-    billing_address: Optional[Dict[str, Any]] = None
-    payment_method: Optional[str] = None
-    notes: Optional[str] = None
+    shipping_address: dict[str, Any] | None = None
+    billing_address: dict[str, Any] | None = None
+    payment_method: str | None = None
+    notes: str | None = None
 
 
 class OrderCreate(BaseModel):
-    items: List[OrderItemCreate]
-    shipping_address: Dict[str, Any]
-    billing_address: Optional[Dict[str, Any]] = None
+    items: list[OrderItemCreate]
+    shipping_address: dict[str, Any]
+    billing_address: dict[str, Any] | None = None
     payment_method: str = "stripe"
-    notes: Optional[str] = None
+    notes: str | None = None
 
 
 class OrderUpdate(BaseModel):
-    status: Optional[str] = None
-    tracking_number: Optional[str] = None
-    notes: Optional[str] = None
+    status: str | None = None
+    tracking_number: str | None = None
+    notes: str | None = None
 
 
 class OrderResponse(OrderBase):
     id: int
     user_id: int
     payment_status: str
-    payment_intent_id: Optional[str] = None
-    tracking_number: Optional[str] = None
+    payment_intent_id: str | None = None
+    tracking_number: str | None = None
     created_at: datetime
-    updated_at: Optional[datetime] = None
-    user: Optional[UserResponse] = None
-    order_items: List[OrderItemResponse] = []
+    updated_at: datetime | None = None
+    user: UserResponse | None = None
+    order_items: list[OrderItemResponse] = []
 
     model_config = ConfigDict(from_attributes=True)
 
 
 class OrderListResponse(BaseModel):
-    orders: List[OrderResponse]
+    orders: list[OrderResponse]
     total: int
     page: int
     pages: int
@@ -78,7 +80,7 @@ class OrderListResponse(BaseModel):
 
 class OrderStatusUpdate(BaseModel):
     status: str
-    tracking_number: Optional[str] = None
+    tracking_number: str | None = None
 
 
 class OrderSummary(BaseModel):

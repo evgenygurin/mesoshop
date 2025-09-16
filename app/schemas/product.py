@@ -1,15 +1,16 @@
 from datetime import datetime
-from typing import Optional, List, Dict, Any
+from typing import Any
+
 from pydantic import BaseModel, ConfigDict
 
 
 class CategoryBase(BaseModel):
     name: str
     slug: str
-    description: Optional[str] = None
-    parent_id: Optional[int] = None
+    description: str | None = None
+    parent_id: int | None = None
     is_active: bool = True
-    image_url: Optional[str] = None
+    image_url: str | None = None
 
 
 class CategoryCreate(CategoryBase):
@@ -17,45 +18,45 @@ class CategoryCreate(CategoryBase):
 
 
 class CategoryUpdate(BaseModel):
-    name: Optional[str] = None
-    slug: Optional[str] = None
-    description: Optional[str] = None
-    parent_id: Optional[int] = None
-    is_active: Optional[bool] = None
-    image_url: Optional[str] = None
+    name: str | None = None
+    slug: str | None = None
+    description: str | None = None
+    parent_id: int | None = None
+    is_active: bool | None = None
+    image_url: str | None = None
 
 
 class CategoryResponse(CategoryBase):
     id: int
     created_at: datetime
-    updated_at: Optional[datetime] = None
+    updated_at: datetime | None = None
 
     model_config = ConfigDict(from_attributes=True)
 
 
 class CategoryTree(CategoryResponse):
-    children: List["CategoryTree"] = []
+    children: list["CategoryTree"] = []
     products_count: int = 0
 
 
 class ProductBase(BaseModel):
     name: str
     slug: str
-    description: Optional[str] = None
-    short_description: Optional[str] = None
+    description: str | None = None
+    short_description: str | None = None
     price: float
-    compare_price: Optional[float] = None
+    compare_price: float | None = None
     stock_quantity: int = 0
-    category_id: Optional[int] = None
-    sku: Optional[str] = None
-    images: List[str] = []
-    attributes: Dict[str, Any] = {}
+    category_id: int | None = None
+    sku: str | None = None
+    images: list[str] = []
+    attributes: dict[str, Any] = {}
     is_active: bool = True
     is_featured: bool = False
-    weight: Optional[float] = None
-    dimensions: Dict[str, float] = {}
-    meta_title: Optional[str] = None
-    meta_description: Optional[str] = None
+    weight: float | None = None
+    dimensions: dict[str, float] = {}
+    meta_title: str | None = None
+    meta_description: str | None = None
 
 
 class ProductCreate(ProductBase):
@@ -63,36 +64,36 @@ class ProductCreate(ProductBase):
 
 
 class ProductUpdate(BaseModel):
-    name: Optional[str] = None
-    slug: Optional[str] = None
-    description: Optional[str] = None
-    short_description: Optional[str] = None
-    price: Optional[float] = None
-    compare_price: Optional[float] = None
-    stock_quantity: Optional[int] = None
-    category_id: Optional[int] = None
-    sku: Optional[str] = None
-    images: Optional[List[str]] = None
-    attributes: Optional[Dict[str, Any]] = None
-    is_active: Optional[bool] = None
-    is_featured: Optional[bool] = None
-    weight: Optional[float] = None
-    dimensions: Optional[Dict[str, float]] = None
-    meta_title: Optional[str] = None
-    meta_description: Optional[str] = None
+    name: str | None = None
+    slug: str | None = None
+    description: str | None = None
+    short_description: str | None = None
+    price: float | None = None
+    compare_price: float | None = None
+    stock_quantity: int | None = None
+    category_id: int | None = None
+    sku: str | None = None
+    images: list[str] | None = None
+    attributes: dict[str, Any] | None = None
+    is_active: bool | None = None
+    is_featured: bool | None = None
+    weight: float | None = None
+    dimensions: dict[str, float] | None = None
+    meta_title: str | None = None
+    meta_description: str | None = None
 
 
 class ProductResponse(ProductBase):
     id: int
     created_at: datetime
-    updated_at: Optional[datetime] = None
-    category: Optional[CategoryResponse] = None
+    updated_at: datetime | None = None
+    category: CategoryResponse | None = None
 
     model_config = ConfigDict(from_attributes=True)
 
 
 class ProductListResponse(BaseModel):
-    products: List[ProductResponse]
+    products: list[ProductResponse]
     total: int
     page: int
     pages: int
@@ -101,11 +102,11 @@ class ProductListResponse(BaseModel):
 
 
 class ProductSearch(BaseModel):
-    q: Optional[str] = None
-    category_id: Optional[int] = None
-    min_price: Optional[float] = None
-    max_price: Optional[float] = None
-    is_featured: Optional[bool] = None
+    q: str | None = None
+    category_id: int | None = None
+    min_price: float | None = None
+    max_price: float | None = None
+    is_featured: bool | None = None
     is_active: bool = True
     sort_by: str = "created_at"
     sort_order: str = "desc"
