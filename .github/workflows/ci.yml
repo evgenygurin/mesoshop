@@ -179,11 +179,12 @@ jobs:
             htmlcov/
             .coverage
 
-  # Build package
+  # Build package (only on main branch)
   build:
     runs-on: ubuntu-latest
     name: Build Package
     needs: [lint, security, test]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
 
