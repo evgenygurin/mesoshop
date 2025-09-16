@@ -2,9 +2,13 @@
 
 import os
 from collections.abc import Generator
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 import pytest
+
+if TYPE_CHECKING:
+    from fastapi.testclient import TestClient
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -33,8 +37,9 @@ def setup_test_env() -> Generator[None, None, None]:
 def client() -> Generator["TestClient", None, None]:
     """Create test client."""
     # Import here to ensure env vars are set before import
-    from fastapi.testclient import TestClient
-    from app.main import app
-    
+    from fastapi.testclient import TestClient  # noqa: PLC0415
+
+    from app.main import app  # noqa: PLC0415
+
     with TestClient(app) as client:
         yield client
