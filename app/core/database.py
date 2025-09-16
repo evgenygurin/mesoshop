@@ -24,6 +24,7 @@ else:
 # Create SessionLocal class
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+
 # Create Base class for models
 class Base(DeclarativeBase):
     pass

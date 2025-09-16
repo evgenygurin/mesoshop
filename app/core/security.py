@@ -11,8 +11,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def create_access_token(
-    subject: str | Any,
-    expires_delta: timedelta | None = None
+    subject: str | Any, expires_delta: timedelta | None = None
 ) -> str:
     """Create access token"""
     if expires_delta:
@@ -24,9 +23,7 @@ def create_access_token(
 
     to_encode = {"exp": expire, "sub": str(subject), "type": "access"}
     encoded_jwt = jwt.encode(
-        to_encode,
-        settings.SECRET_KEY,
-        algorithm=settings.ALGORITHM
+        to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
     )
     return cast("str", encoded_jwt)
 
@@ -36,9 +33,7 @@ def create_refresh_token(subject: str | Any) -> str:
     expire = datetime.utcnow() + timedelta(days=settings.REFRESH_TOKEN_EXPIRE_DAYS)
     to_encode = {"exp": expire, "sub": str(subject), "type": "refresh"}
     encoded_jwt = jwt.encode(
-        to_encode,
-        settings.SECRET_KEY,
-        algorithm=settings.ALGORITHM
+        to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
     )
     return cast("str", encoded_jwt)
 
@@ -57,9 +52,7 @@ def decode_token(token: str, token_type: str = "access") -> str | None:  # nosec
     """Decode and verify token"""
     try:
         payload = jwt.decode(
-            token,
-            settings.SECRET_KEY,
-            algorithms=[settings.ALGORITHM]
+            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
         )
 
         # Check token type
@@ -75,13 +68,17 @@ def create_password_reset_token(email: str) -> str:
     """Create password reset token"""
     expire = datetime.utcnow() + timedelta(hours=1)
     to_encode = {"exp": expire, "sub": email, "type": "password_reset"}
-    return cast("str", jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM))
+    return cast(
+        "str", jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    )
 
 
 def verify_password_reset_token(token: str) -> str | None:
     """Verify password reset token"""
     try:
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        payload = jwt.decode(
+            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
+        )
         if payload.get("type") != "password_reset":
             return None
         return cast("str", payload.get("sub"))

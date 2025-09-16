@@ -1,4 +1,3 @@
-
 from fastapi import HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -38,7 +37,7 @@ class AuthService:
         if result.scalar_one_or_none():
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Email already registered"
+                detail="Email already registered",
             )
 
         # Create new user
@@ -48,7 +47,7 @@ class AuthService:
             hashed_password=hashed_password,
             full_name=user_create.full_name,
             phone_number=user_create.phone_number,
-            address=user_create.address
+            address=user_create.address,
         )
 
         self.db.add(db_user)
@@ -92,13 +91,12 @@ class AuthService:
         if not user:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Incorrect email or password"
+                detail="Incorrect email or password",
             )
 
         if not user.is_active:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Inactive user"
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Inactive user"
             )
 
         access_token = create_access_token(subject=user.id)
@@ -111,23 +109,24 @@ class AuthService:
                 "id": user.id,
                 "email": user.email,
                 "full_name": user.full_name,
-                "is_verified": user.is_verified
-            }
+                "is_verified": user.is_verified,
+            },
         )
 
-    async def change_password(self, user_id: int, current_password: str, new_password: str) -> bool:
+    async def change_password(
+        self, user_id: int, current_password: str, new_password: str
+    ) -> bool:
         """Change user password"""
         user = await self.get_user_by_id(user_id)
         if not user:
             raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="User not found"
+                status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
             )
 
         if not verify_password(current_password, user.hashed_password):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Incorrect current password"
+                detail="Incorrect current password",
             )
 
         user.hashed_password = get_password_hash(new_password)

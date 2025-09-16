@@ -1,4 +1,3 @@
-
 from fastapi import HTTPException, status
 from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session, selectinload
@@ -26,8 +25,7 @@ class ProductService:
             result = self.db.execute(stmt)
             if result.scalar_one_or_none():
                 raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="SKU already exists"
+                    status_code=status.HTTP_400_BAD_REQUEST, detail="SKU already exists"
                 )
 
         # Check if slug already exists
@@ -35,8 +33,7 @@ class ProductService:
         result = self.db.execute(stmt)
         if result.scalar_one_or_none():
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Slug already exists"
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Slug already exists"
             )
 
         # Verify category exists if provided
@@ -44,8 +41,7 @@ class ProductService:
             category = await self.get_category_by_id(product_create.category_id)
             if not category:
                 raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail="Category not found"
+                    status_code=status.HTTP_404_NOT_FOUND, detail="Category not found"
                 )
 
         db_product = Product(**product_create.model_dump())
@@ -56,17 +52,27 @@ class ProductService:
 
     async def get_product_by_id(self, product_id: int) -> Product | None:
         """Get product by ID with category loaded"""
-        stmt = select(Product).options(selectinload(Product.category)).where(Product.id == product_id)
+        stmt = (
+            select(Product)
+            .options(selectinload(Product.category))
+            .where(Product.id == product_id)
+        )
         result = self.db.execute(stmt)
         return result.scalar_one_or_none()
 
     async def get_product_by_slug(self, slug: str) -> Product | None:
         """Get product by slug with category loaded"""
-        stmt = select(Product).options(selectinload(Product.category)).where(Product.slug == slug)
+        stmt = (
+            select(Product)
+            .options(selectinload(Product.category))
+            .where(Product.slug == slug)
+        )
         result = self.db.execute(stmt)
         return result.scalar_one_or_none()
 
-    async def update_product(self, product_id: int, product_update: ProductUpdate) -> Product | None:
+    async def update_product(
+        self, product_id: int, product_update: ProductUpdate
+    ) -> Product | None:
         """Update product"""
         product = await self.get_product_by_id(product_id)
         if not product:
@@ -79,7 +85,7 @@ class ProductService:
             if result.scalar_one_or_none():
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Slug already exists"
+                    detail="Slug already exists",
                 )
 
         # Check SKU uniqueness if being updated
@@ -88,8 +94,7 @@ class ProductService:
             result = self.db.execute(stmt)
             if result.scalar_one_or_none():
                 raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="SKU already exists"
+                    status_code=status.HTTP_400_BAD_REQUEST, detail="SKU already exists"
                 )
 
         update_data = product_update.model_dump(exclude_unset=True)
@@ -111,10 +116,7 @@ class ProductService:
         return True
 
     async def search_products(
-        self,
-        search: ProductSearch,
-        page: int = 1,
-        limit: int = 20
+        self, search: ProductSearch, page: int = 1, limit: int = 20
     ) -> ProductListResponse:
         """Search products with filters and pagination"""
         stmt = select(Product).options(selectinload(Product.category))
@@ -125,7 +127,7 @@ class ProductService:
                 or_(
                     Product.name.ilike(f"%{search.q}%"),
                     Product.description.ilike(f"%{search.q}%"),
-                    Product.short_description.ilike(f"%{search.q}%")
+                    Product.short_description.ilike(f"%{search.q}%"),
                 )
             )
 
@@ -171,7 +173,9 @@ class ProductService:
         products_data = result.scalars().all()
 
         # Convert to ProductResponse objects
-        products = [ProductResponse.model_validate(product) for product in products_data]
+        products = [
+            ProductResponse.model_validate(product) for product in products_data
+        ]
 
         # Calculate pagination info
         pages = (total + limit - 1) // limit
@@ -184,7 +188,7 @@ class ProductService:
             page=page,
             pages=pages,
             has_next=has_next,
-            has_prev=has_prev
+            has_prev=has_prev,
         )
 
     # Category methods
@@ -195,8 +199,7 @@ class ProductService:
         result = self.db.execute(stmt)
         if result.scalar_one_or_none():
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Slug already exists"
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Slug already exists"
             )
 
         # Verify parent category exists if provided
@@ -205,7 +208,7 @@ class ProductService:
             if not parent:
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
-                    detail="Parent category not found"
+                    detail="Parent category not found",
                 )
 
         db_category = Category(**category_create.model_dump())
@@ -229,7 +232,9 @@ class ProductService:
         result = self.db.execute(stmt)
         return list(result.scalars().all())
 
-    async def update_stock(self, product_id: int, quantity_change: int) -> Product | None:
+    async def update_stock(
+        self, product_id: int, quantity_change: int
+    ) -> Product | None:
         """Update product stock"""
         product = await self.get_product_by_id(product_id)
         if not product:
@@ -238,8 +243,7 @@ class ProductService:
         new_quantity = product.stock_quantity + quantity_change
         if new_quantity < 0:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Insufficient stock"
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Insufficient stock"
             )
 
         product.stock_quantity = new_quantity

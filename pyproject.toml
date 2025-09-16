@@ -83,6 +83,7 @@ dev-dependencies = [
     "ruff>=0.1.7",
     "bandit[toml]>=1.7.5",
     "pre-commit>=3.5.0",
+    "pip-audit>=2.6.1",
 ]
 
 # Ruff configuration
