@@ -1,23 +1,29 @@
-from typing import Optional
-from sqlalchemy.orm import Session
-from sqlalchemy import select
+
 from fastapi import HTTPException, status
-from app.core.security import verify_password, get_password_hash, create_access_token, create_refresh_token
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
+from app.core.security import (
+    create_access_token,
+    create_refresh_token,
+    get_password_hash,
+    verify_password,
+)
 from app.models.user import User
-from app.schemas.user import UserCreate, UserUpdate
 from app.schemas.auth import LoginResponse
+from app.schemas.user import UserCreate, UserUpdate
 
 
 class AuthService:
     def __init__(self, db: Session):
         self.db = db
 
-    async def authenticate_user(self, email: str, password: str) -> Optional[User]:
+    async def authenticate_user(self, email: str, password: str) -> User | None:
         """Authenticate user with email and password"""
         stmt = select(User).where(User.email == email)
         result = self.db.execute(stmt)
         user = result.scalar_one_or_none()
-        
+
         if not user:
             return None
         if not verify_password(password, user.hashed_password):
@@ -44,30 +50,30 @@ class AuthService:
             phone_number=user_create.phone_number,
             address=user_create.address
         )
-        
+
         self.db.add(db_user)
         self.db.commit()
         self.db.refresh(db_user)
         return db_user
 
-    async def get_user_by_email(self, email: str) -> Optional[User]:
+    async def get_user_by_email(self, email: str) -> User | None:
         """Get user by email"""
         stmt = select(User).where(User.email == email)
         result = self.db.execute(stmt)
         return result.scalar_one_or_none()
 
-    async def get_user_by_id(self, user_id: int) -> Optional[User]:
+    async def get_user_by_id(self, user_id: int) -> User | None:
         """Get user by ID"""
         stmt = select(User).where(User.id == user_id)
         result = self.db.execute(stmt)
         return result.scalar_one_or_none()
 
-    async def update_user(self, user_id: int, user_update: UserUpdate) -> Optional[User]:
+    async def update_user(self, user_id: int, user_update: UserUpdate) -> User | None:
         """Update user information"""
         stmt = select(User).where(User.id == user_id)
         result = self.db.execute(stmt)
         user = result.scalar_one_or_none()
-        
+
         if not user:
             return None
 
@@ -88,7 +94,7 @@ class AuthService:
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Incorrect email or password"
             )
-        
+
         if not user.is_active:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -97,7 +103,7 @@ class AuthService:
 
         access_token = create_access_token(subject=user.id)
         refresh_token = create_refresh_token(subject=user.id)
-        
+
         return LoginResponse(
             access_token=access_token,
             refresh_token=refresh_token,

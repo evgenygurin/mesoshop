@@ -1,4 +1,6 @@
-from typing import Optional
+
+from typing import Any
+
 from pydantic import BaseModel, EmailStr
 
 
@@ -9,7 +11,7 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    email: Optional[str] = None
+    email: str | None = None
 
 
 class RefreshToken(BaseModel):
@@ -33,4 +35,4 @@ class LoginResponse(BaseModel):
     access_token: str
     refresh_token: str
     token_type: str = "bearer"
-    user: dict
+    user: dict[str, Any]

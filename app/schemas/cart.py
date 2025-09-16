@@ -1,6 +1,7 @@
 from datetime import datetime
-from typing import Optional, List
+
 from pydantic import BaseModel, ConfigDict
+
 from app.schemas.product import ProductResponse
 
 
@@ -21,15 +22,15 @@ class CartItemResponse(CartItemBase):
     id: int
     user_id: int
     created_at: datetime
-    updated_at: Optional[datetime] = None
-    product: Optional[ProductResponse] = None
+    updated_at: datetime | None = None
+    product: ProductResponse | None = None
     subtotal: float = 0
 
     model_config = ConfigDict(from_attributes=True)
 
 
 class CartResponse(BaseModel):
-    items: List[CartItemResponse]
+    items: list[CartItemResponse]
     total_items: int
     total_amount: float
     subtotal: float

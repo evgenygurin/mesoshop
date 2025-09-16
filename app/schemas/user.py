@@ -1,13 +1,13 @@
 from datetime import datetime
-from typing import Optional
-from pydantic import BaseModel, EmailStr, ConfigDict
+
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class UserBase(BaseModel):
     email: EmailStr
-    full_name: Optional[str] = None
-    phone_number: Optional[str] = None
-    address: Optional[str] = None
+    full_name: str | None = None
+    phone_number: str | None = None
+    address: str | None = None
     is_active: bool = True
     is_verified: bool = False
 
@@ -17,11 +17,11 @@ class UserCreate(UserBase):
 
 
 class UserUpdate(BaseModel):
-    email: Optional[EmailStr] = None
-    full_name: Optional[str] = None
-    phone_number: Optional[str] = None
-    address: Optional[str] = None
-    avatar_url: Optional[str] = None
+    email: EmailStr | None = None
+    full_name: str | None = None
+    phone_number: str | None = None
+    address: str | None = None
+    avatar_url: str | None = None
 
 
 class UserUpdatePassword(BaseModel):
@@ -31,10 +31,10 @@ class UserUpdatePassword(BaseModel):
 
 class UserResponse(UserBase):
     id: int
-    avatar_url: Optional[str] = None
+    avatar_url: str | None = None
     is_superuser: bool = False
     created_at: datetime
-    updated_at: Optional[datetime] = None
+    updated_at: datetime | None = None
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -48,4 +48,4 @@ class UserRegister(BaseModel):
     email: EmailStr
     password: str
     full_name: str
-    phone_number: Optional[str] = None
+    phone_number: str | None = None

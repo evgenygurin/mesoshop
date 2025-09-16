@@ -1,11 +1,16 @@
-from typing import Optional, List
-from sqlalchemy.orm import Session, selectinload
-from sqlalchemy import select, func, or_
+
 from fastapi import HTTPException, status
-from app.models.product import Product, Category
+from sqlalchemy import func, or_, select
+from sqlalchemy.orm import Session, selectinload
+
+from app.models.product import Category, Product
 from app.schemas.product import (
-    ProductCreate, ProductUpdate, ProductListResponse, ProductSearch,
-    CategoryCreate, CategoryUpdate
+    CategoryCreate,
+    ProductCreate,
+    ProductListResponse,
+    ProductResponse,
+    ProductSearch,
+    ProductUpdate,
 )
 
 
@@ -49,19 +54,19 @@ class ProductService:
         self.db.refresh(db_product)
         return db_product
 
-    async def get_product_by_id(self, product_id: int) -> Optional[Product]:
+    async def get_product_by_id(self, product_id: int) -> Product | None:
         """Get product by ID with category loaded"""
         stmt = select(Product).options(selectinload(Product.category)).where(Product.id == product_id)
         result = self.db.execute(stmt)
         return result.scalar_one_or_none()
 
-    async def get_product_by_slug(self, slug: str) -> Optional[Product]:
+    async def get_product_by_slug(self, slug: str) -> Product | None:
         """Get product by slug with category loaded"""
         stmt = select(Product).options(selectinload(Product.category)).where(Product.slug == slug)
         result = self.db.execute(stmt)
         return result.scalar_one_or_none()
 
-    async def update_product(self, product_id: int, product_update: ProductUpdate) -> Optional[Product]:
+    async def update_product(self, product_id: int, product_update: ProductUpdate) -> Product | None:
         """Update product"""
         product = await self.get_product_by_id(product_id)
         if not product:
@@ -106,14 +111,14 @@ class ProductService:
         return True
 
     async def search_products(
-        self, 
-        search: ProductSearch, 
-        page: int = 1, 
+        self,
+        search: ProductSearch,
+        page: int = 1,
         limit: int = 20
     ) -> ProductListResponse:
         """Search products with filters and pagination"""
         stmt = select(Product).options(selectinload(Product.category))
-        
+
         # Apply filters
         if search.q:
             stmt = stmt.where(
@@ -123,19 +128,19 @@ class ProductService:
                     Product.short_description.ilike(f"%{search.q}%")
                 )
             )
-        
+
         if search.category_id:
             stmt = stmt.where(Product.category_id == search.category_id)
-        
+
         if search.min_price is not None:
             stmt = stmt.where(Product.price >= search.min_price)
-        
+
         if search.max_price is not None:
             stmt = stmt.where(Product.price <= search.max_price)
-        
+
         if search.is_featured is not None:
             stmt = stmt.where(Product.is_featured == search.is_featured)
-        
+
         stmt = stmt.where(Product.is_active == search.is_active)
 
         # Apply sorting
@@ -149,22 +154,24 @@ class ProductService:
                 stmt = stmt.order_by(Product.name.asc())
             else:
                 stmt = stmt.order_by(Product.name.desc())
-        else:  # created_at
-            if search.sort_order == "asc":
-                stmt = stmt.order_by(Product.created_at.asc())
-            else:
-                stmt = stmt.order_by(Product.created_at.desc())
+        elif search.sort_order == "asc":
+            stmt = stmt.order_by(Product.created_at.asc())
+        else:
+            stmt = stmt.order_by(Product.created_at.desc())
 
         # Get total count
         count_stmt = select(func.count()).select_from(stmt.subquery())
-        total = self.db.execute(count_stmt).scalar()
+        total = self.db.execute(count_stmt).scalar() or 0
 
         # Apply pagination
         offset = (page - 1) * limit
         stmt = stmt.offset(offset).limit(limit)
-        
+
         result = self.db.execute(stmt)
-        products = result.scalars().all()
+        products_data = result.scalars().all()
+
+        # Convert to ProductResponse objects
+        products = [ProductResponse.model_validate(product) for product in products_data]
 
         # Calculate pagination info
         pages = (total + limit - 1) // limit
@@ -207,22 +214,22 @@ class ProductService:
         self.db.refresh(db_category)
         return db_category
 
-    async def get_category_by_id(self, category_id: int) -> Optional[Category]:
+    async def get_category_by_id(self, category_id: int) -> Category | None:
         """Get category by ID"""
         stmt = select(Category).where(Category.id == category_id)
         result = self.db.execute(stmt)
         return result.scalar_one_or_none()
 
-    async def get_categories(self, include_inactive: bool = False) -> List[Category]:
+    async def get_categories(self, include_inactive: bool = False) -> list[Category]:
         """Get all categories"""
         stmt = select(Category)
         if not include_inactive:
-            stmt = stmt.where(Category.is_active == True)
-        
-        result = self.db.execute(stmt)
-        return result.scalars().all()
+            stmt = stmt.where(Category.is_active)
 
-    async def update_stock(self, product_id: int, quantity_change: int) -> Optional[Product]:
+        result = self.db.execute(stmt)
+        return list(result.scalars().all())
+
+    async def update_stock(self, product_id: int, quantity_change: int) -> Product | None:
         """Update product stock"""
         product = await self.get_product_by_id(product_id)
         if not product:
