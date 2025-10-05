@@ -72,7 +72,7 @@
             <div id="buy" class="card mb-3">
               <div class="card-body">
                 {% if license == '1' and not purchased %}
-                  <button type="button" id="button-buy" class="btn btn-success btn-lg btn-block">{{ button_purchase }}</button>
+                  <button type="button" id="button-buy" class="btn btn-success btn-lg w-100">{{ button_purchase }}</button>
                 {% endif %}
                 <div id="price" class="row">
                   <div class="col-lg-5"><strong>{{ text_price }}</strong></div>
@@ -134,7 +134,7 @@
                   </div>
                 </div>
                 <br/>
-                <a href="{{ filter_member }}" class="btn btn-primary btn-lg btn-block">{{ button_view_all }}</a> <a href="https://www.opencart.com/index.php?route=support/seller&amp;extension_id={{ extension_id }}" target="_blank" class="btn btn-outline-secondary btn-lg btn-block">{{ button_support }}</a>
+                <a href="{{ filter_member }}" class="btn btn-primary btn-lg w-100">{{ button_view_all }}</a> <a href="https://www.opencart.com/index.php?route=support/seller&amp;extension_id={{ extension_id }}" target="_blank" class="btn btn-outline-secondary btn-lg w-100">{{ button_support }}</a>
               </div>
             </div>
           </div>
@@ -349,7 +349,7 @@ $('#button-comment').on('click', function() {
 });
 
 // Next replies
-$('#comment').on('click', '.btn-block', function(e) {
+$('#comment').on('click', '.w-100', function(e) {
     e.preventDefault();
 
     var element = this;
