@@ -1,40 +1,52 @@
 <form id="form-review">
   <div id="review">{{ list }}</div>
-  <h2>{{ text_write }}</h2>
-  {% if review_guest %}
-    <div class="mb-3 required">
-      <label for="input-author" class="form-label">{{ entry_author }}</label> <input type="text" name="author" value="{{ customer }}" id="input-author" class="form-control"/>
-      <div id="error-author" class="invalid-feedback"></div>
+
+  <div class="card border-0 shadow-sm mt-4">
+    <div class="card-header bg-white">
+      <h5 class="mb-0"><i class="fa-solid fa-pen-to-square me-2"></i>{{ text_write }}</h5>
     </div>
-    <div class="mb-3 required">
-      <label for="input-text" class="form-label">{{ entry_review }}</label> <textarea name="text" rows="5" id="input-text" class="form-control"></textarea>
-      <div id="error-text" class="invalid-feedback"></div>
-      <div class="invalid-feedback">{{ text_note }}</div>
+    <div class="card-body">
+      {% if review_guest %}
+        <div class="mb-3 required">
+          <label for="input-author" class="form-label">{{ entry_author }}</label>
+          <input type="text" name="author" value="{{ customer }}" id="input-author" class="form-control form-control-lg shadow-sm"/>
+          <div id="error-author" class="invalid-feedback"></div>
+        </div>
+        <div class="mb-3 required">
+          <label for="input-text" class="form-label">{{ entry_review }}</label>
+          <textarea name="text" rows="5" id="input-text" class="form-control shadow-sm"></textarea>
+          <div id="error-text" class="invalid-feedback"></div>
+          <small class="form-text text-muted">{{ text_note }}</small>
+        </div>
+        <div class="mb-3 required">
+          <label class="form-label d-block">{{ entry_rating }}</label>
+          <div id="input-rating" class="d-flex align-items-center gap-2">
+            <span class="text-muted small">{{ entry_bad }}</span>
+            {% for i in 1..5 %}
+              <div class="form-check form-check-inline">
+                <input type="radio" name="rating" value="{{ i }}" id="rating-{{ i }}" class="form-check-input"/>
+                <label for="rating-{{ i }}" class="form-check-label">
+                  <i class="fa-solid fa-star text-warning"></i>
+                </label>
+              </div>
+            {% endfor %}
+            <span class="text-muted small">{{ entry_good }}</span>
+          </div>
+          <div id="error-rating" class="invalid-feedback"></div>
+        </div>
+        {{ captcha }}
+        <div class="text-end mt-4">
+          <button type="submit" id="button-review" class="btn btn-primary btn-lg shadow-sm">
+            <i class="fa-solid fa-paper-plane me-2"></i>{{ button_continue }}
+          </button>
+        </div>
+      {% else %}
+        <div class="alert alert-info border-0 shadow-sm">
+          <i class="fa-solid fa-circle-info me-2"></i>{{ text_login }}
+        </div>
+      {% endif %}
     </div>
-    <div class="row mb-3 required">
-      <label class="form-label">{{ entry_rating }}</label>
-      <div id="input-rating">
-        {{ entry_bad }}&nbsp;
-        <input type="radio" name="rating" value="1" class="form-check-input"/>
-        &nbsp;
-        <input type="radio" name="rating" value="2" class="form-check-input"/>
-        &nbsp;
-        <input type="radio" name="rating" value="3" class="form-check-input"/>
-        &nbsp;
-        <input type="radio" name="rating" value="4" class="form-check-input"/>
-        &nbsp;
-        <input type="radio" name="rating" value="5" class="form-check-input"/>
-        &nbsp;{{ entry_good }}
-      </div>
-      <div id="error-rating" class="invalid-feedback"></div>
-    </div>
-    {{ captcha }}
-    <div class="text-end">
-      <button type="submit" id="button-review" class="btn btn-primary">{{ button_continue }}</button>
-    </div>
-  {% else %}
-    {{ text_login }}
-  {% endif %}
+  </div>
 </form>
 <script type="text/javascript"><!--
 $('#review').on('click', '.pagination a', function(e) {
