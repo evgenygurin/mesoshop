@@ -56,14 +56,47 @@
   <div class="card-footer bg-transparent border-top-0 pt-0">
     <form method="post" data-oc-toggle="ajax" data-oc-load="{{ cart }}" data-oc-target="#cart">
       <div class="btn-group w-100" role="group">
-        <button type="submit" formaction="{{ cart_add }}" class="btn btn-primary flex-fill" data-bs-toggle="tooltip" title="{{ button_cart }}">
+        <button 
+          type="submit" 
+          formaction="{{ cart_add }}" 
+          class="btn btn-primary flex-fill cart-add-btn" 
+          data-bs-toggle="tooltip" 
+          title="{{ button_cart }}"
+          data-loading="true"
+          data-loading-text="<span class='spinner-border spinner-border-sm me-2'></span>Добавление..."
+          data-loading-size="sm"
+          data-success-text="<i class='fas fa-check me-2'></i>Добавлено"
+          data-product-id="{{ product_id }}"
+        >
           <i class="fa-solid fa-cart-shopping"></i>
           <span class="d-none d-lg-inline ms-2">{{ button_cart }}</span>
         </button>
-        <button type="submit" formaction="{{ wishlist_add }}" class="btn btn-outline-danger" data-bs-toggle="tooltip" title="{{ button_wishlist }}">
+        <button 
+          type="submit" 
+          formaction="{{ wishlist_add }}" 
+          class="btn btn-outline-danger wishlist-add-btn" 
+          data-bs-toggle="tooltip" 
+          title="{{ button_wishlist }}"
+          data-loading="true"
+          data-loading-text="<span class='spinner-border spinner-border-sm'></span>"
+          data-loading-size="sm"
+          data-success-text="<i class='fas fa-heart text-danger'></i>"
+          data-product-id="{{ product_id }}"
+        >
           <i class="fa-solid fa-heart"></i>
         </button>
-        <button type="submit" formaction="{{ compare_add }}" class="btn btn-outline-secondary" data-bs-toggle="tooltip" title="{{ button_compare }}">
+        <button 
+          type="submit" 
+          formaction="{{ compare_add }}" 
+          class="btn btn-outline-secondary compare-add-btn" 
+          data-bs-toggle="tooltip" 
+          title="{{ button_compare }}"
+          data-loading="true"
+          data-loading-text="<span class='spinner-border spinner-border-sm'></span>"
+          data-loading-size="sm"
+          data-success-text="<i class='fas fa-check'></i>"
+          data-product-id="{{ product_id }}"
+        >
           <i class="fa-solid fa-arrow-right-arrow-left"></i>
         </button>
       </div>
@@ -72,3 +105,104 @@
     </form>
   </div>
 </div>
+
+<script>
+// Обработчики для кнопок в карточке товара
+$(document).ready(function() {
+    'use strict';
+
+    // Обработчик добавления в корзину
+    $('.cart-add-btn').on('click', function(e) {
+        e.preventDefault();
+        const $btn = $(this);
+        const productId = $btn.data('product-id');
+        const formAction = $btn.attr('formaction');
+        
+        // Показываем loading состояние
+        loadingManager.handleButtonClick($btn, async () => {
+            // Получаем данные формы
+            const formData = new FormData($btn.closest('form')[0]);
+            
+            // Выполняем AJAX запрос
+            const response = await $.ajax({
+                url: formAction,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            });
+            
+            // Обновляем счетчик корзины, если есть
+            if (response.total) {
+                $('#cart-total').html(response.total);
+            }
+            
+            return response;
+        }, {
+            loadingText: $btn.data('loading-text'),
+            successText: $btn.data('success-text'),
+            successDelay: 2000,
+            errorText: 'Ошибка',
+            spinnerSize: 'sm',
+            spinnerColor: 'white'
+        });
+    });
+
+    // Обработчик добавления в избранное
+    $('.wishlist-add-btn').on('click', function(e) {
+        e.preventDefault();
+        const $btn = $(this);
+        const formAction = $btn.attr('formaction');
+        
+        loadingManager.handleButtonClick($btn, async () => {
+            const formData = new FormData($btn.closest('form')[0]);
+            
+            return await $.ajax({
+                url: formAction,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            });
+        }, {
+            successText: $btn.data('success-text'),
+            successDelay: 2000,
+            errorText: 'Ошибка',
+            spinnerSize: 'sm',
+            spinnerColor: 'danger'
+        });
+    });
+
+    // Обработчик добавления в сравнение
+    $('.compare-add-btn').on('click', function(e) {
+        e.preventDefault();
+        const $btn = $(this);
+        const formAction = $btn.attr('formaction');
+        
+        loadingManager.handleButtonClick($btn, async () => {
+            const formData = new FormData($btn.closest('form')[0]);
+            
+            const response = await $.ajax({
+                url: formAction,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false
+            });
+
+            // Обновляем счетчик сравнения, если есть
+            if (response.compare_total) {
+                $('#compare-total').html(response.compare_total);
+            }
+            
+            return response;
+        }, {
+            successText: $btn.data('success-text'),
+            successDelay: 2000,
+            errorText: 'Ошибка',
+            spinnerSize: 'sm',
+            spinnerColor: 'secondary'
+        });
+    });
+});
+</script>

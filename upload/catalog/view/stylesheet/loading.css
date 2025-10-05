@@ -1,0 +1,385 @@
+/*!
+ * Loading States CSS v1.0.0
+ * Enhanced Bootstrap 5.3 Spinners and Placeholders
+ * Copyright 2024 MesoShop
+ * Licensed under MIT
+ */
+
+/* ==========================================================================
+   Loading Placeholders
+   ========================================================================== */
+
+.loading-placeholders {
+    animation: placeholderShimmer 1.6s ease-in-out infinite;
+}
+
+/* Улучшенная анимация для placeholder */
+@keyframes placeholderShimmer {
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+.placeholder {
+    background: linear-gradient(90deg, 
+        #f0f0f0 25%, 
+        #e0e0e0 50%, 
+        #f0f0f0 75%
+    );
+    background-size: 468px 104px;
+    animation: placeholderShimmer 1.6s ease-in-out infinite;
+}
+
+/* Темная тема для placeholder */
+[data-bs-theme="dark"] .placeholder {
+    background: linear-gradient(90deg, 
+        #2d2d2d 25%, 
+        #3d3d3d 50%, 
+        #2d2d2d 75%
+    );
+    background-size: 468px 104px;
+}
+
+/* ==========================================================================
+   Enhanced Spinners
+   ========================================================================== */
+
+/* Дополнительные размеры спиннеров */
+.spinner-border-xs {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-width: 0.1em;
+}
+
+.spinner-border-xl {
+    width: 4rem;
+    height: 4rem;
+    border-width: 0.4em;
+}
+
+.spinner-grow-xs {
+    width: 0.75rem;
+    height: 0.75rem;
+}
+
+.spinner-grow-xl {
+    width: 4rem;
+    height: 4rem;
+}
+
+/* Пульсирующий эффект для спиннеров */
+.spinner-pulse {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background-color: currentColor;
+    animation: spinnerPulse 1.4s ease-in-out infinite both;
+}
+
+@keyframes spinnerPulse {
+    0%, 80%, 100% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+}
+
+/* Тройной спиннер */
+.spinner-dots {
+    display: inline-block;
+    position: relative;
+    width: 3rem;
+    height: 1rem;
+}
+
+.spinner-dots div {
+    position: absolute;
+    top: 0.375rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: currentColor;
+    animation: spinnerDots 1.2s linear infinite;
+}
+
+.spinner-dots div:nth-child(1) {
+    left: 0.5rem;
+    animation-delay: -0.24s;
+}
+
+.spinner-dots div:nth-child(2) {
+    left: 1.25rem;
+    animation-delay: -0.12s;
+}
+
+.spinner-dots div:nth-child(3) {
+    left: 2rem;
+    animation-delay: 0;
+}
+
+@keyframes spinnerDots {
+    0%, 80%, 100% {
+        transform: scale(0);
+    }
+    40% {
+        transform: scale(1);
+    }
+}
+
+/* ==========================================================================
+   Loading Overlays
+   ========================================================================== */
+
+.loading-overlay {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(2px);
+    z-index: 10;
+}
+
+.loading-overlay .loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 11;
+}
+
+/* Темная тема для overlay */
+[data-bs-theme="dark"] .loading-overlay::before {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* ==========================================================================
+   Product Card Loading States
+   ========================================================================== */
+
+.product-card-skeleton {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.375rem;
+    overflow: hidden;
+}
+
+.product-card-skeleton .placeholder-image {
+    aspect-ratio: 4/3;
+    background: linear-gradient(90deg, 
+        #f8f9fa 25%, 
+        #e9ecef 50%, 
+        #f8f9fa 75%
+    );
+    background-size: 200% 100%;
+    animation: placeholderShimmer 1.6s ease-in-out infinite;
+}
+
+.product-price-skeleton {
+    height: 1.5rem;
+    background: linear-gradient(90deg, 
+        #28a745 25%, 
+        #34ce57 50%, 
+        #28a745 75%
+    );
+    background-size: 200% 100%;
+    animation: placeholderShimmer 1.6s ease-in-out infinite;
+    border-radius: 0.25rem;
+}
+
+/* ==========================================================================
+   Button Loading States
+   ========================================================================== */
+
+.btn-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.65;
+}
+
+.btn-loading .btn-loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.btn-loading .btn-text {
+    opacity: 0;
+}
+
+/* Успешное состояние кнопки */
+.btn-success-temp {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+    transition: all 0.3s ease;
+}
+
+.btn-success-temp:hover {
+    background-color: #28a745 !important;
+    border-color: #28a745 !important;
+}
+
+/* ==========================================================================
+   Form Loading States
+   ========================================================================== */
+
+.form-loading {
+    position: relative;
+}
+
+.form-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 1;
+}
+
+.form-loading .form-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+/* ==========================================================================
+   Page Loading
+   ========================================================================== */
+
+#page-loader {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.95) 0%, 
+        rgba(248, 249, 250, 0.95) 100%
+    );
+    backdrop-filter: blur(5px);
+}
+
+#page-loader .spinner-border {
+    animation-duration: 0.8s;
+}
+
+/* ==========================================================================
+   Cart Loading States
+   ========================================================================== */
+
+.cart-loading .cart-item {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.cart-badge-loading {
+    animation: pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+    from { opacity: 0.6; }
+    to { opacity: 1; }
+}
+
+/* ==========================================================================
+   Filter Loading States
+   ========================================================================== */
+
+.filter-loading {
+    position: relative;
+}
+
+.filter-loading .filter-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+
+@media (max-width: 576px) {
+    .placeholder-glow .placeholder {
+        animation-duration: 1.2s;
+    }
+    
+    .spinner-border-lg {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    
+    #page-loader .spinner-border {
+        width: 2rem;
+        height: 2rem;
+    }
+}
+
+/* ==========================================================================
+   Accessibility
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .placeholder,
+    .loading-placeholders,
+    .product-card-skeleton .placeholder-image,
+    .product-price-skeleton,
+    .spinner-pulse,
+    .spinner-dots div {
+        animation: none;
+    }
+    
+    .spinner-border,
+    .spinner-grow {
+        animation-duration: 2s;
+    }
+}
+
+/* Высокий контраст для accessibility */
+@media (prefers-contrast: high) {
+    .placeholder {
+        background: linear-gradient(90deg, 
+            #000000 25%, 
+            #333333 50%, 
+            #000000 75%
+        );
+    }
+    
+    .loading-overlay::before {
+        background: rgba(0, 0, 0, 0.9);
+    }
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
+
+@media print {
+    .loading-placeholders,
+    .spinner-border,
+    .spinner-grow,
+    .loading-overlay,
+    #page-loader {
+        display: none !important;
+    }
+}
