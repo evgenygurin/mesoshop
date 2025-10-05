@@ -1,24 +1,24 @@
   </main>
 
   {# Footer #}
-  <footer class="bg-dark text-light mt-5 pt-5 pb-3">
+  <footer class="mt-5 pt-5 pb-3 border-top" style="background-color: var(--bs-tertiary-bg); color: var(--bs-body-color);">
     <div class="container">
       <div class="row g-4">
         {# Information Column #}
         {% if informations or blog %}
           <div class="col-md-6 col-lg-3">
-            <h5 class="text-white border-bottom border-primary pb-2 mb-3">{{ text_information }}</h5>
+            <h5 class="fw-bold border-bottom border-primary pb-2 mb-3">{{ text_information }}</h5>
             <ul class="list-unstyled">
               {% if blog %}
                 <li class="mb-2">
-                  <a href="{{ blog }}" class="text-light text-decoration-none">
+                  <a href="{{ blog }}" class="text-decoration-none">
                     <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_blog }}
                   </a>
                 </li>
               {% endif %}
               {% for information in informations %}
                 <li class="mb-2">
-                  <a href="{{ information.href }}" class="text-light text-decoration-none">
+                  <a href="{{ information.href }}" class="text-decoration-none">
                     <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ information.title }}
                   </a>
                 </li>
@@ -29,27 +29,27 @@
 
         {# Customer Service Column #}
         <div class="col-md-6 col-lg-3">
-          <h5 class="text-white border-bottom border-primary pb-2 mb-3">{{ text_service }}</h5>
+          <h5 class="fw-bold border-bottom border-primary pb-2 mb-3">{{ text_service }}</h5>
           <ul class="list-unstyled">
             <li class="mb-2">
-              <a href="{{ contact }}" class="text-light text-decoration-none">
+              <a href="{{ contact }}" class="text-decoration-none">
                 <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_contact }}
               </a>
             </li>
             <li class="mb-2">
-              <a href="{{ return }}" class="text-light text-decoration-none">
+              <a href="{{ return }}" class="text-decoration-none">
                 <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_return }}
               </a>
             </li>
             {% if gdpr %}
               <li class="mb-2">
-                <a href="{{ gdpr }}" class="text-light text-decoration-none">
+                <a href="{{ gdpr }}" class="text-decoration-none">
                   <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_gdpr }}
                 </a>
               </li>
             {% endif %}
             <li class="mb-2">
-              <a href="{{ sitemap }}" class="text-light text-decoration-none">
+              <a href="{{ sitemap }}" class="text-decoration-none">
                 <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_sitemap }}
               </a>
             </li>
@@ -58,22 +58,22 @@
 
         {# Extras Column #}
         <div class="col-md-6 col-lg-3">
-          <h5 class="text-white border-bottom border-primary pb-2 mb-3">{{ text_extra }}</h5>
+          <h5 class="fw-bold border-bottom border-primary pb-2 mb-3">{{ text_extra }}</h5>
           <ul class="list-unstyled">
             <li class="mb-2">
-              <a href="{{ manufacturer }}" class="text-light text-decoration-none">
+              <a href="{{ manufacturer }}" class="text-decoration-none">
                 <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_manufacturer }}
               </a>
             </li>
             {% if affiliate %}
               <li class="mb-2">
-                <a href="{{ affiliate }}" class="text-light text-decoration-none">
+                <a href="{{ affiliate }}" class="text-decoration-none">
                   <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_affiliate }}
                 </a>
               </li>
             {% endif %}
             <li class="mb-2">
-              <a href="{{ special }}" class="text-light text-decoration-none">
+              <a href="{{ special }}" class="text-decoration-none">
                 <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_special }}
               </a>
             </li>
@@ -82,25 +82,25 @@
 
         {# My Account Column #}
         <div class="col-md-6 col-lg-3">
-          <h5 class="text-white border-bottom border-primary pb-2 mb-3">{{ text_account }}</h5>
+          <h5 class="fw-bold border-bottom border-primary pb-2 mb-3">{{ text_account }}</h5>
           <ul class="list-unstyled">
             <li class="mb-2">
-              <a href="{{ account }}" class="text-light text-decoration-none">
+              <a href="{{ account }}" class="text-decoration-none">
                 <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_account }}
               </a>
             </li>
             <li class="mb-2">
-              <a href="{{ order }}" class="text-light text-decoration-none">
+              <a href="{{ order }}" class="text-decoration-none">
                 <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_order }}
               </a>
             </li>
             <li class="mb-2">
-              <a href="{{ wishlist }}" class="text-light text-decoration-none">
+              <a href="{{ wishlist }}" class="text-decoration-none">
                 <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_wishlist }}
               </a>
             </li>
             <li class="mb-2">
-              <a href="{{ newsletter }}" class="text-light text-decoration-none">
+              <a href="{{ newsletter }}" class="text-decoration-none">
                 <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_newsletter }}
               </a>
             </li>
