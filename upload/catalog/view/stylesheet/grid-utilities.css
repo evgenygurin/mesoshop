@@ -1,0 +1,377 @@
+/*!
+ * Bootstrap Grid Utilities Extension for OpenCart MesoShop
+ * Custom utilities for enhanced responsive grid system
+ * Version: 1.0.0
+ */
+
+/* ===========================================
+   CUSTOM GAP UTILITIES
+   =========================================== */
+
+/* Additional gap sizes beyond Bootstrap's default */
+.gap-6 { 
+  gap: 3.5rem !important; 
+}
+
+.gap-7 { 
+  gap: 4rem !important; 
+}
+
+.gap-8 { 
+  gap: 4.5rem !important; 
+}
+
+.gap-9 { 
+  gap: 5rem !important; 
+}
+
+/* Responsive gap utilities */
+@media (min-width: 576px) {
+  .gap-sm-6 { gap: 3.5rem !important; }
+  .gap-sm-7 { gap: 4rem !important; }
+}
+
+@media (min-width: 768px) {
+  .gap-md-6 { gap: 3.5rem !important; }
+  .gap-md-7 { gap: 4rem !important; }
+}
+
+@media (min-width: 992px) {
+  .gap-lg-6 { gap: 3.5rem !important; }
+  .gap-lg-7 { gap: 4rem !important; }
+}
+
+/* ===========================================
+   ASPECT RATIO HELPERS
+   =========================================== */
+
+.ratio-product { 
+  aspect-ratio: 4 / 3; 
+}
+
+.ratio-square {
+  aspect-ratio: 1 / 1;
+}
+
+.ratio-banner {
+  aspect-ratio: 16 / 9;
+}
+
+.ratio-portrait {
+  aspect-ratio: 3 / 4;
+}
+
+/* ===========================================
+   MIN-HEIGHT UTILITIES
+   =========================================== */
+
+.min-vh-25 { min-height: 25vh !important; }
+.min-vh-50 { min-height: 50vh !important; }
+.min-vh-75 { min-height: 75vh !important; }
+
+.min-h-200 { min-height: 200px !important; }
+.min-h-300 { min-height: 300px !important; }
+.min-h-400 { min-height: 400px !important; }
+
+/* ===========================================
+   CONTAINER CUSTOMIZATIONS
+   =========================================== */
+
+/* Override container max-width for better content flow */
+@media (min-width: 1400px) {
+  .container,
+  .container-xxl {
+    max-width: 1320px;
+  }
+}
+
+/* Fluid container with max-width constraints */
+.container-fluid-constrained {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--bs-gutter-x, 0.75rem);
+  padding-right: var(--bs-gutter-x, 0.75rem);
+}
+
+/* ===========================================
+   ENHANCED GRID PATTERNS
+   =========================================== */
+
+/* Auto-fit grid for product listings */
+.grid-auto-fit {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+/* Auto-fill grid for more compact layouts */
+.grid-auto-fill {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* Product grid with responsive breakpoints */
+.product-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 576px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .product-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* ===========================================
+   STICKY POSITIONING UTILITIES
+   =========================================== */
+
+.sticky-top-100 {
+  position: sticky;
+  top: 100px;
+  z-index: 1020;
+}
+
+.sticky-top-120 {
+  position: sticky;
+  top: 120px;
+  z-index: 1020;
+}
+
+/* ===========================================
+   ENHANCED FLEXBOX UTILITIES
+   =========================================== */
+
+.flex-wrap-reverse {
+  flex-wrap: wrap-reverse !important;
+}
+
+.flex-basis-0 {
+  flex-basis: 0 !important;
+}
+
+.flex-basis-auto {
+  flex-basis: auto !important;
+}
+
+/* Responsive flex direction utilities */
+@media (max-width: 767.98px) {
+  .flex-mobile-column {
+    flex-direction: column !important;
+  }
+  
+  .flex-mobile-row {
+    flex-direction: row !important;
+  }
+}
+
+/* ===========================================
+   SPACING ENHANCEMENTS
+   =========================================== */
+
+/* Negative margins for overlapping effects */
+.mt-n6 { margin-top: -3.5rem !important; }
+.me-n6 { margin-right: -3.5rem !important; }
+.mb-n6 { margin-bottom: -3.5rem !important; }
+.ms-n6 { margin-left: -3.5rem !important; }
+
+/* Extra large spacing */
+.p-6 { padding: 3.5rem !important; }
+.p-7 { padding: 4rem !important; }
+.m-6 { margin: 3.5rem !important; }
+.m-7 { margin: 4rem !important; }
+
+/* Responsive spacing utilities */
+@media (min-width: 992px) {
+  .p-lg-6 { padding: 3.5rem !important; }
+  .p-lg-7 { padding: 4rem !important; }
+  .m-lg-6 { margin: 3.5rem !important; }
+  .m-lg-7 { margin: 4rem !important; }
+}
+
+/* ===========================================
+   PRODUCT CARD SPECIFIC UTILITIES
+   =========================================== */
+
+.card-hover {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-equal-height {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-equal-height .card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-equal-height .card-footer {
+  margin-top: auto;
+}
+
+/* ===========================================
+   RESPONSIVE VISIBILITY HELPERS
+   =========================================== */
+
+/* Show/hide on mobile only */
+.d-mobile-block {
+  display: block !important;
+}
+
+.d-mobile-none {
+  display: none !important;
+}
+
+@media (min-width: 768px) {
+  .d-mobile-block {
+    display: none !important;
+  }
+  
+  .d-mobile-none {
+    display: block !important;
+  }
+}
+
+/* Desktop-first visibility */
+.d-desktop-block {
+  display: none !important;
+}
+
+.d-desktop-none {
+  display: block !important;
+}
+
+@media (min-width: 992px) {
+  .d-desktop-block {
+    display: block !important;
+  }
+  
+  .d-desktop-none {
+    display: none !important;
+  }
+}
+
+/* ===========================================
+   LAYOUT SPECIFIC UTILITIES
+   =========================================== */
+
+/* Sidebar improvements */
+.sidebar-sticky {
+  position: sticky;
+  top: 2rem;
+  height: calc(100vh - 4rem);
+  overflow-y: auto;
+}
+
+/* Content area improvements */
+.main-content {
+  min-height: calc(100vh - 200px);
+}
+
+/* Footer spacing */
+.footer-spacing {
+  margin-top: auto;
+  padding-top: 3rem;
+}
+
+/* ===========================================
+   ANIMATION UTILITIES
+   =========================================== */
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===========================================
+   UTILITY OVERRIDES FOR SPECIFIC NEEDS
+   =========================================== */
+
+/* Better text truncation */
+.text-truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.text-truncate-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Enhanced borders */
+.border-light-subtle {
+  border-color: rgba(var(--bs-light-rgb), 0.5) !important;
+}
+
+.border-dark-subtle {
+  border-color: rgba(var(--bs-dark-rgb), 0.1) !important;
+}
+
+/* Enhanced shadows */
+.shadow-subtle {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+}
+
+.shadow-strong {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+}
