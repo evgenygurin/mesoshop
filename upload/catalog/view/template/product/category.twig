@@ -1,5 +1,5 @@
 {{ header }}
-<div id="product-category" class="container my-4">
+<div id="product-category" class="container my-4 my-lg-5">
   {# Breadcrumb Navigation #}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb bg-light px-3 py-2 rounded shadow-sm">
@@ -15,9 +15,15 @@
     </ol>
   </nav>
 
-  <div class="row">
-    {{ column_left }}
-    <div id="content" class="col">
+  <div class="row g-4">
+    {% if column_left %}
+    <div class="col-12 col-lg-3">
+      <div class="sticky-top-100">
+        {{ column_left }}
+      </div>
+    </div>
+    {% endif %}
+    <div id="content" class="col-12{% if column_left %} col-lg-9{% endif %}">
       {{ content_top }}
 
       {# Category Header #}
@@ -58,10 +64,10 @@
               {% endfor %}
             </ul>
           {% else %}
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+            <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3 g-lg-4">
               {% set total = categories|length %}
               {% if total > 20 %}
-                {% set batch = (total / 4)|round(0, 'ceil') %}
+                {% set batch = (total / 5)|round(0, 'ceil') %}
               {% else %}
                 {% set batch = 5 %}
               {% endif %}
@@ -70,8 +76,9 @@
                   <ul class="list-unstyled">
                     {% for category in category_batch %}
                       <li class="mb-2">
-                        <a href="{{ category.href }}" class="text-decoration-none">
-                          <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ category.name }}
+                        <a href="{{ category.href }}" class="text-decoration-none d-flex align-items-center">
+                          <i class="fa-solid fa-chevron-right fa-xs me-2 text-muted"></i>
+                          <span class="text-truncate">{{ category.name }}</span>
                         </a>
                       </li>
                     {% endfor %}
@@ -137,10 +144,12 @@
           </div>
         </div>
 
-        {# Product Grid #}
-        <div id="product-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 g-4 mb-4">
+        {# Product Grid with Modern Bootstrap Patterns #}
+        <div id="product-list" class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3 g-lg-4 mb-4">
           {% for product in products %}
-            <div class="col">{{ product }}</div>
+            <div class="col fade-in">
+              <div class="h-100">{{ product }}</div>
+            </div>
           {% endfor %}
         </div>
 
@@ -161,7 +170,15 @@
           </a>
         </div>
       {% endif %}
-      {{ content_bottom }}</div>
-    {{ column_right }}</div>
+      {{ content_bottom }}
+    </div>
+    {% if column_right %}
+    <div class="col-12 col-lg-3">
+      <div class="sticky-top-100">
+        {{ column_right }}
+      </div>
+    </div>
+    {% endif %}
+  </div>
 </div>
 {{ footer }}
