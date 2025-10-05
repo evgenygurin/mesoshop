@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="{{ direction }}" lang="{{ lang }}">
+<html dir="{{ direction }}" lang="{{ lang }}" data-bs-theme="light">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -92,6 +92,12 @@
                 <i class="fa-solid fa-share"></i>
                 <span class="d-none d-lg-inline ms-2">{{ text_checkout }}</span>
               </a>
+            </li>
+            <li class="nav-item">
+              <button id="theme-toggle" class="nav-link btn btn-link" type="button" title="Toggle theme">
+                <i class="fa-solid fa-moon" id="theme-icon"></i>
+                <span class="d-none d-lg-inline ms-2" id="theme-text">Dark Mode</span>
+              </button>
             </li>
           </ul>
         </div>

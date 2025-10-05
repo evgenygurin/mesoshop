@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="{{ direction }}" lang="{{ lang }}">
+<html dir="{{ direction }}" lang="{{ lang }}" data-bs-theme="light">
 <head>
   <meta charset="UTF-8"/>
   <title>{{ title }}</title>
@@ -66,6 +66,12 @@
               <li><a href="https://docs.opencart.com" target="_blank" class="dropdown-item"><i class="fa-solid fa-file fa-fw"></i> {{ text_documentation }}</a></li>
               <li><a href="https://forum.opencart.com" target="_blank" class="dropdown-item"><i class="fa-solid fa-comments fa-fw"></i> {{ text_support }}</a></li>
             </ul>
+          </li>
+          <li id="nav-theme" class="nav-item">
+            <button id="theme-toggle" class="nav-link btn btn-link" type="button" title="Toggle theme">
+              <i class="fa-solid fa-moon" id="theme-icon"></i>
+              <span class="d-none d-md-inline" id="theme-text">Dark Mode</span>
+            </button>
           </li>
           <li id="nav-logout" class="nav-item"><a href="{{ logout }}" class="nav-link"><i class="fa-solid fa-sign-out"></i> <span class="d-none d-md-inline">{{ text_logout }}</span></a></li>
         </ul>
