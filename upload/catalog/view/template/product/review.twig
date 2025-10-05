@@ -16,12 +16,12 @@
           <label for="input-text" class="form-label">{{ entry_review }}</label>
           <textarea name="text" rows="5" id="input-text" class="form-control shadow-sm"></textarea>
           <div id="error-text" class="invalid-feedback"></div>
-          <small class="form-text text-muted">{{ text_note }}</small>
+          <small class="form-text text-body-secondary">{{ text_note }}</small>
         </div>
         <div class="mb-3 required">
           <label class="form-label d-block">{{ entry_rating }}</label>
           <div id="input-rating" class="d-flex align-items-center gap-2">
-            <span class="text-muted small">{{ entry_bad }}</span>
+            <span class="text-body-secondary small">{{ entry_bad }}</span>
             {% for i in 1..5 %}
               <div class="form-check form-check-inline">
                 <input type="radio" name="rating" value="{{ i }}" id="rating-{{ i }}" class="form-check-input"/>
@@ -30,7 +30,7 @@
                 </label>
               </div>
             {% endfor %}
-            <span class="text-muted small">{{ entry_good }}</span>
+            <span class="text-body-secondary small">{{ entry_good }}</span>
           </div>
           <div id="error-rating" class="invalid-feedback"></div>
         </div>

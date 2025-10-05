@@ -17,7 +17,7 @@
     </h5>
 
     {# Product Description #}
-    <p class="card-text text-muted small mb-3 flex-grow-1">{{ description }}</p>
+    <p class="card-text text-body-secondary small mb-3 flex-grow-1">{{ description }}</p>
 
     {# Rating #}
     {% if review_status and rating %}
@@ -46,7 +46,7 @@
           </h4>
         {% endif %}
         {% if tax %}
-          <small class="text-muted d-block">{{ text_tax }} {{ tax }}</small>
+          <small class="text-body-secondary d-block">{{ text_tax }} {{ tax }}</small>
         {% endif %}
       </div>
     {% endif %}

@@ -25,11 +25,11 @@
                 <h6 class="mb-1">
                   <a href="{{ product.href }}" class="text-decoration-none text-dark">{{ product.name }}</a>
                 </h6>
-                <p class="mb-1 small text-muted">{{ text_model }}: {{ product.model }}</p>
+                <p class="mb-1 small text-body-secondary">{{ text_model }}: {{ product.model }}</p>
 
                 {% if product.option %}
                   {% for option in product.option %}
-                    <p class="mb-0 small text-muted">{{ option.name }}: {{ option.value }}</p>
+                    <p class="mb-0 small text-body-secondary">{{ option.name }}: {{ option.value }}</p>
                   {% endfor %}
                 {% endif %}
 
@@ -75,7 +75,7 @@
         </div>
       </li>
     {% else %}
-      <li class="text-center py-5 text-muted">
+      <li class="text-center py-5 text-body-secondary">
         <i class="fa-solid fa-cart-shopping fa-3x mb-3 opacity-25"></i>
         <p class="mb-0">{{ text_no_results }}</p>
       </li>
