@@ -1,0 +1,93 @@
+services:
+  # OpenCart Application (Apache + PHP 8.2)
+  opencart:
+    container_name: mesoshop-opencart
+    build: tools
+    user: "${USER_ID:-1000}:${GROUP_ID:-1000}"
+    ports:
+      - "${HTTP_PORT:-80}:80"
+    volumes:
+      - ./upload:/var/www/html
+    depends_on:
+      - mysql
+    environment:
+      - TZ=${TZ:-UTC}
+    command: >
+      bash -c "if [ ! -f /var/www/html/install.lock ]; then
+                 wait-for-it mysql:3306 -t 60 &&
+                 cp config-dist.php config.php &&
+                 cp admin/config-dist.php admin/config.php &&
+                 php /var/www/html/install/cli_install.php install --username ${OPENCART_ADMIN_USERNAME:-admin} --password ${OPENCART_ADMIN_PASSWORD:-admin} --email ${OPENCART_ADMIN_EMAIL:-admin@example.com} --http_server ${OPENCART_HTTP_SERVER:-http://localhost/} --db_driver mysqli --db_hostname mysql --db_username ${MYSQL_USER:-opencart} --db_password ${MYSQL_PASSWORD:-opencart_db_pass} --db_database ${MYSQL_DATABASE:-opencart} --db_port 3306 --db_prefix oc_ &&
+                 touch /var/www/html/install.lock;
+               fi &&
+               apache2-foreground"
+    restart: unless-stopped
+    networks:
+      - mesoshop-network
+
+  # MySQL Database (using MariaDB for ARM64 compatibility)
+  mysql:
+    container_name: mesoshop-mysql
+    image: mariadb:10.11
+    ports:
+      - "${DB_EXPOSE_PORT:-3306}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-opencart_secure_2025}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-opencart}
+      - MYSQL_USER=${MYSQL_USER:-opencart}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-opencart_db_pass}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: unless-stopped
+    networks:
+      - mesoshop-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Adminer - Web-based Database Management
+  adminer:
+    container_name: mesoshop-adminer
+    image: adminer:latest
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+    depends_on:
+      - mysql
+    ports:
+      - "${ADMINER_PORT:-8080}:8080"
+    restart: unless-stopped
+    networks:
+      - mesoshop-network
+
+  # Redis (Optional - uncomment to enable)
+  # redis:
+  #   container_name: mesoshop-redis
+  #   image: redis:7-alpine
+  #   ports:
+  #     - "${REDIS_PORT:-6379}:6379"
+  #   volumes:
+  #     - redis-data:/data
+  #   restart: unless-stopped
+  #   networks:
+  #     - mesoshop-network
+
+  # Memcached (Optional - uncomment to enable)
+  # memcached:
+  #   container_name: mesoshop-memcached
+  #   image: memcached:1.6-alpine
+  #   ports:
+  #     - "${MEMCACHED_PORT:-11211}:11211"
+  #   restart: unless-stopped
+  #   networks:
+  #     - mesoshop-network
+
+volumes:
+  mysql-data:
+    driver: local
+  # redis-data:
+  #   driver: local
+
+networks:
+  mesoshop-network:
+    driver: bridge
