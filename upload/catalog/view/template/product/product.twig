@@ -2,7 +2,7 @@
 <div id="product-info" class="container my-4">
   {# Breadcrumb Navigation #}
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb bg-light px-3 py-2 rounded shadow-sm">
+    <ol class="breadcrumb px-3 py-2 rounded shadow-sm">
       {% for breadcrumb in breadcrumbs %}
         <li class="breadcrumb-item{% if loop.last %} active{% endif %}">
           {% if not loop.last %}
@@ -24,7 +24,7 @@
       <div class="row g-4 mb-4">
         {% if thumb or images %}
           <div class="col-md-5">
-            <div class="card border-0 shadow-sm bg-light p-4">
+            <div class="card border-0 shadow-sm p-4">
               <div class="magnific-popup">
                 {% if thumb %}
                   <a href="{{ popup }}" title="{{ heading_title }}" class="d-block text-center mb-3">
@@ -69,7 +69,7 @@
             {% endfor %}
             {% if reward %}
               <li class="mb-2">
-                <span class="badge bg-warning text-dark">
+                <span class="badge bg-warning">
                   <i class="fa-solid fa-gift"></i> {{ text_reward }} {{ reward }}
                 </span>
               </li>
@@ -102,7 +102,7 @@
 
           {# Price Section #}
           {% if price %}
-            <div class="card bg-light border-0 shadow-sm mb-4">
+            <div class="card border-0 shadow-sm mb-4">
               <div class="card-body">
                 {% if not special %}
                   <h2 class="text-primary mb-0">{{ price }}</h2>
@@ -231,7 +231,7 @@
                       <div class="mb-3{% if option.required %} required{% endif %}">
                         <label for="button-upload-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
                         <div>
-                          <button type="button" id="button-upload-{{ option.product_option_id }}" data-oc-toggle="upload" data-oc-url="{{ upload }}" data-oc-target="#input-option-{{ option.product_option_id }}" data-oc-size-max="{{ config_file_max_size }}" data-oc-size-error="{{ error_upload_size }}" class="btn btn-light w-100"><i class="fa-solid fa-upload"></i> {{ button_upload }}</button>
+                          <button type="button" id="button-upload-{{ option.product_option_id }}" data-oc-toggle="upload" data-oc-url="{{ upload }}" data-oc-target="#input-option-{{ option.product_option_id }}" data-oc-size-max="{{ config_file_max_size }}" data-oc-size-error="{{ error_upload_size }}" class="btn btn-outline-secondary w-100"><i class="fa-solid fa-upload"></i> {{ button_upload }}</button>
                           <input type="hidden" name="option[{{ option.product_option_id }}]" value="" id="input-option-{{ option.product_option_id }}"/>
                         </div>
                         <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
@@ -284,7 +284,7 @@
               {# Quantity & Add to Cart #}
               <div class="mb-3">
                 <div class="input-group input-group-lg shadow-sm">
-                  <span class="input-group-text bg-light">{{ entry_qty }}</span>
+                  <span class="input-group-text">{{ entry_qty }}</span>
                   <input type="text" name="quantity" value="{{ minimum }}" size="2" id="input-quantity" class="form-control text-center" style="max-width: 100px;"/>
                   <button type="submit" id="button-cart" class="btn btn-primary flex-grow-1">
                     <i class="fa-solid fa-cart-shopping"></i>
@@ -307,7 +307,7 @@
       </div>
       {# Product Information Tabs #}
       <div class="card border-0 shadow-sm mt-4">
-        <div class="card-header bg-white">
+        <div class="card-header">
           <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
               <a href="#tab-description" data-bs-toggle="tab" class="nav-link active">
@@ -355,7 +355,7 @@
                 <div class="table-responsive">
                   <table class="table table-hover table-striped">
                     {% for attribute_group in attribute_groups %}
-                      <thead class="table-light">
+                      <thead>
                         <tr>
                           <th colspan="2" class="fs-5">{{ attribute_group.name }}</th>
                         </tr>
