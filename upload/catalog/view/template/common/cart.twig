@@ -1,59 +1,84 @@
-<div class="dropdown d-grid">
-  <button type="button" data-bs-toggle="dropdown" class="btn btn-lg btn-dark d-block dropdown-toggle"><i class="fa-solid fa-cart-shopping"></i> {{ text_items }}</button>
-  <ul class="dropdown-menu dropdown-menu-end p-2">
+<div id="cart" class="dropdown">
+  <button type="button" data-bs-toggle="dropdown" class="btn btn-dark btn-lg w-100 shadow-sm">
+    <i class="fa-solid fa-cart-shopping"></i>
+    <span class="ms-2">{{ text_items }}</span>
+  </button>
+
+  <ul class="dropdown-menu dropdown-menu-end shadow-lg" style="min-width: 400px;">
     {% if products %}
-      <li>
-        <table class="table table-striped mb-2">
+      <li class="px-3 py-2">
+        {# Cart Items #}
+        <div class="cart-items mb-3" style="max-height: 400px; overflow-y: auto;">
           {% for product in products %}
-            <tr>
-              <td class="text-center w-25">{% if product.thumb %}<a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail"/></a>{% endif %}</td>
-              <td><a href="{{ product.href }}">{{ product.name }}</a>
-                <ul class="list-unstyled mb-0">
-                  <li>
-                    <small> - {{ text_model }}: {{ product.model }}</small>
-                  </li>
+            <div class="d-flex gap-3 mb-3 pb-3 border-bottom">
+              {# Product Image #}
+              {% if product.thumb %}
+                <div class="flex-shrink-0">
+                  <a href="{{ product.href }}">
+                    <img src="{{ product.thumb }}" alt="{{ product.name }}" class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover;"/>
+                  </a>
+                </div>
+              {% endif %}
+
+              {# Product Details #}
+              <div class="flex-grow-1">
+                <h6 class="mb-1">
+                  <a href="{{ product.href }}" class="text-decoration-none text-dark">{{ product.name }}</a>
+                </h6>
+                <p class="mb-1 small text-muted">{{ text_model }}: {{ product.model }}</p>
+
+                {% if product.option %}
                   {% for option in product.option %}
-                    <li>
-                      <small> - {{ option.name }}: {{ option.value }}</small>
-                    </li>
+                    <p class="mb-0 small text-muted">{{ option.name }}: {{ option.value }}</p>
                   {% endfor %}
-                  {% if product.subscription %}
-                    <li>
-                      <small> - {{ text_subscription }}: {{ product.subscription }}</small>
-                    </li>
-                  {% endif %}
-                  {% if product.reward %}
-                    <li>
-                      <small> - {{ text_points }}: {{ product.reward }}</small>
-                    </li>
-                  {% endif %}
-                </ul>
-              </td>
-              <td class="text-end text-nowrap">x {{ product.quantity }}</td>
-              <td class="text-end">{{ product.total }}</td>
-              <td class="text-end">
+                {% endif %}
+
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                  <span class="badge bg-secondary">x{{ product.quantity }}</span>
+                  <strong class="text-primary">{{ product.total }}</strong>
+                </div>
+              </div>
+
+              {# Remove Button #}
+              <div class="flex-shrink-0">
                 <form action="{{ remove }}" method="post" data-oc-toggle="ajax" data-oc-load="{{ list }}" data-oc-target="#cart">
-                  <input type="hidden" name="key" value="{{ product.cart_id }}">
-                  <button type="submit" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-circle-xmark"></i></button>
+                  <input type="hidden" name="key" value="{{ product.cart_id }}"/>
+                  <button type="submit" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="{{ button_remove }}">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
                 </form>
-              </td>
-            </tr>
+              </div>
+            </div>
           {% endfor %}
-        </table>
-        <div>
-          <table class="table table-sm table-bordered mb-2">
+        </div>
+
+        {# Cart Totals #}
+        <div class="card bg-light mb-3">
+          <div class="card-body p-2">
             {% for total in totals %}
-              <tr>
-                <td class="text-end"><strong>{{ total.title }}</strong></td>
-                <td class="text-end">{{ total.text }}</td>
-              </tr>
+              <div class="d-flex justify-content-between mb-1">
+                <span class="{% if loop.last %}fw-bold{% endif %}">{{ total.title }}</span>
+                <span class="{% if loop.last %}fw-bold text-primary{% endif %}">{{ total.text }}</span>
+              </div>
             {% endfor %}
-          </table>
-          <p class="text-end"><a href="{{ cart }}"><strong><i class="fa-solid fa-cart-shopping"></i> {{ text_cart }}</strong></a>&nbsp;&nbsp;&nbsp;<a href="{{ checkout }}"><strong><i class="fa-solid fa-share"></i> {{ text_checkout }}</strong></a></p>
+          </div>
+        </div>
+
+        {# Action Buttons #}
+        <div class="d-grid gap-2">
+          <a href="{{ cart }}" class="btn btn-outline-primary">
+            <i class="fa-solid fa-cart-shopping"></i> {{ text_cart }}
+          </a>
+          <a href="{{ checkout }}" class="btn btn-primary">
+            <i class="fa-solid fa-credit-card"></i> {{ text_checkout }}
+          </a>
         </div>
       </li>
     {% else %}
-      <li class="text-center p-4">{{ text_no_results }}</li>
+      <li class="text-center py-5 text-muted">
+        <i class="fa-solid fa-cart-shopping fa-3x mb-3 opacity-25"></i>
+        <p class="mb-0">{{ text_no_results }}</p>
+      </li>
     {% endif %}
   </ul>
 </div>

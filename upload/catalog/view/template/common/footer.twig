@@ -1,63 +1,131 @@
-</main>
-<footer>
-  <div class="container">
-    <div class="row">
-      {% if informations or blog %}
-        <div class="col-sm-3">
-          <h5>{{ text_information }}</h5>
+  </main>
+
+  {# Footer #}
+  <footer class="bg-dark text-light mt-5 pt-5 pb-3">
+    <div class="container">
+      <div class="row g-4">
+        {# Information Column #}
+        {% if informations or blog %}
+          <div class="col-md-6 col-lg-3">
+            <h5 class="text-white border-bottom border-primary pb-2 mb-3">{{ text_information }}</h5>
+            <ul class="list-unstyled">
+              {% if blog %}
+                <li class="mb-2">
+                  <a href="{{ blog }}" class="text-light text-decoration-none">
+                    <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_blog }}
+                  </a>
+                </li>
+              {% endif %}
+              {% for information in informations %}
+                <li class="mb-2">
+                  <a href="{{ information.href }}" class="text-light text-decoration-none">
+                    <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ information.title }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        {# Customer Service Column #}
+        <div class="col-md-6 col-lg-3">
+          <h5 class="text-white border-bottom border-primary pb-2 mb-3">{{ text_service }}</h5>
           <ul class="list-unstyled">
-            {% if blog %}
-              <li><a href="{{ blog }}">{{ text_blog }}</a></li>
+            <li class="mb-2">
+              <a href="{{ contact }}" class="text-light text-decoration-none">
+                <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_contact }}
+              </a>
+            </li>
+            <li class="mb-2">
+              <a href="{{ return }}" class="text-light text-decoration-none">
+                <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_return }}
+              </a>
+            </li>
+            {% if gdpr %}
+              <li class="mb-2">
+                <a href="{{ gdpr }}" class="text-light text-decoration-none">
+                  <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_gdpr }}
+                </a>
+              </li>
             {% endif %}
-            {% for information in informations %}
-              <li><a href="{{ information.href }}">{{ information.title }}</a></li>
-            {% endfor %}
+            <li class="mb-2">
+              <a href="{{ sitemap }}" class="text-light text-decoration-none">
+                <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_sitemap }}
+              </a>
+            </li>
           </ul>
         </div>
-      {% endif %}
-      <div class="col-sm-3">
-        <h5>{{ text_service }}</h5>
-        <ul class="list-unstyled">
-          <li><a href="{{ contact }}">{{ text_contact }}</a></li>
-          <li><a href="{{ return }}">{{ text_return }}</a></li>
-          {% if gdpr %}
-            <li><a href="{{ gdpr }}">{{ text_gdpr }}</a></li>
-          {% endif %}
-          <li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
-        </ul>
+
+        {# Extras Column #}
+        <div class="col-md-6 col-lg-3">
+          <h5 class="text-white border-bottom border-primary pb-2 mb-3">{{ text_extra }}</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2">
+              <a href="{{ manufacturer }}" class="text-light text-decoration-none">
+                <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_manufacturer }}
+              </a>
+            </li>
+            {% if affiliate %}
+              <li class="mb-2">
+                <a href="{{ affiliate }}" class="text-light text-decoration-none">
+                  <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_affiliate }}
+                </a>
+              </li>
+            {% endif %}
+            <li class="mb-2">
+              <a href="{{ special }}" class="text-light text-decoration-none">
+                <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_special }}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {# My Account Column #}
+        <div class="col-md-6 col-lg-3">
+          <h5 class="text-white border-bottom border-primary pb-2 mb-3">{{ text_account }}</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2">
+              <a href="{{ account }}" class="text-light text-decoration-none">
+                <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_account }}
+              </a>
+            </li>
+            <li class="mb-2">
+              <a href="{{ order }}" class="text-light text-decoration-none">
+                <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_order }}
+              </a>
+            </li>
+            <li class="mb-2">
+              <a href="{{ wishlist }}" class="text-light text-decoration-none">
+                <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_wishlist }}
+              </a>
+            </li>
+            <li class="mb-2">
+              <a href="{{ newsletter }}" class="text-light text-decoration-none">
+                <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_newsletter }}
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="col-sm-3">
-        <h5>{{ text_extra }}</h5>
-        <ul class="list-unstyled">
-          <li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
-          {% if affiliate %}
-            <li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
-          {% endif %}
-          <li><a href="{{ special }}">{{ text_special }}</a></li>
-        </ul>
-      </div>
-      <div class="col-sm-3">
-        <h5>{{ text_account }}</h5>
-        <ul class="list-unstyled">
-          <li><a href="{{ account }}">{{ text_account }}</a></li>
-          <li><a href="{{ order }}">{{ text_order }}</a></li>
-          <li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
-          <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
-        </ul>
+
+      {# Footer Bottom #}
+      <hr class="my-4 border-secondary">
+      <div class="row">
+        <div class="col-12 text-center">
+          <p class="mb-0 text-muted">{{ powered }}</p>
+        </div>
       </div>
     </div>
-    <hr>
-    <p>{{ powered }}</p>
-    <!--
-OpenCart is open source software and you are free to remove the powered by OpenCart if you want, but its generally accepted practise to make a small donation.
-Please donate via PayPal to donate@opencart.com
-//-->
-  </div>
-</footer>
+  </footer>
 </div>
+
+{# Cookie Consent #}
 {{ cookie }}
+
+{# Scripts #}
 <script src="{{ bootstrap }}" type="text/javascript"></script>
 {% for script in scripts %}
   <script src="{{ script.href }}" type="text/javascript"></script>
 {% endfor %}
-</body></html>
+</body>
+</html>
