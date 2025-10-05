@@ -18,11 +18,16 @@ Modern e-commerce platform powered by OpenCart 4.1.0.3, containerized with Docke
 git clone https://github.com/evgenygurin/mesoshop.git
 cd mesoshop
 
+# Copy environment template
+make init
+# Or manually: cp .env.example .env
+
 # Start the containers
-docker-compose up -d
+make start
+# Or: docker-compose up -d
 
 # Check containers status
-docker-compose ps
+make status
 ```
 
 ### Access Points
@@ -77,6 +82,42 @@ mesoshop/
 
 ## 📝 Common Commands
 
+**Using Makefile (Recommended):**
+
+```bash
+# First-time setup
+make init          # Copy .env.example to .env
+
+# Container management
+make start         # Start all containers
+make stop          # Stop all containers
+make restart       # Restart containers
+make status        # Show container status
+
+# Logging & debugging
+make logs          # Follow all logs
+make shell         # Open shell in OpenCart container
+make db-shell      # Open MySQL shell
+
+# Backup & restore
+make backup        # Create full backup (DB + files)
+make restore       # Restore from backup
+
+# Maintenance
+make clean         # Clear OpenCart cache
+make rebuild       # Rebuild containers
+make update        # Update Docker images
+
+# Security
+make security-check    # Run security checks
+make prod-ready        # Production readiness checklist
+
+# Help
+make help          # Show all available commands
+```
+
+**Using docker-compose directly:**
+
 ```bash
 # Start containers
 docker-compose up -d
@@ -89,9 +130,6 @@ docker-compose logs -f opencart
 
 # Restart services
 docker-compose restart
-
-# Database backup
-docker exec mesoshop-mysql mysqldump -u opencart -popencart_db_pass opencart > backup.sql
 ```
 
 ## 🔒 Security (Production)
@@ -109,11 +147,38 @@ docker exec mesoshop-mysql mysqldump -u opencart -popencart_db_pass opencart > b
 - **Apache**: 2.4.65
 - **Database**: MariaDB 10.11
 
-## 📚 Resources
+## 🆘 Troubleshooting
+
+Having issues? Check the comprehensive troubleshooting guide:
+
+**[📖 TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Solutions for common problems
+
+Quick fixes:
+
+```bash
+# Can't connect to database?
+make restart
+
+# White screen / errors?
+make clean
+
+# Need fresh start?
+make clean-all  # ⚠️ Deletes all data!
+```
+
+## 📚 Documentation
+
+- **[INSTALL.md](INSTALL.md)** - Traditional installation instructions
+- **[UPGRADE.md](UPGRADE.md)** - Upgrade guide for existing installations
+- **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Problem-solving guide
+- **[CLAUDE.md](CLAUDE.md)** - Developer reference & automation
+
+## 📚 External Resources
 
 - [OpenCart Official Documentation](https://docs.opencart.com/)
 - [OpenCart GitHub](https://github.com/opencart/opencart)
 - [OpenCart Forums](https://forum.opencart.com/)
+- [Docker Documentation](https://docs.docker.com/)
 
 ---
 

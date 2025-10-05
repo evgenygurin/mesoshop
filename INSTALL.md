@@ -1,11 +1,17 @@
 # INSTALL
 
+> ⚠️ **DOCKER USERS**: These instructions are for **traditional FTP/cPanel installation**.
+>
+> If you're using the **Docker setup** (recommended for development), see [README.md](README.md) instead.
+>
+> Docker setup takes **2 minutes** vs manual installation which can take **30+ minutes**.
+
+---
+
 * This is for __new installation only__
 * These instructions are for a manual installation using FTP, cPanel or other web hosting Control Panel.
 
-
 If you are __upgrading your existing cart__, be sure to read the [upgrade instructions](UPGRADE.md) instead
-
 
 ## Linux Install
 
@@ -14,12 +20,14 @@ If you are __upgrading your existing cart__, be sure to read the [upgrade instru
 3. Rename config-dist.php to config.php and admin/config-dist.php to ```admin/config.php```
 4. For Linux/Unix make sure the following folders and files are writable.
 
-		chmod 0777 config.php
-		chmod 0777 admin/config.php
+  chmod 0777 config.php
+  chmod 0777 admin/config.php
 
 5. Make sure you have installed a MySQL Database which has a user assigned to it
-	* do not use your ```root``` username and ```root``` password
-6. Visit the store homepage e.g. http://www.example.com or http://www.example.com/store/
+
+* do not use your ```root``` username and ```root``` password
+
+6. Visit the store homepage e.g. <http://www.example.com> or <http://www.example.com/store/>
 7. You should be taken to the installer page. Follow the on screen instructions.
 8. After successful install, delete the ```/install/``` directory from ftp.
 9. If you have downloaded the compiled version with a folder called "vendor" - this should be uploaded above the webroot (so the same folder where the ```public_html``` or ```httpdocs``` is)
@@ -30,11 +38,13 @@ If you are __upgrading your existing cart__, be sure to read the [upgrade instru
 2. Rename ```config-dist.php``` to ```config.php``` and ```admin/config-dist.php``` to ```admin/config.php```
 3. For Windows make sure the following folders and files permissions allow Read and Write.
 
-		config.php
-		admin/config.php
+  config.php
+  admin/config.php
 
 4. Make sure you have installed a MySQL Database which has a user assigned to it
-	* do not use your ```root``` username and ```root``` password
+
+* do not use your ```root``` username and ```root``` password
+
 5. You should be taken to the installer page. Follow the on screen instructions.
 6. After successful install, delete the ```/install/``` directory.
 
@@ -50,10 +60,10 @@ There are many all-in-one web servers out there and most of them should work wit
 
 Some examples...
 
-* https://www.apachefriends.org/
-* http://www.ampps.com/
-* http://www.usbwebserver.net
-* http://www.wampserver.com/en/
+* <https://www.apachefriends.org/>
+* <http://www.ampps.com/>
+* <http://www.usbwebserver.net>
+* <http://www.wampserver.com/en/>
 
 ## Notes
 
@@ -66,12 +76,13 @@ It seems godaddy has started changing the industry standard names of files.
 ----------------------------
 
 ## Going live
-When your site is ready to go live open file ```system/config/default.php``` 
 
-**Find:**
+When your site is ready to go live open file ```system/config/default.php```
+
+__Find:__
 
 `$_['error_display'] = true;`
 
-**Replace with:**
+__Replace with:__
 
 `$_['error_display'] = false;`

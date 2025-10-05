@@ -1,12 +1,23 @@
 # Upgrading from version 2.x.x
 
+> ⚠️ **DOCKER USERS**: These instructions are for **traditional installations**.
+>
+> If you're using the **Docker setup**, upgrading is much simpler:
+> ```bash
+> docker-compose down
+> docker-compose pull
+> docker-compose up -d
+> ```
+> See [README.md](README.md) for Docker-specific upgrade instructions.
+
+---
+
 * For existing installs only
 * Don't use with previous versions
 
 ## For previous versions
 
 If you have __1.5.x__ and want to upgrade __to 3.0.x__, You may try to [contact our dedicated support](https://dedicated.opencart.com/)
-
 
 ## Step by step
 
@@ -50,7 +61,6 @@ If you have __1.5.x__ and want to upgrade __to 3.0.x__, You may try to [contact 
 1. If you have any upgrade script errors, post them in the forum
 2. If you have 3rd party addon errors, contact the mod author for an update.
 3. If you find bugs, check the "official" bug thread for this version of Opencart
-
 
 Many bugs may have already been reported and fixes will be offered in the first post of this thread.
 You should always visit this thread immediately after a fresh upgrade to see if there are any immediate bug fixes
