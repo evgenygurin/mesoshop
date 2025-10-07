@@ -1,0 +1,374 @@
+/**
+ * Component Library CSS
+ * Bootstrap 5.3 Style Guide Enhancements
+ * -------------------------------------------
+ */
+
+/* =================================
+   STYLE GUIDE SPECIFIC STYLES
+   ================================= */
+
+#style-guide {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+#style-guide .display-4 {
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+/* Navigation Pills Enhancement */
+#style-guide .nav-pills .nav-link {
+  border-radius: 50px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: #6c757d;
+}
+
+#style-guide .nav-pills .nav-link:hover {
+  background-color: rgba(13, 110, 253, 0.1);
+  color: #0d6efd;
+}
+
+#style-guide .nav-pills .nav-link.active {
+  background-color: #0d6efd;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* =================================
+   COMPONENT ENHANCEMENTS
+   ================================= */
+
+/* Enhanced Buttons */
+.btn {
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn:hover:before {
+  left: 100%;
+}
+
+.btn:focus {
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+}
+
+/* Enhanced Cards */
+.card {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.75rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 1rem 1.25rem;
+}
+
+.card-title {
+  color: #495057;
+  font-weight: 600;
+}
+
+/* Enhanced Alerts */
+.alert {
+  border: none;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border-left: 4px solid;
+}
+
+.alert-primary {
+  background: linear-gradient(135deg, #cfe2ff 0%, #b6d7ff 100%);
+  border-left-color: #0d6efd;
+  color: #084298;
+}
+
+.alert-success {
+  background: linear-gradient(135deg, #d1e7dd 0%, #badbcc 100%);
+  border-left-color: #198754;
+  color: #0f5132;
+}
+
+.alert-warning {
+  background: linear-gradient(135deg, #fff3cd 0%, #ffecb5 100%);
+  border-left-color: #ffc107;
+  color: #664d03;
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c2c7 100%);
+  border-left-color: #dc3545;
+  color: #721c24;
+}
+
+.alert-info {
+  background: linear-gradient(135deg, #d3f3fd 0%, #b8e9f7 100%);
+  border-left-color: #0dcaf0;
+  color: #055160;
+}
+
+/* Enhanced Form Controls */
+.form-control,
+.form-select {
+  border: 2px solid #e9ecef;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
+  transform: translateY(-1px);
+}
+
+.form-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+/* Enhanced Input Groups */
+.input-group-text {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px solid #e9ecef;
+  border-radius: 0.5rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* Enhanced Badges */
+.badge {
+  padding: 0.5em 0.75em;
+  font-size: 0.75em;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
+.badge.rounded-pill {
+  padding: 0.5em 1em;
+}
+
+/* Enhanced Progress Bars */
+.progress {
+  height: 1rem;
+  border-radius: 0.5rem;
+  background-color: #f1f3f4;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+  border-radius: 0.5rem;
+  transition: width 0.6s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%);
+  background-size: 1rem 1rem;
+  animation: progress-bar-stripes 1s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+  0% { background-position: 1rem 0; }
+  100% { background-position: 0 0; }
+}
+
+/* Enhanced Modals */
+.modal-content {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+}
+
+.modal-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 1rem 1rem 0 0;
+}
+
+.modal-footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0 0 1rem 1rem;
+}
+
+/* Enhanced Spinners */
+.spinner-border,
+.spinner-grow {
+  width: 2rem;
+  height: 2rem;
+}
+
+.spinner-border {
+  border-width: 0.25em;
+}
+
+/* =================================
+   UTILITY CLASSES
+   ================================= */
+
+/* Shadows */
+.shadow-soft {
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
+}
+
+.shadow-soft-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.shadow-soft-lg {
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+/* Gradient Backgrounds */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%) !important;
+}
+
+.bg-gradient-success {
+  background: linear-gradient(135deg, #198754 0%, #146c43 100%) !important;
+}
+
+.bg-gradient-danger {
+  background: linear-gradient(135deg, #dc3545 0%, #b02a37 100%) !important;
+}
+
+.bg-gradient-warning {
+  background: linear-gradient(135deg, #ffc107 0%, #d39e00 100%) !important;
+}
+
+.bg-gradient-info {
+  background: linear-gradient(135deg, #0dcaf0 0%, #3dd5f3 100%) !important;
+}
+
+/* Border Radius Utilities */
+.rounded-lg {
+  border-radius: 0.75rem !important;
+}
+
+.rounded-xl {
+  border-radius: 1rem !important;
+}
+
+/* Hover Effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-in {
+  animation: slideIn 0.6s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* =================================
+   RESPONSIVE DESIGN
+   ================================= */
+
+@media (max-width: 768px) {
+  #style-guide .display-4 {
+    font-size: 2rem;
+  }
+  
+  #style-guide .nav-pills {
+    flex-direction: column;
+  }
+  
+  #style-guide .nav-pills .nav-link {
+    margin-bottom: 0.25rem;
+    text-align: center;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .d-flex.flex-wrap.gap-2 .btn {
+    width: auto;
+    margin-bottom: 0;
+  }
+}
+
+/* =================================
+   DARK MODE SUPPORT (OPTIONAL)
+   ================================= */
+
+@media (prefers-color-scheme: dark) {
+  .card {
+    background-color: #212529;
+    border-color: #495057;
+    color: #ffffff;
+  }
+  
+  .card-header {
+    background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+    border-bottom-color: #495057;
+  }
+  
+  .form-control,
+  .form-select {
+    background-color: #212529;
+    border-color: #495057;
+    color: #ffffff;
+  }
+  
+  .form-control:focus,
+  .form-select:focus {
+    background-color: #212529;
+    border-color: #0d6efd;
+    color: #ffffff;
+  }
+}

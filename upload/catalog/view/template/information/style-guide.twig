@@ -1,0 +1,369 @@
+{{ header }}
+<div id="style-guide" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    <div id="content" class="col">{{ content_top }}
+      
+      <div class="my-5">
+        <h1 class="display-4 mb-4 text-primary">{{ heading_title }}</h1>
+        <p class="lead text-muted">Comprehensive Bootstrap 5.3 component library for consistent UI development across the platform.</p>
+      </div>
+
+      {# Navigation #}
+      <div class="row mb-5">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title mb-0">📑 Quick Navigation</h3>
+            </div>
+            <div class="card-body">
+              <nav class="nav nav-pills nav-fill">
+                <a class="nav-link active" href="#buttons">Buttons</a>
+                <a class="nav-link" href="#alerts">Alerts</a>
+                <a class="nav-link" href="#cards">Cards</a>
+                <a class="nav-link" href="#forms">Forms</a>
+                <a class="nav-link" href="#badges">Badges</a>
+                <a class="nav-link" href="#modals">Modals</a>
+                <a class="nav-link" href="#typography">Typography</a>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# Buttons Section #}
+      <section id="buttons" class="mb-5">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="h3 mb-0">🔘 Buttons</h2>
+          </div>
+          <div class="card-body">
+            <h5>Primary Buttons</h5>
+            <div class="d-flex flex-wrap gap-2 mb-4">
+              <button class="btn btn-primary">Primary</button>
+              <button class="btn btn-secondary">Secondary</button>
+              <button class="btn btn-success">Success</button>
+              <button class="btn btn-danger">Danger</button>
+              <button class="btn btn-warning">Warning</button>
+              <button class="btn btn-info">Info</button>
+              <button class="btn btn-light">Light</button>
+              <button class="btn btn-dark">Dark</button>
+            </div>
+            
+            <h5>Outline Buttons</h5>
+            <div class="d-flex flex-wrap gap-2 mb-4">
+              <button class="btn btn-outline-primary">Primary</button>
+              <button class="btn btn-outline-secondary">Secondary</button>
+              <button class="btn btn-outline-success">Success</button>
+              <button class="btn btn-outline-danger">Danger</button>
+            </div>
+
+            <h5>Button Sizes</h5>
+            <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+              <button class="btn btn-primary btn-lg">Large</button>
+              <button class="btn btn-primary">Default</button>
+              <button class="btn btn-primary btn-sm">Small</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {# Alerts Section #}
+      <section id="alerts" class="mb-5">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="h3 mb-0">⚠️ Alerts</h2>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-primary" role="alert">
+              <i class="bi bi-info-circle me-2"></i>This is a primary alert with an icon!
+            </div>
+            <div class="alert alert-success" role="alert">
+              <i class="bi bi-check-circle me-2"></i>This is a success alert—well done!
+            </div>
+            <div class="alert alert-warning" role="alert">
+              <i class="bi bi-exclamation-triangle me-2"></i>This is a warning alert—heads up!
+            </div>
+            <div class="alert alert-danger" role="alert">
+              <i class="bi bi-x-circle me-2"></i>This is a danger alert—something went wrong!
+            </div>
+            <div class="alert alert-info" role="alert">
+              <i class="bi bi-info-circle me-2"></i>This is an info alert with some additional context.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {# Cards Section #}
+      <section id="cards" class="mb-5">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="h3 mb-0">🃏 Cards</h2>
+          </div>
+          <div class="card-body">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+              <div class="col">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">Basic Card</h5>
+                    <p class="card-text">Simple card with title and text content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card h-100 border-success">
+                  <div class="card-header bg-success text-white">
+                    <h6 class="mb-0">Success Card</h6>
+                  </div>
+                  <div class="card-body">
+                    <p class="card-text">Card with colored border and header.</p>
+                    <a href="#" class="btn btn-success">Success Action</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card h-100 text-center">
+                  <div class="card-body">
+                    <i class="bi bi-star-fill text-warning fs-1 mb-3"></i>
+                    <h5 class="card-title">Centered Card</h5>
+                    <p class="card-text">Card with centered content and icon.</p>
+                    <a href="#" class="btn btn-outline-warning">Learn More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {# Forms Section #}
+      <section id="forms" class="mb-5">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="h3 mb-0">📝 Forms</h2>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <form>
+                  <div class="mb-3">
+                    <label for="inputEmail" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="inputEmail" placeholder="Enter email">
+                  </div>
+                  <div class="mb-3">
+                    <label for="inputPassword" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                  </div>
+                  <div class="mb-3">
+                    <label for="selectOption" class="form-label">Select Option</label>
+                    <select class="form-select" id="selectOption">
+                      <option selected>Choose...</option>
+                      <option value="1">Option 1</option>
+                      <option value="2">Option 2</option>
+                    </select>
+                  </div>
+                  <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="checkBox">
+                    <label class="form-check-label" for="checkBox">Remember me</label>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+              <div class="col-md-6">
+                <h5>Input Groups</h5>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">@</span>
+                  <input type="text" class="form-control" placeholder="Username">
+                </div>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Amount">
+                  <span class="input-group-text">.00</span>
+                </div>
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search...">
+                  <button class="btn btn-outline-secondary" type="button">
+                    <i class="bi bi-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {# Badges Section #}
+      <section id="badges" class="mb-5">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="h3 mb-0">🏷️ Badges</h2>
+          </div>
+          <div class="card-body">
+            <h5>Standard Badges</h5>
+            <div class="mb-3">
+              <span class="badge bg-primary me-1">Primary</span>
+              <span class="badge bg-secondary me-1">Secondary</span>
+              <span class="badge bg-success me-1">Success</span>
+              <span class="badge bg-danger me-1">Danger</span>
+              <span class="badge bg-warning text-dark me-1">Warning</span>
+              <span class="badge bg-info me-1">Info</span>
+            </div>
+            
+            <h5>Pills Badges</h5>
+            <div class="mb-3">
+              <span class="badge rounded-pill bg-primary me-1">Primary</span>
+              <span class="badge rounded-pill bg-secondary me-1">Secondary</span>
+              <span class="badge rounded-pill bg-success me-1">Success</span>
+            </div>
+            
+            <h5>With Notifications</h5>
+            <button class="btn btn-primary position-relative me-3">
+              Inbox
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                99+
+              </span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {# Typography Section #}
+      <section id="typography" class="mb-5">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="h3 mb-0">📰 Typography</h2>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <h5>Headings</h5>
+                <h1>h1. Bootstrap heading</h1>
+                <h2>h2. Bootstrap heading</h2>
+                <h3>h3. Bootstrap heading</h3>
+                <h4>h4. Bootstrap heading</h4>
+                <h5>h5. Bootstrap heading</h5>
+                <h6>h6. Bootstrap heading</h6>
+              </div>
+              <div class="col-md-6">
+                <h5>Display Headings</h5>
+                <h1 class="display-1">Display 1</h1>
+                <h1 class="display-2">Display 2</h1>
+                <h1 class="display-3">Display 3</h1>
+                <h1 class="display-4">Display 4</h1>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-12">
+                <h5>Text Utilities</h5>
+                <p class="text-primary">Primary text</p>
+                <p class="text-success">Success text</p>
+                <p class="text-danger">Danger text</p>
+                <p class="text-warning">Warning text</p>
+                <p class="text-info">Info text</p>
+                <p class="text-muted">Muted text</p>
+                <p class="fw-bold">Bold text</p>
+                <p class="fw-normal">Normal weight text</p>
+                <p class="fw-light">Light weight text</p>
+                <p class="fst-italic">Italic text</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {# Modal Section #}
+      <section id="modals" class="mb-5">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="h3 mb-0">🗂️ Modals</h2>
+          </div>
+          <div class="card-body">
+            <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Launch Demo Modal
+            </button>
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#successModal">
+              Success Modal
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {# Progress Bars and Spinners #}
+      <section class="mb-5">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="h3 mb-0">📊 Progress & Loading</h2>
+          </div>
+          <div class="card-body">
+            <h5>Progress Bars</h5>
+            <div class="progress mb-2">
+              <div class="progress-bar" role="progressbar" style="width: 25%"></div>
+            </div>
+            <div class="progress mb-2">
+              <div class="progress-bar bg-success" role="progressbar" style="width: 50%"></div>
+            </div>
+            <div class="progress mb-4">
+              <div class="progress-bar bg-info" role="progressbar" style="width: 75%"></div>
+            </div>
+            
+            <h5>Spinners</h5>
+            <div class="spinner-border text-primary me-2" role="status"></div>
+            <div class="spinner-border text-success me-2" role="status"></div>
+            <div class="spinner-grow text-danger me-2" role="status"></div>
+          </div>
+        </div>
+      </section>
+
+      {{ content_bottom }}
+    </div>
+    {{ column_right }}
+  </div>
+</div>
+
+{# Modal Examples #}
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Demo Modal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        This is a sample modal demonstrating Bootstrap's modal component with header, body, and footer.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="successModalLabel">
+          <i class="bi bi-check-circle me-2"></i>Success!
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Your action was completed successfully!</p>
+        <div class="alert alert-success mb-0">
+          <i class="bi bi-info-circle me-2"></i>This is a success modal with custom styling.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{ footer }}
