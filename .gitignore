@@ -45,6 +45,9 @@
 /.cache
 /.php-cs-fixer.cache
 
+# Claude Code local settings
+.claude/settings.local.json
+
 # Docker & Environment Files
 .env
 .env.local
