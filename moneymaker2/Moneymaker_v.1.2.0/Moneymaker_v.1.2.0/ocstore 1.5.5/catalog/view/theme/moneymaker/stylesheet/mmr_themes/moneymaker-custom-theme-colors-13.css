@@ -1,0 +1,168 @@
+/* Teal */
+a {
+    color: #008080;
+}
+a:hover,
+a:focus {
+    color: #003334;
+}
+.text-primary {
+    color: #008080;
+}
+a.text-primary:hover {
+    color: #004d4d;
+}
+.bg-primary {
+    background-color: #008080;
+}
+a.bg-primary:hover {
+    background-color: #004d4d;
+}
+.btn-primary {
+    background-color: #008080;
+    border-color: #006667;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+    background-color: #004d4d;
+    border-color: #002929;
+}
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+    background-color: #008080;
+    border-color: #006667;
+}
+.btn-primary .badge {
+    color: #008080;
+}
+.btn-link {
+    color: #008080;
+}
+.btn-link:hover,
+.btn-link:focus {
+    color: #003334;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+    background-color: #008080;
+}
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+    border-color: #008080;
+}
+.pagination > li > a,
+.pagination > li > span {
+    color: #008080;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+    color: #003334;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background-color: #008080;
+    border-color: #008080;
+}
+.label-primary {
+    background-color: #008080;
+}
+.label-primary[href]:hover,
+.label-primary[href]:focus {
+    background-color: #004d4d;
+}
+a.list-group-item.active > .badge,
+.nav-pills > .active > a > .badge {
+    color: #008080;
+}
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+    border-color: #008080;
+}
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+    background-color: #008080;
+    border-color: #008080;
+}
+.list-group-item.active .list-group-item-text,
+.list-group-item.active:hover .list-group-item-text,
+.list-group-item.active:focus .list-group-item-text {
+    color: #ffffff;
+}
+.panel-primary {
+    border-color: #008080;
+}
+.panel-primary > .panel-heading {
+    background-color: #008080;
+    border-color: #008080;
+}
+.panel-primary > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #008080;
+}
+.panel-primary > .panel-heading .badge {
+    color: #008080;
+}
+.panel-primary > .panel-footer + .panel-collapse > .panel-body {
+    border-bottom-color: #008080;
+}
+a.button, input.button {
+    background-color: #008080;
+    border-color: #006667;
+}
+a.button:hover, input.button:hover {
+    background-color: #004d4d;
+    border-color: #002929;
+}
+.pagination .links > *, .pagination_buttons > div .links > * {
+    color: #008080;
+}
+.pagination .links > *:hover,
+.pagination_buttons > div .links > *:hover,
+.pagination .links > *:focus,
+.pagination_buttons > div .links > *:focus {
+    color: #003334;
+}
+.pagination_buttons > div .links > b,
+.pagination .links > b,
+.pagination_buttons > div .links > b:hover,
+.pagination .links > b:hover,
+.pagination_buttons > div .links > b:focus,
+.pagination .links > b:focus {
+    background-color: #008080;
+    border-color: #008080;
+}
+.product-grid .product-block:hover, .product-grid .product-block .description {
+    border-color: #6f9494;
+}
+.product-grid .product-block.product-block-detailed:hover, .product-grid .product-block.product-block-detailed .description {
+    border-color: transparent;
+}
+#footer {
+    border-top: 3px solid #008080;
+    color: #777;
+}

@@ -1,0 +1,40 @@
+1) Залить каталоги stylesheet и template отсюда в свою тему /catalog/view/theme/theme_lightshop/
+2) В настройках темы установить вывод скриптов в верхней части страницы
+3) В интеграции с темой установить текст для миникорзины
+
+<span class="actions__counter">%s</span>
+
+4) В разделе джаваскриптов добавить скрипт
+
+/*if ($('.simple-content select').is(':visible')) {
+initCustomSelect($('.simple-content select'));
+}*/
+$('.simple-content input[type=radio]').parent().removeClass('checked');
+$('.simple-content input[type=radio]:checked').parent().addClass('checked');
+svgFix();
+
+
+$('.radio label, .checkbox label, .checkout__radio-item ').each(function() {
+  var $label = $(this);
+  var $input = $label.find('input');
+  $input.insertBefore($label);
+  $label.prepend($('<span/>'));
+
+  if (!$input.attr('id')) {
+    $input.attr('id', $input.attr('name'));
+  }
+  
+  $label.attr('for', $input.attr('id'));
+});
+
+$('.checkout__radio-item img+label').each(function() {
+  var $label = $(this);
+  var $parent = $label.parent();
+  var $img = $parent.find('img');
+  var $input = $parent.find('input');
+  
+  $img.insertBefore($input).wrap('<span class="checkout__input-box-title"/>');
+});
+
+
+5) Удалите или переименуйте каталог /catalog/view/theme/theme_lightshop/extension/payment/

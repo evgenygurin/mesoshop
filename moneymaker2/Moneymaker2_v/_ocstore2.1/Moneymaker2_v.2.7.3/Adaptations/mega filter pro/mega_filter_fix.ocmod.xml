@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <name>Mega Filter PRO</name>
+    <version>1.0</version>
+    <author>marsilea15@gmail.com</author>
+    <link>mailto:marsilea15@gmail.com</link>
+	<code>Mega Filter PRO</code>
+	
+	<file path="catalog/view/theme/moneymaker2/template/product/special.tpl">
+		<operation>
+			<search><![CDATA[$moneymaker2_catalog_layout_switcher_hide]]></search>
+			<add position="replace"><![CDATA[(isset($moneymaker2_catalog_layout_switcher_hide)?$moneymaker2_catalog_layout_switcher_hide:NULL)]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$product['stickers']]]></search>
+			<add position="replace"><![CDATA[(isset($product['stickers'])?$product['stickers']:array())]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$moneymaker2_common_price_detached]]></search>
+			<add position="replace"><![CDATA[(isset($moneymaker2_common_price_detached)?$moneymaker2_common_price_detached:NULL)]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$moneymaker2_common_buy_hide]]></search>
+			<add position="replace"><![CDATA[(isset($moneymaker2_common_buy_hide)?$moneymaker2_common_buy_hide:NULL)]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$moneymaker2_common_wishlist_hide]]></search>
+			<add position="replace"><![CDATA[(isset($moneymaker2_common_wishlist_hide)?$moneymaker2_common_wishlist_hide:NULL)]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$moneymaker2_common_wishlist_caption]]></search>
+			<add position="replace"><![CDATA[(isset($moneymaker2_common_wishlist_caption)?$moneymaker2_common_wishlist_caption:NULL)]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$moneymaker2_common_compare_hide]]></search>
+			<add position="replace"><![CDATA[(isset($moneymaker2_common_compare_hide)?$moneymaker2_common_compare_hide:NULL)]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$moneymaker2_common_compare_caption]]></search>
+			<add position="replace"><![CDATA[(isset($moneymaker2_common_compare_caption)?$moneymaker2_common_compare_caption:NULL)]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$product['code']]]></search>
+			<add position="replace"><![CDATA[(isset($product['code'])?$product['code']:NULL)]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$product['stock']]]></search>
+			<add position="replace"><![CDATA[(isset($product['stock'])?$product['stock']:NULL)]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$moneymaker2_catalog_default_view]]></search>
+			<add position="replace"><![CDATA[(isset($moneymaker2_catalog_default_view)?$moneymaker2_catalog_default_view:NULL)]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$product['sold']]]></search>
+			<add position="replace"><![CDATA[(isset($product['sold'])?$product['sold']:NULL)]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$product['addtocart_tooltip']]]></search>
+			<add position="replace"><![CDATA[(isset($product['addtocart_tooltip'])?$product['addtocart_tooltip']:NULL)]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$product['addtocart_class']]]></search>
+			<add position="replace"><![CDATA[(isset($product['addtocart_class'])?$product['addtocart_class']:NULL)]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$product['quickorder_tooltip']]]></search>
+			<add position="replace"><![CDATA[(isset($product['quickorder_tooltip'])?$product['quickorder_tooltip']:NULL)]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[$product['quickorder_class']]]></search>
+			<add position="replace"><![CDATA[(isset($product['quickorder_class'])?$product['quickorder_class']:NULL)]]></add>
+		</operation>
+    <operation>
+        <search><![CDATA[$moneymaker2_modules_quickorder_enabled]]></search>
+        <add position="replace"><![CDATA[(isset($moneymaker2_modules_quickorder_enabled)?$moneymaker2_modules_quickorder_enabled:NULL)]]></add>
+    </operation>
+    <operation>
+        <search><![CDATA[$moneymaker2_modules_quickorder_display_catalog]]></search>
+        <add position="replace"><![CDATA[(isset($moneymaker2_modules_quickorder_display_catalog)?$moneymaker2_modules_quickorder_display_catalog:NULL)]]></add>
+    </operation>
+	</file>
+
+</modification>

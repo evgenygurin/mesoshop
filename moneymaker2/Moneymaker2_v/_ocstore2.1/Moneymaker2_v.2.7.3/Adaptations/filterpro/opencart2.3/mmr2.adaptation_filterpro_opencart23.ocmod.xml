@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Moneymaker 2 Filterpro Adaptation (Opencart 2.3)</name>
+    <version>2.6.2</version>
+    <author>RGB</author>
+    <code>moneymaker2filterproadaptation</code>
+    <link>https://2.mnmkr.com</link>
+    <file path="catalog/controller/extension/module/filterpro.php">
+    <operation>
+        <search><![CDATA[$data['products'] = array();]]></search>
+        <add position="before"><![CDATA[
+		/*mmr*/
+		$this->load->model('catalog/information');
+		$this->load->language('product/product');
+		$this->load->language('extension/module/moneymaker2');
+		$data['moneymaker2_currency'] = $this->session->data['currency'];
+		$data['moneymaker2_text_old_price'] = $this->language->get('text_old_price');
+		$data['moneymaker2_modules_quickorder_enabled'] = $this->config->get('moneymaker2_modules_quickorder_enabled');
+		if ($data['moneymaker2_modules_quickorder_enabled']) {
+			$data['moneymaker2_modules_quickorder_display_catalog'] = $this->config->get('moneymaker2_modules_quickorder_display_catalog');
+			$data['moneymaker2_modules_quickorder_button_title'] = $this->config->get('moneymaker2_modules_quickorder_button_title');
+			$data['moneymaker2_modules_quickorder_button_title'] = $data['moneymaker2_modules_quickorder_button_title'][$this->config->get('config_language_id')];
+		}
+
+		$data['moneymaker2_catalog_categories_images_hide'] = $this->config->get('moneymaker2_catalog_categories_images_hide');
+		$data['moneymaker2_catalog_categories_move_description'] = $this->config->get('moneymaker2_catalog_categories_move_description');
+		$data['moneymaker2_common_categories_icons_enabled'] = $this->config->get('moneymaker2_common_categories_icons_enabled');
+		$data['moneymaker2_common_categories_icons'] = $this->config->get('moneymaker2_common_categories_icons');
+		$data['moneymaker2_catalog_default_view'] = $this->config->get('moneymaker2_catalog_layout_default');
+		$data['moneymaker2_catalog_layout_switcher_hide'] = $this->config->get('moneymaker2_catalog_layout_switcher_hide');
+
+		$data['moneymaker2_common_buy_hide'] = $this->config->get('moneymaker2_common_buy_hide');
+		$data['moneymaker2_common_wishlist_hide'] = $this->config->get('moneymaker2_common_wishlist_hide');
+		$data['moneymaker2_common_wishlist_caption'] = $this->config->get('moneymaker2_common_wishlist_caption');
+		$data['moneymaker2_common_compare_hide'] = $this->config->get('moneymaker2_common_compare_hide');
+		$data['moneymaker2_common_compare_caption'] = $this->config->get('moneymaker2_common_compare_caption');
+		$data['moneymaker2_common_cart_outofstock_disabled'] = $this->config->get('moneymaker2_common_cart_outofstock_disabled');
+		$data['moneymaker2_common_price_detached'] = $this->config->get('moneymaker2_common_price_detached');
+		$data['moneymaker2_stickers_mode'] = $this->config->get('moneymaker2_modules_stickers_mode');
+		$data['moneymaker2_stickers_size_catalog'] = $this->config->get('moneymaker2_modules_stickers_size_catalog');
+		/*mmr*/
+        ]]></add>
+    </operation>
+    <operation>
+        <search><![CDATA[$data['products'][] = array(]]></search>
+        <add position="replace"><![CDATA[
+        /*mmr*/
+        $moneymaker2_stickers = array();
+        if ($special) {
+            if ($this->config->get('moneymaker2_modules_stickers_specials_enabled')) {
+                $moneymaker2_modules_stickers_specials_caption = $this->config->get('moneymaker2_modules_stickers_specials_caption');
+                $moneymaker2_modules_stickers_specials_discount = $this->config->get('moneymaker2_modules_stickers_specials_discount') ? ($this->config->get('moneymaker2_modules_stickers_specials_discount_mode') ? "-".round(100-(($result['special']/$result['price'])*100))."%" : $this->currency->format((($result['special'])-($result['price']))*(-1), $this->session->data['currency'])) : '';
+                $moneymaker2_stickers[] = array(
+                    'type' => 'special',
+                    'icon' => $this->config->get('moneymaker2_modules_stickers_specials_icon'),
+                    'caption' => $this->config->get('moneymaker2_modules_stickers_specials_discount') ? "<b>".$moneymaker2_modules_stickers_specials_discount."</b> ".$moneymaker2_modules_stickers_specials_caption[$this->config->get('config_language_id')] : $moneymaker2_modules_stickers_specials_caption[$this->config->get('config_language_id')],
+                );
+            }
+        }
+        if ($result['viewed']) {
+            if ($this->config->get('moneymaker2_modules_stickers_popular_enabled')) {
+                if ($result['viewed']>=$this->config->get('moneymaker2_modules_stickers_popular_limit')) {
+                    $moneymaker2_modules_stickers_popular_caption = $this->config->get('moneymaker2_modules_stickers_popular_caption');
+                    $moneymaker2_stickers[] = array(
+                        'type' => 'popular',
+                        'icon' => $this->config->get('moneymaker2_modules_stickers_popular_icon'),
+                        'caption' => $moneymaker2_modules_stickers_popular_caption[$this->config->get('config_language_id')],
+                    );
+                }
+            }
+        }
+        if ($result['rating']) {
+            if ($this->config->get('moneymaker2_modules_stickers_rated_enabled')) {
+                if ($result['rating']>=$this->config->get('moneymaker2_modules_stickers_rated_limit')) {
+                    $moneymaker2_modules_stickers_rated_caption = $this->config->get('moneymaker2_modules_stickers_rated_caption');
+                    $moneymaker2_stickers[] = array(
+                        'type' => 'rated',
+                        'icon' => $this->config->get('moneymaker2_modules_stickers_rated_icon'),
+                        'caption' => $moneymaker2_modules_stickers_rated_caption[$this->config->get('config_language_id')],
+                    );
+                }
+            }
+        }
+        if ($result['date_available']) {
+            if ($this->config->get('moneymaker2_modules_stickers_new_enabled')) {
+                if ((round((strtotime(date("Y-m-d"))-strtotime($result['date_available']))/86400))<=$this->config->get('moneymaker2_modules_stickers_new_limit')) {
+                    $moneymaker2_modules_stickers_new_caption = $this->config->get('moneymaker2_modules_stickers_new_caption');
+                    $moneymaker2_stickers[] = array(
+                        'type' => 'new',
+                        'icon' => $this->config->get('moneymaker2_modules_stickers_new_icon'),
+                        'caption' => $moneymaker2_modules_stickers_new_caption[$this->config->get('config_language_id')],
+                    );
+                }
+            }
+        }
+        $moneymaker2_modules_stickers_customs = $this->config->get('moneymaker2_modules_stickers_customs');
+        if (!empty($moneymaker2_modules_stickers_customs)){
+            foreach ($moneymaker2_modules_stickers_customs as $key => $value) {
+                if (isset($result[$value['field']])&&$result[$value['field']]) {
+                    $moneymaker2_modules_stickers_custom_caption = $value['caption'];
+                    $moneymaker2_stickers[] = array(
+                        'type' => 'custom'.$key,
+                        'icon' => $value['icon'],
+                        'caption' => isset($value['caption'][$this->config->get('config_language_id')]) ? $value['caption'][$this->config->get('config_language_id')] : null,
+                    );
+                }
+            }
+        }
+
+            if ($result['quantity'] <= 0) { $moneymaker2_stock = "<span class='stock'><span>" . $result['stock_status'] . "</span></span>"; } else { $moneymaker2_stock = "<span class='stock instock'><!--" . $this->language->get('text_stock') . "--> <span>" . $this->language->get('text_instock') . "</span></span>"; }
+            if ($this->config->get('moneymaker2_catalog_products_code_field')&&isset($result[$this->config->get('moneymaker2_catalog_products_code_field')])&&$result[$this->config->get('moneymaker2_catalog_products_code_field')]&&(!$this->config->get('moneymaker2_catalog_products_list_code_hide')||!$this->config->get('moneymaker2_catalog_products_grid_code_hide'))) {$moneymaker2_code = "<span class='code'>".$this->language->get('text_model')." <span>".$result[$this->config->get('moneymaker2_catalog_products_code_field')]."</span></span>";} else {$moneymaker2_code = '';}
+
+            $moneymaker2_addtocart_tooltip = '';
+            if ($data['moneymaker2_common_cart_outofstock_disabled']&&$result['quantity'] <= 0) {
+                 if (!$data['moneymaker2_common_price_detached']) { $moneymaker2_addtocart_tooltip = "<p class='text-muted'>" . $data['button_cart'] . "</p>"; }
+                 $moneymaker2_addtocart_tooltip .= "<p>".$moneymaker2_stock."</p>";
+            } else if (!$data['moneymaker2_common_price_detached']) {
+                 $moneymaker2_addtocart_tooltip .= "<p>".$data['button_cart']."</p>";
+            }
+            if ($price&&$special) { $moneymaker2_addtocart_tooltip .= "<p>".$data['moneymaker2_text_old_price']." ".$price."</p>"; }
+
+            $moneymaker2_addtocart_class = 'btn ';
+            if ($data['moneymaker2_common_cart_outofstock_disabled']&&$result['quantity'] <= 0) {
+                $moneymaker2_addtocart_class .= 'disabled ';
+            }
+            if (!$special) {
+                $moneymaker2_addtocart_class .= 'btn-primary';
+            } else {
+                $moneymaker2_addtocart_class .= 'btn-danger';
+            }
+
+            if ($data['moneymaker2_modules_quickorder_enabled']) {
+                $moneymaker2_quickorder_tooltip = '';
+                if ($data['moneymaker2_common_cart_outofstock_disabled']&&$result['quantity'] <= 0) {
+                    $moneymaker2_quickorder_tooltip .= "<p class='text-muted'>" . $data['moneymaker2_modules_quickorder_button_title'] . "</p>";
+                    $moneymaker2_quickorder_tooltip .= "<p>" . $moneymaker2_stock . "</p>";
+                } else {
+                    $moneymaker2_quickorder_tooltip .= "<p>" . $data['moneymaker2_modules_quickorder_button_title'] . "</p>";
+                }
+                $moneymaker2_quickorder_class = 'btn btn-default';
+                if ($data['moneymaker2_common_cart_outofstock_disabled']&&$result['quantity'] <= 0) {
+                    $moneymaker2_quickorder_class .= ' disabled';
+                }
+            }
+
+            $data['products'][] = array(
+                'stickers'              => $moneymaker2_stickers,
+                'stock'                 => $moneymaker2_stock,
+                'code'                  => $moneymaker2_code,
+                'sold'                  => $data['moneymaker2_common_cart_outofstock_disabled']&&$result['quantity'] <= 0 ? true : false,
+                'quantity'              => $result['quantity'],
+                'sort_order'            => $result['sort_order'],
+                'review_count'          => $result['reviews'],
+                'addtocart_tooltip'     => $moneymaker2_addtocart_tooltip,
+                'addtocart_class'       => $moneymaker2_addtocart_class,
+                'quickorder_tooltip'    => $data['moneymaker2_modules_quickorder_enabled'] ? $moneymaker2_quickorder_tooltip : '',
+                'quickorder_class'      => $data['moneymaker2_modules_quickorder_enabled'] ? $moneymaker2_quickorder_class : '',
+        /*mmr*/
+        ]]></add>
+    </operation>
+    </file>
+</modification>

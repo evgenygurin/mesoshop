@@ -1,0 +1,9 @@
+{# Product Badge Component - адаптация из astro-ecommerce/src/components/products/productBadge.tsx #}
+{# Отображает цветные бейджи для товаров #}
+{% if colors %}
+  <div>
+    {% for color in colors %}
+      <span class="badge filter rounded-4 bg-{{ color }}"></span>
+    {% endfor %}
+  </div>
+{% endif %}

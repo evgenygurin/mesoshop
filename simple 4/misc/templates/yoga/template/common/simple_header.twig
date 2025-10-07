@@ -1,0 +1,26 @@
+{{ header }}
+<div class="section pt-3">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-3">
+        {% for breadcrumb in breadcrumbs %}
+          {% if loop.last %}
+            <li class="breadcrumb-item" aria-current="page"><span class="link active" >{{ breadcrumb.text }}</span></li>
+          {% elseif loop.revindex0 == 1 %}
+            <li class="breadcrumb-item" data-prev><a href="{{ breadcrumb.href }}" class="link">{{ icon_back }}<span>{{ breadcrumb.text }}</span></a></li>
+          {% else %}
+            <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}" class="link"><span>{{ breadcrumb.text }}</span></a></li>
+          {% endif %}
+        {% endfor %}
+      </ol>
+    </nav>
+    <h1 class="page-title mb-0">{{ heading_title }}</h1>
+  </div>
+</div>
+{{ content_top }}
+<div class="section pt-3 {% if not content_bottom %} pb-4 pb-sm-5 {% endif %}" id="account-forgotten">
+  <div class="container">
+    <div class="row">
+      <div class="{% if column_right %}col-12 col-lg-9{% else %}col-12{% endif %}">
+        <div class="row">
+          <div class="col col-sm-auto">

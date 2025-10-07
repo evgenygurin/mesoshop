@@ -1,0 +1,11 @@
+/* Damask */
+@media (max-width: 992px) {
+    .product-grid .product-block:hover, .product-grid .product-block .description {
+        border-color: transparent;
+    }
+}
+@media (max-width: 767px) {
+    .theme-switcher {
+        color: #555 !important;
+    }
+}

@@ -151,12 +151,12 @@ class Cart extends \Opencart\System\Engine\Controller {
 			}
 
 			$data['products'][] = [
-				'thumb'        => $this->model_tool_image->resize($product['image'], $this->config->get('config_image_cart_width'), $this->config->get('config_image_cart_height')),
+				'thumb'        => $this->model_tool_image->resize($product['image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height')),
 				'subscription' => $subscription,
 				'stock'        => $product['stock_status'] ? true : !(!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning')),
 				'minimum'      => !$product['minimum_status'] ? sprintf($this->language->get('error_minimum'), $product['minimum']) : 0,
-				'price'        => $price_status ? $product['price_text'] : '',
-				'total'        => $price_status ? $product['total_text'] : '',
+				'price'        => $price_status ? $product['price'] : '',
+				'total'        => $price_status ? $product['total'] : '',
 				'href'         => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product['product_id']),
 				'remove'       => $this->url->link('checkout/cart.remove', 'language=' . $this->config->get('config_language') . '&key=' . $product['cart_id'])
 			] + $product;
@@ -173,13 +173,13 @@ class Cart extends \Opencart\System\Engine\Controller {
 			($this->model_checkout_cart->getTotals)($totals, $taxes, $total);
 
 			foreach ($totals as $result) {
-				$data['totals'][] = ['text' => $price_status ? $this->currency->format($result['value'], $this->session->data['currency']) : ''] + $result;
+				$data['totals'][] = ['text' => $price_status ? $result['value'] : ''] + $result;
 			}
 		}
 
 		$data['modules'] = [];
 
-		// Extension
+		// Extensions
 		$this->load->model('setting/extension');
 
 		$extensions = $this->model_setting_extension->getExtensionsByType('total');
@@ -198,6 +198,8 @@ class Cart extends \Opencart\System\Engine\Controller {
 		} else {
 			$data['continue'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language'));
 		}
+
+		$data['currency'] = $this->session->data['currency'];
 
 		return $this->load->view('checkout/cart_list', $data);
 	}
@@ -242,11 +244,6 @@ class Cart extends \Opencart\System\Engine\Controller {
 		$product_info = $this->model_catalog_product->getProduct($product_id);
 
 		if ($product_info) {
-			// If variant get master product
-			if ($product_info['master_id']) {
-				$product_id = $product_info['master_id'];
-			}
-
 			// Only use values in the override
 			if (isset($product_info['override']['variant'])) {
 				$override = $product_info['override']['variant'];
@@ -261,7 +258,11 @@ class Cart extends \Opencart\System\Engine\Controller {
 				}
 			}
 
-			// Validate options
+			// If variant get master product
+			if ($product_info['master_id']) {
+				$product_id = $product_info['master_id'];
+			}
+
 			$product_options = $this->model_catalog_product->getOptions($product_id);
 
 			foreach ($product_options as $product_option) {
@@ -273,7 +274,7 @@ class Cart extends \Opencart\System\Engine\Controller {
 			}
 
 			// Validate subscription products
-			$subscriptions = $this->model_catalog_product->getSubscriptions($product_id);
+			$subscriptions = $this->model_catalog_product->getSubscriptions($product_info['product_id']);
 
 			if ($subscriptions && (!$subscription_plan_id || !in_array($subscription_plan_id, array_column($subscriptions, 'subscription_plan_id')))) {
 				$json['error']['subscription'] = $this->language->get('error_subscription');
@@ -283,11 +284,12 @@ class Cart extends \Opencart\System\Engine\Controller {
 		}
 
 		if (!$json) {
-			$this->cart->add($product_id, $quantity, $option, $subscription_plan_id);
+			$this->cart->add($product_info['product_id'], $quantity, $option, $subscription_plan_id);
 
-			$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id), $product_info['name'], $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language')));
+			$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_info['product_id']), $product_info['name'], $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language')));
 
 			// Unset all shipping and payment methods
+			unset($this->session->data['order_id']);
 			unset($this->session->data['shipping_method']);
 			unset($this->session->data['shipping_methods']);
 			unset($this->session->data['payment_method']);
@@ -331,6 +333,7 @@ class Cart extends \Opencart\System\Engine\Controller {
 			$json['redirect'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
 		}
 
+		unset($this->session->data['order_id']);
 		unset($this->session->data['shipping_method']);
 		unset($this->session->data['shipping_methods']);
 		unset($this->session->data['payment_method']);
@@ -366,6 +369,7 @@ class Cart extends \Opencart\System\Engine\Controller {
 			$json['redirect'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
 		}
 
+		unset($this->session->data['order_id']);
 		unset($this->session->data['shipping_method']);
 		unset($this->session->data['shipping_methods']);
 		unset($this->session->data['payment_method']);

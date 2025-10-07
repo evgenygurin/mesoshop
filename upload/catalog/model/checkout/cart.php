@@ -70,9 +70,9 @@ class Cart extends \Opencart\System\Engine\Model {
 			if ($product['subscription']) {
 				$subscription_data = [
 					'trial_frequency_text' => $this->language->get('text_' . $product['subscription']['trial_frequency']),
-					'trial_price_text'     => $this->currency->format($this->tax->calculate($product['subscription']['trial_price'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']),
+					'trial_price'          => $this->tax->calculate($product['subscription']['trial_price'], $product['tax_class_id'], $this->config->get('config_tax')),
 					'frequency_text'       => $this->language->get('text_' . $product['subscription']['frequency']),
-					'price_text'           => $this->currency->format($this->tax->calculate($product['subscription']['price'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency'])
+					'price'                => $this->tax->calculate($product['subscription']['price'], $product['tax_class_id'], $this->config->get('config_tax'))
 				] + $product['subscription'];
 			}
 
@@ -80,8 +80,8 @@ class Cart extends \Opencart\System\Engine\Model {
 				'image'        => $image,
 				'subscription' => $subscription_data,
 				'option'       => $option_data,
-				'price_text'   => $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']),
-				'total_text'   => $this->currency->format($this->tax->calculate($product['total'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency'])
+				'price'        => $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')),
+				'total'        => $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity']
 			] + $product;
 		}
 
@@ -93,14 +93,14 @@ class Cart extends \Opencart\System\Engine\Model {
 	 *
 	 * @param array<int, array<string, mixed>> $totals
 	 * @param array<int, float>                $taxes
-	 * @param int                              $total
+	 * @param float                            $total
 	 *
 	 * @return void
 	 */
-	public function getTotals(array &$totals, array &$taxes, int &$total): void {
+	public function getTotals(array &$totals, array &$taxes, float &$total): void {
 		$sort_order = [];
 
-		// Extension
+		// Extensions
 		$this->load->model('setting/extension');
 
 		$results = $this->model_setting_extension->getExtensionsByType('total');

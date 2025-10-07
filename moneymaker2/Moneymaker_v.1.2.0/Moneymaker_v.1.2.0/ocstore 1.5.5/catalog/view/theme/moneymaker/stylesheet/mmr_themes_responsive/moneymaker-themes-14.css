@@ -1,0 +1,29 @@
+/* Red Dwarf */
+@media (min-width: 768px) {
+    .header-search input {
+        background: url('../../image/dot_white_70.png');
+    }
+    .header-search .btn-default {
+        background: url('../../image/dot_white_80.png');
+    }
+    /*#cart > .btn {
+        background: url('../../image/dot_white_80.png');
+    }*/
+}
+@media (max-width: 992px) {
+    .product-grid .product-block:hover, .product-grid .product-block .description {
+        border-color: transparent;
+    }
+}
+@media (max-width: 767px) {
+    .content-container {
+        padding-top: 0px;
+    }
+    .navbar-default {
+        background-color: #f8f8f8;
+        border-color: #e7e7e7;
+    }
+    .theme-switcher {
+        color: #555 !important;
+    }
+}

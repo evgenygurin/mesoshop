@@ -1,0 +1,39 @@
+Если используется открытие страницы регистрации в попапе, то в конце файла
+
+catalog/view/theme/journal3/js/common.js
+
+добавьте
+
+window['open_register_popup'] = function () {
+  if ($('html').hasClass('iphone') || $('html').hasClass('ipad')) {
+    iNoBounce.enable();
+  }
+
+  var html = '';
+
+  html += '<div class="popup-wrapper popup-register">';
+  html += ' <div class="popup-container">';
+  html += '   <button class="btn popup-close"></button>';
+  html += '   <div class="popup-body">';
+  html += '   <div class="popup-inner-body">';
+  html += '     <div class="journal-loading"><i class="fa fa-spinner fa-spin"></i></div>';
+  html += '     <div class="popup-content"></div>';
+  html += '   </div>';
+  html += '   </div>';
+  html += ' </div>';
+  html += ' <div class="popup-bg popup-bg-closable"></div>';
+  html += '</div>';
+
+  // show modal
+  $('.popup-wrapper').remove();
+
+  $('body').append(html);
+
+  $('.popup-content').load('index.php?route=account/simpleregister&popup', function() {
+    $('.journal-loading').remove();
+  });
+
+  setTimeout(function () {
+    $('html').addClass('popup-open popup-center');
+  }, 10);
+};

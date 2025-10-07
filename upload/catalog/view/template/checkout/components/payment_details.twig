@@ -1,0 +1,46 @@
+{# Payment Details Component - адаптация из astro-ecommerce/src/components/checkout/paymentDetails.tsx #}
+{# Форма платежных данных #}
+<div class="row g-3">
+  <div class="col-12">
+    <div class="form-group">
+      <label class="form-label" for="input-card-name">Cardholder name</label>
+      <input type="text" name="card_name" placeholder="Enter name on card" id="input-card-name" class="form-control" />
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="form-group">
+      <label class="form-label" for="input-card-number">Card number</label>
+      <input type="text" name="card_number" placeholder="1234 5678 9012 3456" id="input-card-number" class="form-control" maxlength="19" />
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <label class="form-label" for="input-card-expiry">Expiration date (MM/YY)</label>
+      <input type="text" name="card_expiry" placeholder="MM / YY" id="input-card-expiry" class="form-control" maxlength="7" />
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <label class="form-label" for="input-card-cvv">CVV</label>
+      <input type="text" name="card_cvv" placeholder="123" id="input-card-cvv" class="form-control" maxlength="4" />
+    </div>
+  </div>
+</div>
+
+<script>
+// Форматирование номера карты
+document.getElementById('input-card-number')?.addEventListener('input', function(e) {
+  let value = e.target.value.replace(/\s/g, '');
+  let formatted = value.match(/.{1,4}/g)?.join(' ') || value;
+  e.target.value = formatted;
+});
+
+// Форматирование даты истечения
+document.getElementById('input-card-expiry')?.addEventListener('input', function(e) {
+  let value = e.target.value.replace(/\D/g, '');
+  if (value.length >= 2) {
+    value = value.slice(0, 2) + ' / ' + value.slice(2, 4);
+  }
+  e.target.value = value;
+});
+</script>

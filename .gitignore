@@ -72,3 +72,5 @@ composer.phar
 # Node modules (if using)
 node_modules/
 npm-debug.log
+
+fusion/

@@ -1,0 +1,30 @@
+{# Product Gallery Component - адаптация из astro-ecommerce/src/components/products/productGallery.tsx #}
+{# Галерея изображений товара #}
+<div class="col-12 col-lg-6 d-flex">
+  <div class="d-block">
+    {% if images %}
+      {% for image in images|slice(0, 4) %}
+        <img class="w-90 max-height-150 {% if not loop.last %}mb-4{% endif %} rounded-2"
+             src="{{ image.popup }}"
+             alt="{{ heading_title }}"
+             data-image-index="{{ loop.index0 }}" />
+      {% endfor %}
+    {% endif %}
+  </div>
+  {% if thumb %}
+    <img class="w-70 rounded-2" src="{{ popup }}" alt="{{ heading_title }}" id="main-product-image" />
+  {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const thumbnails = document.querySelectorAll('[data-image-index]');
+  const mainImage = document.getElementById('main-product-image');
+
+  thumbnails.forEach(thumb => {
+    thumb.addEventListener('click', function() {
+      mainImage.src = this.src;
+    });
+  });
+});
+</script>

@@ -1,0 +1,235 @@
+/* Supernova */
+body {
+    background: url('../../image/themes/starfield-1.jpg') 0 330px;
+}
+.content-container > .container {
+    background: url('../../image/dot_black_65.png');
+}
+#column-left .product-grid .product-block .description, #column-right .product-grid .product-block .description {
+    background: url('../../image/dot_black_25.png');
+    border-radius: 4px;
+    color: #999;
+}
+#content {
+    padding-top: 15px;
+}
+#column-left, #column-right {
+    padding-top: 15px;
+    color: #999;
+}
+.header-container {
+    background: url('../../image/dot_white_10.png');
+}
+.header-contacts .btn:hover, .header-contacts .btn:focus, .header-contacts .btn:active,
+.header-search .btn:hover, .header-search .btn:focus, .header-search .btn:active {
+    background: url('../../image/dot_white_65.png');
+}
+.header-search .btn {
+    background: url('../../image/dot_white_40.png');
+}
+.navbar-default {
+    background: url('../../image/dot_white_50.png');
+    border-color: #666;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    background: url('../../image/dot_white_40.png');
+}
+#column-left .sticker-caption, #column-right .sticker-caption {
+    background: url('../../image/dot_black_15.png');
+}
+#column-left .product-grid .product-block .price > div, #column-right .product-grid .product-block .price > div {
+    background: url('../../image/dot_black_25.png');
+}
+#column-left .product-grid .product-block .price , #column-right .product-grid .product-block .price  {
+    color: #999;
+}
+#column-left .product-grid .product-block .price .price-ldot, #column-right .product-grid .product-block .price .price-ldot,
+#column-left .product-grid .product-block .price .price-rdot, #column-right .product-grid .product-block .price .price-rdot {
+    color: #555;
+}
+#column-left .btn-default, #column-right .btn-default {
+    background-color: #ddd;
+    border-color: #aaa;
+}
+#column-left .btn-default:hover, #column-left .btn-default:focus, #column-left .btn-default:active, #column-left .btn-default.active,
+#column-right .btn-default:hover, #column-right .btn-default:focus, #column-right .btn-default:active, #column-right .btn-default.active {
+    background-color: #fff;
+    border-color: #ccc;
+}
+#column-left .box .box-heading, #column-right .box .box-heading {
+    background: url('../../image/dot_black_25.png');
+    color: #ccc;
+}
+.breadcrumb {
+    background: #fff;
+}
+
+/*colors*/
+a {
+    color: #c45bde;
+}
+a:hover,
+a:focus {
+    color: #a628c5;
+}
+.text-primary {
+    color: #c45bde;
+}
+a.text-primary:hover {
+    color: #b531d5;
+}
+.bg-primary {
+    background-color: #c45bde;
+}
+a.bg-primary:hover {
+    background-color: #b531d5;
+}
+.btn-primary {
+    background-color: #c45bde;
+    border-color: #bc46da;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+    background-color: #b531d5;
+    border-color: #9f26bc;
+}
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+    background-color: #c45bde;
+    border-color: #bc46da;
+}
+.btn-primary .badge {
+    color: #c45bde;
+}
+.btn-link {
+    color: #c45bde;
+}
+.btn-link:hover,
+.btn-link:focus {
+    color: #a628c5;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+    background-color: #c45bde;
+}
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+    border-color: #c45bde;
+}
+.pagination > li > a,
+.pagination > li > span {
+    color: #c45bde;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+    color: #a628c5;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background-color: #c45bde;
+    border-color: #c45bde;
+}
+.label-primary {
+    background-color: #c45bde;
+}
+.label-primary[href]:hover,
+.label-primary[href]:focus {
+    background-color: #b531d5;
+}
+a.list-group-item.active > .badge,
+.nav-pills > .active > a > .badge {
+    color: #c45bde;
+}
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+    border-color: #c45bde;
+}
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+    background-color: #c45bde;
+    border-color: #c45bde;
+}
+.list-group-item.active .list-group-item-text,
+.list-group-item.active:hover .list-group-item-text,
+.list-group-item.active:focus .list-group-item-text {
+    color: #ffffff;
+}
+.panel-primary {
+    border-color: #c45bde;
+}
+.panel-primary > .panel-heading {
+    background-color: #c45bde;
+    border-color: #c45bde;
+}
+.panel-primary > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #c45bde;
+}
+.panel-primary > .panel-heading .badge {
+    color: #c45bde;
+}
+.panel-primary > .panel-footer + .panel-collapse > .panel-body {
+    border-bottom-color: #c45bde;
+}
+a.button, input.button {
+    background-color: #c45bde;
+    border-color: #bc46da;
+}
+a.button:hover, input.button:hover {
+    background-color: #b531d5;
+    border-color: #9f26bc;
+}
+.pagination .links > *, .pagination_buttons > div .links > * {
+    color: #c45bde;
+}
+.pagination .links > *:hover,
+.pagination_buttons > div .links > *:hover,
+.pagination .links > *:focus,
+.pagination_buttons > div .links > *:focus {
+    color: #a628c5;
+}
+.pagination_buttons > div .links > b,
+.pagination .links > b,
+.pagination_buttons > div .links > b:hover,
+.pagination .links > b:hover,
+.pagination_buttons > div .links > b:focus,
+.pagination .links > b:focus {
+    background-color: #c45bde;
+    border-color: #c45bde;
+}
+.product-grid .product-block:hover, .product-grid .product-block .description {
+    border-color: #e9ccf0;
+}
+.product-grid .product-block.product-block-detailed:hover, .product-grid .product-block.product-block-detailed .description {
+    border-color: transparent;
+}
+#footer {
+    border-top: 3px solid #c45bde;
+    color: #777;
+}

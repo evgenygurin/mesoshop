@@ -9,13 +9,15 @@ class Translation extends \Opencart\System\Engine\Controller {
 	/**
 	 * Index
 	 *
+	 * Trigger
+	 *
 	 * @param string $route
 	 * @param string $prefix
 	 *
 	 * @return void
 	 */
 	public function index(string &$route, string &$prefix): void {
-		// Translation
+		// Translations
 		$this->load->model('design/translation');
 
 		$results = $this->model_design_translation->getTranslations($route);

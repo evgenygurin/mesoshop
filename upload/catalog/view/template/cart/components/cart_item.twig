@@ -1,0 +1,47 @@
+{# Cart Item Component - адаптация из astro-ecommerce/src/components/cart/productCartItem.tsx #}
+{# Элемент корзины покупок #}
+<div class="d-block d-md-flex mb-4 pb-4 border-bottom">
+  <img class="w-50 w-md-30 rounded-3" src="{{ thumb }}" alt="{{ name }}" />
+
+  <div class="w-100 w-md-50 ps-md-4">
+    <h6 class="text-lg mb-1">{{ name }}</h6>
+    <div class="d-flex">
+      {% if option %}
+        {% for opt in option %}
+          <p class="{% if not loop.first %}border-start ps-3{% else %}pe-3{% endif %} mb-0">
+            {{ opt.name }}: {{ opt.value }}
+          </p>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <div class="d-flex align-items-center mt-6">
+      {% if stock %}
+        <i class="fas fa-check text-lg text-success"></i>
+        <p class="mb-0 ms-2 text-sm">In Stock</p>
+      {% else %}
+        <i class="fas fa-minus-circle text-lg text-danger"></i>
+        <p class="mb-0 ms-2 text-sm">Out of Stock</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="w-20 w-md-10 mt-4 mt-md-0">
+    <input type="number"
+           name="quantity[{{ key }}]"
+           value="{{ quantity }}"
+           min="1"
+           class="form-control"
+           data-cart-update="{{ key }}" />
+  </div>
+
+  <h4 class="ms-3">{{ total }}</h4>
+
+  <div class="w-10 text-end">
+    <button type="button"
+            data-cart-remove="{{ key }}"
+            class="btn btn-link text-danger p-0">
+      <i class="fas fa-times ms-3"></i>
+    </button>
+  </div>
+</div>

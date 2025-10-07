@@ -1,0 +1,17 @@
+В разделе джаваскриптов добавить скрипт
+
+$('.radio').addClass('m-radio');
+$('.checkbox').addClass('m-checkbox');
+
+$('.radio label, .checkbox label').each(function() {
+  var $label = $(this);
+  var $input = $label.find('input');
+  $input.insertBefore($label);
+
+  if (!$input.attr('id')) {
+    $input.attr('id', $input.attr('name'));
+  }
+  
+  $label.attr('for', $input.attr('id'));
+});
+

@@ -18,8 +18,14 @@ class Currency extends \Opencart\System\Engine\Controller {
 
 		$data['action'] = $this->url->link('common/currency.save', 'language=' . $this->config->get('config_language'));
 
+		// Initialize currency if not set
+		if (!isset($this->session->data['currency'])) {
+			$this->session->data['currency'] = $this->config->get('config_currency');
+		}
+
 		$data['code'] = $this->session->data['currency'];
 
+		// Currencies
 		$data['currencies'] = [];
 
 		$this->load->model('localisation/currency');
@@ -34,9 +40,16 @@ class Currency extends \Opencart\System\Engine\Controller {
 
 		$code = $this->session->data['currency'];
 
-		$data['title'] = $data['currencies'][$code]['title'];
-		$data['symbol_left'] = $data['currencies'][$code]['symbol_left'];
-		$data['symbol_right'] = $data['currencies'][$code]['symbol_right'];
+		// Check if currency exists before accessing
+		if (isset($data['currencies'][$code])) {
+			$data['title'] = $data['currencies'][$code]['title'];
+			$data['symbol_left'] = $data['currencies'][$code]['symbol_left'];
+			$data['symbol_right'] = $data['currencies'][$code]['symbol_right'];
+		} else {
+			$data['title'] = '';
+			$data['symbol_left'] = '';
+			$data['symbol_right'] = '';
+		}
 
 		$url_data = $this->request->get;
 
@@ -77,6 +90,7 @@ class Currency extends \Opencart\System\Engine\Controller {
 
 		$post_info = $this->request->post + $required;
 
+		// Currency
 		$this->load->model('localisation/currency');
 
 		$currency_info = $this->model_localisation_currency->getCurrencyByCode($post_info['code']);
@@ -88,6 +102,7 @@ class Currency extends \Opencart\System\Engine\Controller {
 		if (!$json) {
 			$this->session->data['currency'] = $post_info['code'];
 
+			unset($this->session->data['order_id']);
 			unset($this->session->data['shipping_method']);
 			unset($this->session->data['shipping_methods']);
 

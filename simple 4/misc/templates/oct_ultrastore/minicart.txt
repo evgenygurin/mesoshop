@@ -1,0 +1,18 @@
+В админке модуля в разделе интеграции с темой укажите такой текст для миникорзины
+
+%s - %s
+
+В админке модуля разделе джаваскриптов пропишите скрипт
+
+if ($('#simplecheckout_cart_total').length) {
+  var total = $('#simplecheckout_cart_total').text();
+  var items = total.split(' - ');
+  $('#cart .header-cart-index, #oct-cart-quantity, #mobile_cart_index').text(items[0]);
+  $('#cart .us-cart-text').text(items[1]);
+}
+
+$('.simple-content .btn').removeClass('btn').removeClass('button').removeClass('btn-primary').addClass('us-module-btn').addClass('us-module-btn-green');
+
+После заливки файлов под тему очистите кэш твига и обновите кэш скриптов и стилей
+
+Если вдруг не работают скрипты, то в админке модуля в разделе интеграции с темой включите опцию "убрасть версию, используется сжатие"

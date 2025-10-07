@@ -1,49 +1,45 @@
 {% if categories %}
-  <nav class="navbar navbar-expand-lg bg-primary shadow-sm mb-4" data-bs-theme="dark">
-    <div class="container">
-      {# Category Label for Mobile #}
-      <span class="navbar-brand d-lg-none mb-0">{{ text_category }}</span>
-
-      {# Toggler Button #}
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      {# Navigation Menu #}
-      <div class="collapse navbar-collapse" id="navbarMenu">
-        <ul class="navbar-nav">
+  <div class="container">
+    <nav id="menu" class="navbar navbar-expand-lg bg-primary">
+      <div id="category" class="d-block d-sm-block d-lg-none">{{ text_category }}</div>
+      <button type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" class="navbar-toggler d-lg-none"><i class="fa-solid fa-bars"></i></button>
+      <div id="navbar-menu" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
           {% for category in categories %}
             {% if category.children %}
-              {# Dropdown Menu #}
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="{{ category.href }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  {{ category.name }}
-                </a>
-                <ul class="dropdown-menu">
-                  {% for child in category.children %}
+              {% set total = category.children|length %}
+              {% if total > 20 %}
+                {% set batch = (total / 4)|round(0, 'ceil') %}
+                {% set column = 4 %}
+              {% else %}
+                {% set batch = 5 %}
+                {% set column = (total / 5)|round(0, 'ceil') %}
+              {% endif %}
+              <li class="nav-item dropdown"><a href="{{ category.href }}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ category.name }}</a>
+                <div class="dropdown-menu dropdown-column-{{ column }}">
+                  <div class="dropdown-inner">
+                    {% for children in category.children|batch(batch) %}
+                      <ul class="list-unstyled">
+                        {% for child in children %}
+                          <li><a href="{{ child.href }}" class="dropdown-item">{{ child.name }}</a></li>
+                        {% endfor %}
+                      </ul>
+                    {% endfor %}
+                  </div>
+                  <ul class="list-unstyled">
                     <li>
-                      <a class="dropdown-item" href="{{ child.href }}">
-                        <i class="fa-solid fa-tag fa-xs me-2"></i>{{ child.name }}
-                      </a>
+                      <hr class="dropdown-divider">
                     </li>
-                  {% endfor %}
-                  <li><hr class="dropdown-divider"></li>
-                  <li>
-                    <a class="dropdown-item fw-bold" href="{{ category.href }}">
-                      <i class="fa-solid fa-arrow-right fa-xs me-2"></i>{{ text_all }} {{ category.name }}
-                    </a>
-                  </li>
-                </ul>
+                    <li><a href="{{ category.href }}" class="dropdown-item">{{ text_all }} {{ category.name }}</a></li>
+                  </ul>
+                </div>
               </li>
             {% else %}
-              {# Simple Link #}
-              <li class="nav-item">
-                <a class="nav-link" href="{{ category.href }}">{{ category.name }}</a>
-              </li>
+              <li class="nav-item"><a href="{{ category.href }}" class="dropdown-item">{{ category.name }}</a></li>
             {% endif %}
           {% endfor %}
         </ul>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </div>
 {% endif %}

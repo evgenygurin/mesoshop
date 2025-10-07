@@ -1,0 +1,197 @@
+{# Category Filters Component - адаптация из astro-ecommerce/src/components/products/categoryFilters.tsx #}
+
+<div class="card card-product card-plain">
+  <div class="d-flex border-bottom pb-3 align-items-center">
+    {% if heading_title %}
+      <h2 class="mb-0">{{ heading_title }}</h2>
+    {% endif %}
+    <div class="d-flex ms-auto align-items-center">
+      <div class="dropdown">
+        <button class="btn btn-link text-dark mb-0 dropdown-toggle" type="button" id="sortButton" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-arrow-down-up me-1"></i> Sort
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="sortButton">
+          <li><a class="dropdown-item" href="{{ sort_url }}&sort=p.sort_order&order=ASC">{{ text_default }}</a></li>
+          <li><a class="dropdown-item" href="{{ sort_url }}&sort=pd.name&order=ASC">{{ text_name_asc }}</a></li>
+          <li><a class="dropdown-item" href="{{ sort_url }}&sort=pd.name&order=DESC">{{ text_name_desc }}</a></li>
+          <li><a class="dropdown-item" href="{{ sort_url }}&sort=p.price&order=ASC">{{ text_price_asc }}</a></li>
+          <li><a class="dropdown-item" href="{{ sort_url }}&sort=p.price&order=DESC">{{ text_price_desc }}</a></li>
+          <li><a class="dropdown-item" href="{{ sort_url }}&sort=rating&order=DESC">{{ text_rating_desc }}</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    {# Left Sidebar - Filters #}
+    <div class="col-12 col-md-4 col-lg-3">
+      {# Categories List #}
+      {% if categories %}
+        <div class="mb-4">
+          <h5 class="font-weight-bold mb-3">{{ text_category }}</h5>
+          <ul class="list-unstyled ms-3">
+            {% for category in categories %}
+              <li class="mb-2">
+                <a href="{{ category.href }}" class="text-body">{{ category.name }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {# Filters Accordion #}
+      <div class="accordion" id="accordionFilters">
+
+        {# Manufacturers Filter #}
+        {% if filter_manufacturers %}
+          <div class="accordion-item">
+            <h5 class="accordion-header" id="headingManufacturer">
+              <button class="accordion-button border-bottom border-top font-weight-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseManufacturer" aria-expanded="false" aria-controls="collapseManufacturer">
+                {{ text_manufacturer }}
+                <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+                <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+              </button>
+            </h5>
+            <div id="collapseManufacturer" class="accordion-collapse collapse" aria-labelledby="headingManufacturer" data-bs-parent="#accordionFilters">
+              <div class="accordion-body text-sm opacity-8">
+                {% for manufacturer in filter_manufacturers %}
+                  <div class="form-check justify-content-start mb-2">
+                    <input class="form-check-input me-2" type="checkbox" value="{{ manufacturer.manufacturer_id }}" id="manufacturer{{ manufacturer.manufacturer_id }}" name="manufacturer_id[]" {% if manufacturer.checked %}checked{% endif %} />
+                    <label class="custom-control-label mb-0" for="manufacturer{{ manufacturer.manufacturer_id }}">{{ manufacturer.name }}</label>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+        {# Attribute Filters #}
+        {% if filter_groups %}
+          {% for filter_group in filter_groups %}
+            <div class="accordion-item">
+              <h5 class="accordion-header" id="heading{{ filter_group.filter_group_id }}">
+                <button class="accordion-button border-bottom font-weight-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ filter_group.filter_group_id }}" aria-expanded="false" aria-controls="collapse{{ filter_group.filter_group_id }}">
+                  {{ filter_group.name }}
+                  <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+                  <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+                </button>
+              </h5>
+              <div id="collapse{{ filter_group.filter_group_id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ filter_group.filter_group_id }}" data-bs-parent="#accordionFilters">
+                <div class="accordion-body text-sm opacity-8">
+                  {% for filter in filter_group.filter %}
+                    <div class="form-check justify-content-start mb-2">
+                      <input class="form-check-input me-2 filter-checkbox" type="checkbox" value="{{ filter.filter_id }}" id="filter{{ filter.filter_id }}" name="filter[]" {% if filter.checked %}checked{% endif %} />
+                      <label class="custom-control-label mb-0" for="filter{{ filter.filter_id }}">{{ filter.name }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        {# Price Range Filter #}
+        {% if filter_price %}
+          <div class="accordion-item">
+            <h5 class="accordion-header" id="headingPrice">
+              <button class="accordion-button border-bottom font-weight-bold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePrice" aria-expanded="false" aria-controls="collapsePrice">
+                {{ text_price }}
+                <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+                <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3" aria-hidden="true"></i>
+              </button>
+            </h5>
+            <div id="collapsePrice" class="accordion-collapse collapse" aria-labelledby="headingPrice" data-bs-parent="#accordionFilters">
+              <div class="accordion-body">
+                <div class="row g-2">
+                  <div class="col-6">
+                    <input type="text" name="price_min" id="price_min" class="form-control form-control-sm" placeholder="Min" value="{{ price_min }}" />
+                  </div>
+                  <div class="col-6">
+                    <input type="text" name="price_max" id="price_max" class="form-control form-control-sm" placeholder="Max" value="{{ price_max }}" />
+                  </div>
+                </div>
+                <button type="button" id="button-filter-price" class="btn btn-sm btn-dark w-100 mt-3">{{ button_filter }}</button>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      {# Active Filters #}
+      {% if active_filters %}
+        <div class="mt-4">
+          <h6 class="font-weight-bold mb-3">Active Filters</h6>
+          <div class="d-flex flex-wrap gap-2">
+            {% for filter in active_filters %}
+              <span class="badge bg-gradient-dark">
+                {{ filter.name }}
+                <a href="{{ filter.remove }}" class="text-white ms-2">&times;</a>
+              </span>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    {# Right Content - Products Grid #}
+    <div class="col-12 col-md-8 col-lg-9">
+      <div class="d-flex h-100">
+        <div class="row w-100">
+          {{ products_content }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+  // Auto-submit on filter change
+  $('.filter-checkbox, input[name="manufacturer_id[]"]').on('change', function() {
+    filter();
+  });
+
+  // Price range filter
+  $('#button-filter-price').on('click', function() {
+    filter();
+  });
+
+  function filter() {
+    var url = '{{ filter_action }}';
+
+    // Get selected filters
+    var filter = [];
+    $('input[name="filter[]"]:checked').each(function() {
+      filter.push(this.value);
+    });
+
+    if (filter.length > 0) {
+      url += '&filter=' + filter.join(',');
+    }
+
+    // Get selected manufacturers
+    var manufacturer = [];
+    $('input[name="manufacturer_id[]"]:checked').each(function() {
+      manufacturer.push(this.value);
+    });
+
+    if (manufacturer.length > 0) {
+      url += '&manufacturer_id=' + manufacturer.join(',');
+    }
+
+    // Get price range
+    var price_min = $('#price_min').val();
+    var price_max = $('#price_max').val();
+
+    if (price_min) {
+      url += '&price_min=' + price_min;
+    }
+
+    if (price_max) {
+      url += '&price_max=' + price_max;
+    }
+
+    location = url;
+  }
+});
+</script>

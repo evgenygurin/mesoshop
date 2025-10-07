@@ -1,0 +1,168 @@
+/* Granite */
+a {
+    color: #837e7c;
+}
+a:hover,
+a:focus {
+    color: #5c5857;
+}
+.text-primary {
+    color: #837e7c;
+}
+a.text-primary:hover {
+    color: #696563;
+}
+.bg-primary {
+    background-color: #837e7c;
+}
+a.bg-primary:hover {
+    background-color: #696563;
+}
+.btn-primary {
+    background-color: #837e7c;
+    border-color: #767170;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+    background-color: #696563;
+    border-color: #565352;
+}
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+    background-color: #837e7c;
+    border-color: #767170;
+}
+.btn-primary .badge {
+    color: #837e7c;
+}
+.btn-link {
+    color: #837e7c;
+}
+.btn-link:hover,
+.btn-link:focus {
+    color: #5c5857;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+    background-color: #837e7c;
+}
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+    border-color: #837e7c;
+}
+.pagination > li > a,
+.pagination > li > span {
+    color: #837e7c;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+    color: #5c5857;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background-color: #837e7c;
+    border-color: #837e7c;
+}
+.label-primary {
+    background-color: #837e7c;
+}
+.label-primary[href]:hover,
+.label-primary[href]:focus {
+    background-color: #696563;
+}
+a.list-group-item.active > .badge,
+.nav-pills > .active > a > .badge {
+    color: #837e7c;
+}
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+    border-color: #837e7c;
+}
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+    background-color: #837e7c;
+    border-color: #837e7c;
+}
+.list-group-item.active .list-group-item-text,
+.list-group-item.active:hover .list-group-item-text,
+.list-group-item.active:focus .list-group-item-text {
+    color: #ffffff;
+}
+.panel-primary {
+    border-color: #837e7c;
+}
+.panel-primary > .panel-heading {
+    background-color: #837e7c;
+    border-color: #837e7c;
+}
+.panel-primary > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #837e7c;
+}
+.panel-primary > .panel-heading .badge {
+    color: #837e7c;
+}
+.panel-primary > .panel-footer + .panel-collapse > .panel-body {
+    border-bottom-color: #837e7c;
+}
+a.button, input.button {
+    background-color: #837e7c;
+    border-color: #767170;
+}
+a.button:hover, input.button:hover {
+    background-color: #696563;
+    border-color: #565352;
+}
+.pagination .links > *, .pagination_buttons > div .links > * {
+    color: #837e7c;
+}
+.pagination .links > *:hover,
+.pagination_buttons > div .links > *:hover,
+.pagination .links > *:focus,
+.pagination_buttons > div .links > *:focus {
+    color: #5c5857;
+}
+.pagination_buttons > div .links > b,
+.pagination .links > b,
+.pagination_buttons > div .links > b:hover,
+.pagination .links > b:hover,
+.pagination_buttons > div .links > b:focus,
+.pagination .links > b:focus {
+    background-color: #837e7c;
+    border-color: #837e7c;
+}
+.product-grid .product-block:hover, .product-grid .product-block .description {
+    border-color: #b5b5b5;
+}
+.product-grid .product-block.product-block-detailed:hover, .product-grid .product-block.product-block-detailed .description {
+    border-color: transparent;
+}
+#footer {
+    border-top: 3px solid #837e7c;
+    color: #777;
+}

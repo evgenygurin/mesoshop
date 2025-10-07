@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>Moneymaker2 SEO Multilanguage</name>
+	<version>2.6.0</version>
+	<author>RGB</author>
+	<code>moneymaker2langmark</code>
+	<link>https://2.mnmkr.com</link>
+	<file path="catalog/controller/record/langmark.php">
+	<operation>
+		<search><![CDATA[$this->data['languages'] = array();]]></search>
+		<add position="after"><![CDATA[
+		/*mmr2*/
+		$this->data['moneymaker2_header_strip_language'] = $this->config->get('moneymaker2_header_strip_language');
+		$this->data['moneymaker2_header_strip_language'] = isset($this->data['moneymaker2_header_strip_language']) ? $this->data['moneymaker2_header_strip_language'] : 1;
+		if ($this->data['moneymaker2_header_strip_language']>1) {
+			switch ($this->data['moneymaker2_header_strip_language']) {
+			  case 2: $this->data['moneymaker2_header_strip_language_class'] = "hidden-lg hidden-md hidden-sm"; break;
+			  case 3: $this->data['moneymaker2_header_strip_language_class'] = "hidden-lg hidden-md hidden-sm visible-xlg"; break;
+			  case 4: $this->data['moneymaker2_header_strip_language_class'] = "hidden-md hidden-sm"; break;
+			  case 5: $this->data['moneymaker2_header_strip_language_class'] = "hidden-sm"; break;
+			  case 6: $this->data['moneymaker2_header_strip_language_class'] = ""; break;
+			}
+		}
+		/*mmr2*/
+		]]></add>
+	</operation>
+	</file>
+</modification>

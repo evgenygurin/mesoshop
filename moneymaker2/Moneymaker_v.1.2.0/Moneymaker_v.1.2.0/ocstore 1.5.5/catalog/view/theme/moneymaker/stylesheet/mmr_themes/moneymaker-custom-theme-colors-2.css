@@ -1,0 +1,168 @@
+/* Slate Gray */
+a {
+    color: #6088ab;
+}
+a:hover,
+a:focus {
+    color: #42617d;
+}
+.text-primary {
+    color: #6088ab;
+}
+a.text-primary:hover {
+    color: #4b6e8d;
+}
+.bg-primary {
+    background-color: #6088ab;
+}
+a.bg-primary:hover {
+    background-color: #4b6e8d;
+}
+.btn-primary {
+    background-color: #6088ab;
+    border-color: #537b9e;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+    background-color: #4b6e8d;
+    border-color: #3e5c76;
+}
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+    background-color: #6088ab;
+    border-color: #537b9e;
+}
+.btn-primary .badge {
+    color: #6088ab;
+}
+.btn-link {
+    color: #6088ab;
+}
+.btn-link:hover,
+.btn-link:focus {
+    color: #42617d;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+    background-color: #6088ab;
+}
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+    border-color: #6088ab;
+}
+.pagination > li > a,
+.pagination > li > span {
+    color: #6088ab;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+    color: #42617d;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background-color: #6088ab;
+    border-color: #6088ab;
+}
+.label-primary {
+    background-color: #6088ab;
+}
+.label-primary[href]:hover,
+.label-primary[href]:focus {
+    background-color: #4b6e8d;
+}
+a.list-group-item.active > .badge,
+.nav-pills > .active > a > .badge {
+    color: #6088ab;
+}
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+    border-color: #6088ab;
+}
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+    background-color: #6088ab;
+    border-color: #6088ab;
+}
+.list-group-item.active .list-group-item-text,
+.list-group-item.active:hover .list-group-item-text,
+.list-group-item.active:focus .list-group-item-text {
+    color: #ffffff;
+}
+.panel-primary {
+    border-color: #6088ab;
+}
+.panel-primary > .panel-heading {
+    background-color: #6088ab;
+    border-color: #6088ab;
+}
+.panel-primary > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #6088ab;
+}
+.panel-primary > .panel-heading .badge {
+    color: #6088ab;
+}
+.panel-primary > .panel-footer + .panel-collapse > .panel-body {
+    border-bottom-color: #6088ab;
+}
+a.button, input.button {
+    background-color: #6088ab;
+    border-color: #537b9e;
+}
+a.button:hover, input.button:hover {
+    background-color: #4b6e8d;
+    border-color: #3e5c76;
+}
+.pagination .links > *, .pagination_buttons > div .links > * {
+    color: #6088ab;
+}
+.pagination .links > *:hover,
+.pagination_buttons > div .links > *:hover,
+.pagination .links > *:focus,
+.pagination_buttons > div .links > *:focus {
+    color: #42617d;
+}
+.pagination_buttons > div .links > b,
+.pagination .links > b,
+.pagination_buttons > div .links > b:hover,
+.pagination .links > b:hover,
+.pagination_buttons > div .links > b:focus,
+.pagination .links > b:focus {
+    background-color: #6088ab;
+    border-color: #6088ab;
+}
+.product-grid .product-block:hover, .product-grid .product-block .description {
+    border-color: #a6b2bd;
+}
+.product-grid .product-block.product-block-detailed:hover, .product-grid .product-block.product-block-detailed .description {
+    border-color: transparent;
+}
+#footer {
+    border-top: 3px solid #6088ab;
+    color: #777;
+}

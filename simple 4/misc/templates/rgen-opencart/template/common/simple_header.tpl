@@ -1,0 +1,1 @@
+<?php include $this->rgen('layout_top'); ?>

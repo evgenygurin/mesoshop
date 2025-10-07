@@ -1,0 +1,401 @@
+@charset "UTF-8";
+/*!
+ * Astro Ecommerce - v1.1.0
+ * Based on Creative Tim's Astro Ecommerce Template
+ * Adapted for OpenCart 4.1.0.3
+ */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+
+/* Import Bootstrap 5.3 */
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
+
+/* Import Bootstrap Icons */
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
+
+/* ========================================
+   Root Variables
+======================================== */
+:root {
+  --primary-color: #e91e63;
+  --secondary-color: #7b1fa2;
+  --dark-color: #344767;
+  --light-color: #f8f9fa;
+  --font-family-base: 'Open Sans', sans-serif;
+}
+
+/* ========================================
+   Base Styles
+======================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--dark-color);
+  background-color: #fff;
+}
+
+/* ========================================
+   Navbar - Exact Astro Ecommerce Style
+======================================== */
+.navbar {
+  backdrop-filter: saturate(200%) blur(30px);
+  background-color: hsla(0, 0%, 100%, 0.8) !important;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.16);
+  border-radius: 0.5rem;
+  position: sticky;
+  top: 0.5rem;
+  z-index: 1030;
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+  margin: 0.5rem auto;
+  max-width: 98%;
+}
+
+.navbar-brand {
+  font-weight: 700 !important;
+  color: var(--dark-color) !important;
+  font-size: 1.25rem !important;
+}
+
+.nav-link {
+  font-weight: 600 !important;
+  color: var(--dark-color) !important;
+  transition: all 0.15s ease-in;
+}
+
+.nav-link:hover {
+  color: var(--primary-color) !important;
+}
+
+/* ========================================
+   Product Cards - Exact Astro Style
+======================================== */
+.card-product {
+  border: 1px solid #dee2e6 !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.card-product:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.12);
+}
+
+.card-product .height-350 {
+  height: 350px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+}
+
+.card-product .height-350 img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 1.5rem;
+  border-radius: 1rem 1rem 0 0;
+  transition: transform 0.3s ease;
+}
+
+.card-product:hover .height-350 img {
+  transform: scale(1.05);
+}
+
+.card-product .card-body {
+  padding: 1.5rem;
+}
+
+.card-product .card-body h4 {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--dark-color);
+  margin-bottom: 0.75rem;
+}
+
+.card-product .card-body .text-body {
+  color: #67748e;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.card-product .card-body .text-lg {
+  font-size: 1.5rem !important;
+  font-weight: 700;
+  color: var(--dark-color);
+}
+
+/* Price styling */
+.product-thumb .price {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: var(--dark-color) !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.product-thumb .price-old {
+  font-size: 1rem;
+  color: #999;
+  text-decoration: line-through;
+  margin-left: 0.5rem;
+}
+
+.product-thumb .price-new {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+/* ========================================
+   OpenCart Product Thumbnails Adaptation
+======================================== */
+.product-thumb {
+  background: #fff;
+  border: 1px solid #dee2e6 !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.3s ease-in-out !important;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.product-thumb:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.12) !important;
+}
+
+.product-thumb .image {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem 1rem 0 0;
+  height: 350px;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-thumb .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.product-thumb:hover .image img {
+  transform: scale(1.05);
+}
+
+.product-thumb .caption {
+  padding: 1.5rem;
+}
+
+.product-thumb .caption h4 {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--dark-color);
+  margin-bottom: 0.75rem;
+  min-height: auto;
+}
+
+.product-thumb .caption h4 a {
+  color: var(--dark-color);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.product-thumb .caption h4 a:hover {
+  color: var(--primary-color);
+}
+
+.product-thumb .caption p {
+  font-size: 0.875rem;
+  color: #67748e;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* ========================================
+   Buttons - Astro Gradient Style
+======================================== */
+.btn-primary,
+.product-thumb button,
+.product-thumb .btn-primary,
+.product-thumb .button-group button {
+  background: linear-gradient(195deg, var(--primary-color), var(--secondary-color)) !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 600 !important;
+  color: #fff !important;
+  transition: all 0.15s ease-in !important;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.09), 0 2px 3px -1px rgba(0, 0, 0, 0.07) !important;
+}
+
+.btn-primary:hover,
+.product-thumb button:hover,
+.product-thumb .btn-primary:hover {
+  transform: scale(1.02) !important;
+  box-shadow: 0 5px 10px -3px rgba(0, 0, 0, 0.15), 0 3px 6px -2px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ========================================
+   Footer - Simple Astro Style
+======================================== */
+footer {
+  background-color: var(--light-color);
+  padding: 2rem 0;
+  margin-top: 4rem;
+}
+
+footer .copyright {
+  font-size: 0.875rem;
+  color: #67748e;
+  text-align: center;
+}
+
+footer .copyright a {
+  color: var(--dark-color);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+footer .copyright a:hover {
+  color: var(--primary-color);
+}
+
+footer .nav-footer {
+  padding-left: 0;
+  list-style: none;
+}
+
+footer .nav-footer .nav-item {
+  display: inline-block;
+}
+
+footer .nav-footer .nav-link {
+  font-size: 0.875rem;
+  color: #67748e !important;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+footer .nav-footer .nav-link:hover {
+  color: var(--dark-color) !important;
+}
+
+/* ========================================
+   Utilities
+======================================== */
+.border-radius-sm {
+  border-radius: 0.5rem;
+}
+
+.border-radius-lg {
+  border-radius: 1rem;
+}
+
+.shadow-xs {
+  box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05);
+}
+
+.font-weight-bold {
+  font-weight: 700 !important;
+}
+
+.font-weight-bolder {
+  font-weight: 900 !important;
+}
+
+.text-dark {
+  color: var(--dark-color) !important;
+}
+
+/* ========================================
+   Container & Layout
+======================================== */
+.container {
+  max-width: 1320px;
+}
+
+.mt-5 {
+  margin-top: 3rem !important;
+}
+
+.my-10 {
+  margin-top: 6rem !important;
+  margin-bottom: 6rem !important;
+}
+
+/* ========================================
+   Responsive
+======================================== */
+@media (max-width: 768px) {
+  .navbar {
+    max-width: 95%;
+  }
+
+  .card-product .height-350,
+  .product-thumb .image {
+    height: 250px;
+  }
+}
+
+/* ========================================
+   Homepage Slider
+======================================== */
+#carousel-banner-0,
+.swiper-viewport {
+  border-radius: 1rem !important;
+  overflow: hidden !important;
+  box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05) !important;
+  margin: 2rem 0 !important;
+}
+
+/* ========================================
+   Search Bar
+======================================== */
+#search input {
+  border-radius: 0.5rem !important;
+  padding: 0.75rem 1rem !important;
+  border: 1px solid #d2d6da !important;
+  transition: all 0.15s ease !important;
+}
+
+#search input:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.25) !important;
+  outline: none !important;
+}
+
+#search button {
+  background: linear-gradient(195deg, var(--primary-color), var(--secondary-color)) !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+  padding: 0.75rem 1.5rem !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  transition: all 0.15s ease !important;
+}
+
+#search button:hover {
+  transform: scale(1.02) !important;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15) !important;
+}

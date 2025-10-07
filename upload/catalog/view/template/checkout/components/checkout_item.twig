@@ -1,0 +1,27 @@
+{# Checkout Single Item Component - адаптация из astro-ecommerce/src/components/checkout/checkoutSingleItem.tsx #}
+{# Элемент товара в чекауте #}
+<div class="d-flex mb-4 pb-3 border-bottom">
+  <div class="position-relative">
+    <img class="rounded-3" style="width: 80px; height: 80px; object-fit: cover;" src="{{ thumb }}" alt="{{ name }}" />
+    {% if quantity > 1 %}
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
+        {{ quantity }}
+      </span>
+    {% endif %}
+  </div>
+
+  <div class="ms-3 flex-grow-1">
+    <h6 class="mb-1 text-white">{{ name }}</h6>
+    {% if option %}
+      <small class="text-white opacity-7">
+        {% for opt in option %}
+          {{ opt.name }}: {{ opt.value }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+      </small>
+    {% endif %}
+  </div>
+
+  <div class="ms-auto">
+    <span class="h6 text-white">{{ total }}</span>
+  </div>
+</div>

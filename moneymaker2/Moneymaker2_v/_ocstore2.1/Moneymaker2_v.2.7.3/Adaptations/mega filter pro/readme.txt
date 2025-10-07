@@ -1,0 +1,1 @@
+Возможная проблема с фильтром и ее решение описано в сообщении в теме поддержки шаблона https://opencartforum.com/topic/57690-prodayuschiy-shablon-moneymaker-2/?do=findComment&comment=939638

@@ -1,0 +1,168 @@
+/* Sandy Brown */
+a {
+    color: #f0ad4e;
+}
+a:hover,
+a:focus {
+    color: #df8a13;
+}
+.text-primary {
+    color: #f0ad4e;
+}
+a.text-primary:hover {
+    color: #ec971f;
+}
+.bg-primary {
+    background-color: #f0ad4e;
+}
+a.bg-primary:hover {
+    background-color: #ec971f;
+}
+.btn-primary {
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+    background-color: #ec971f;
+    border-color: #d58512;
+}
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+.btn-primary .badge {
+    color: #f0ad4e;
+}
+.btn-link {
+    color: #f0ad4e;
+}
+.btn-link:hover,
+.btn-link:focus {
+    color: #df8a13;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+    background-color: #f0ad4e;
+}
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+    border-color: #f0ad4e;
+}
+.pagination > li > a,
+.pagination > li > span {
+    color: #f0ad4e;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+    color: #df8a13;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background-color: #f0ad4e;
+    border-color: #f0ad4e;
+}
+.label-primary {
+    background-color: #f0ad4e;
+}
+.label-primary[href]:hover,
+.label-primary[href]:focus {
+    background-color: #ec971f;
+}
+a.list-group-item.active > .badge,
+.nav-pills > .active > a > .badge {
+    color: #f0ad4e;
+}
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+    border-color: #f0ad4e;
+}
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+    background-color: #f0ad4e;
+    border-color: #f0ad4e;
+}
+.list-group-item.active .list-group-item-text,
+.list-group-item.active:hover .list-group-item-text,
+.list-group-item.active:focus .list-group-item-text {
+    color: #ffffff;
+}
+.panel-primary {
+    border-color: #f0ad4e;
+}
+.panel-primary > .panel-heading {
+    background-color: #f0ad4e;
+    border-color: #f0ad4e;
+}
+.panel-primary > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #f0ad4e;
+}
+.panel-primary > .panel-heading .badge {
+    color: #f0ad4e;
+}
+.panel-primary > .panel-footer + .panel-collapse > .panel-body {
+    border-bottom-color: #f0ad4e;
+}
+a.button, input.button {
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+a.button:hover, input.button:hover {
+    background-color: #ec971f;
+    border-color: #d58512;
+}
+.pagination .links > *, .pagination_buttons > div .links > * {
+    color: #f0ad4e;
+}
+.pagination .links > *:hover,
+.pagination_buttons > div .links > *:hover,
+.pagination .links > *:focus,
+.pagination_buttons > div .links > *:focus {
+    color: #df8a13;
+}
+.pagination_buttons > div .links > b,
+.pagination .links > b,
+.pagination_buttons > div .links > b:hover,
+.pagination .links > b:hover,
+.pagination_buttons > div .links > b:focus,
+.pagination .links > b:focus {
+    background-color: #f0ad4e;
+    border-color: #f0ad4e;
+}
+.product-grid .product-block:hover, .product-grid .product-block .description {
+    border-color: #f0dabb;
+}
+.product-grid .product-block.product-block-detailed:hover, .product-grid .product-block.product-block-detailed .description {
+    border-color: transparent;
+}
+#footer {
+    border-top: 3px solid #f0ad4e;
+    color: #777;
+}

@@ -1,160 +1,90 @@
 {{ header }}
-<div id="product-info" class="container my-4">
-  {# Breadcrumb Navigation #}
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb px-3 py-2 rounded shadow-sm">
-      {% for breadcrumb in breadcrumbs %}
-        <li class="breadcrumb-item{% if loop.last %} active{% endif %}">
-          {% if not loop.last %}
-            <a href="{{ breadcrumb.href }}" class="text-decoration-none">{{ breadcrumb.text }}</a>
-          {% else %}
-            {{ breadcrumb.text }}
-          {% endif %}
-        </li>
-      {% endfor %}
-    </ol>
-  </nav>
+<div id="product-info" class="container py-5">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
 
-  <div class="row">
-    {{ column_left }}
+  <div class="row">{{ column_left }}
     <div id="content" class="col">
       {{ content_top }}
 
-      {# Product Main Section #}
-      <div class="row g-4 mb-4">
-        {% if thumb or images %}
-          <div class="col-md-5">
-            <div class="card border-0 shadow-sm p-4">
-              <div class="magnific-popup">
-                {% if thumb %}
-                  <a href="{{ popup }}" title="{{ heading_title }}" class="d-block text-center mb-3">
-                    <img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-fluid rounded" style="max-height: 400px; object-fit: contain;"/>
-                  </a>
-                {% endif %}
-                {% if images %}
-                  <div class="d-flex gap-2 flex-wrap justify-content-center">
-                    {% for image in images %}
-                      <a href="{{ image.popup }}" title="{{ heading_title }}" class="thumbnail-link">
-                        <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-thumbnail shadow-sm" style="width: 80px; height: 80px; object-fit: cover;"/>
-                      </a>
-                    {% endfor %}
-                  </div>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-        {% endif %}
+      <div class="row mb-5">
+        {# Product Gallery - использует компонент product_gallery.twig #}
+        {% include 'product/components/product_gallery.twig' with {
+          'thumb': thumb,
+          'popup': popup,
+          'images': images,
+          'heading_title': heading_title
+        } %}
 
-        <div class="col-md-7">
-          {# Product Title #}
-          <h1 class="mb-3">{{ heading_title }}</h1>
+        <div class="col-12 col-lg-6">
+          <h1 class="h2 font-weight-bold mb-3">{{ heading_title }}</h1>
 
-          {# Product Meta Information #}
-          <ul class="list-unstyled mb-3">
+          {# Product Rating #}
+          {% if review_status and rating %}
+            {% include 'product/components/product_rating.twig' with {
+              'rating': rating,
+              'reviews': reviews
+            } %}
+          {% endif %}
+
+          {# Product Details #}
+          <ul class="list-unstyled my-4">
             {% if manufacturer %}
-              <li class="mb-2">
-                <span class="text-body-secondary">{{ text_manufacturer }}</span>
-                <a href="{{ manufacturers }}" class="text-decoration-none fw-semibold">{{ manufacturer }}</a>
-              </li>
+              <li class="mb-2"><strong>{{ text_manufacturer }}:</strong> <a href="{{ manufacturers }}">{{ manufacturer }}</a></li>
             {% endif %}
-            <li class="mb-2">
-              <span class="text-body-secondary">{{ text_model }}</span>
-              <span class="fw-semibold">{{ model }}</span>
-            </li>
+            <li class="mb-2"><strong>{{ text_model }}:</strong> {{ model }}</li>
             {% for product_code in product_codes %}
-              <li class="mb-2">
-                <span class="text-body-secondary">{{ product_code.code }}:</span>
-                <span class="fw-semibold">{{ product_code.value }}</span>
-              </li>
+              <li class="mb-2"><strong>{{ product_code.code }}:</strong> {{ product_code.value }}</li>
             {% endfor %}
             {% if reward %}
-              <li class="mb-2">
-                <span class="badge bg-warning">
-                  <i class="fa-solid fa-gift"></i> {{ text_reward }} {{ reward }}
-                </span>
-              </li>
+              <li class="mb-2"><strong>{{ text_reward }}:</strong> {{ reward }}</li>
             {% endif %}
             <li class="mb-2">
-              <span class="text-body-secondary">{{ text_stock }}</span>
-              <span class="badge bg-success">{{ stock }}</span>
+              <strong>{{ text_stock }}:</strong>
+              <span class="badge bg-{% if stock %}success{% else %}danger{% endif %}">
+                {{ stock_status }}
+              </span>
             </li>
           </ul>
 
-          {# Rating #}
-          {% if review_status %}
-            <div class="mb-3">
-              <div class="d-flex align-items-center gap-2">
-                <div class="text-warning">
-                  {% for i in 1..5 %}
-                    {% if rating < i %}
-                      <i class="fa-regular fa-star"></i>
-                    {% else %}
-                      <i class="fa-solid fa-star"></i>
-                    {% endif %}
-                  {% endfor %}
-                </div>
-                <a href="#tab-review" data-bs-toggle="tab" class="text-decoration-none">{{ text_reviews }}</a>
-                <span class="text-body-secondary">|</span>
-                <a href="#tab-review" data-bs-toggle="tab" class="text-decoration-none">{{ text_write }}</a>
-              </div>
-            </div>
-          {% endif %}
-
-          {# Price Section #}
+          {# Price #}
           {% if price %}
-            <div class="card border-0 shadow-sm mb-4">
-              <div class="card-body">
-                {% if not special %}
-                  <h2 class="text-primary mb-0">{{ price }}</h2>
-                {% else %}
-                  <div class="d-flex align-items-center gap-3 mb-2">
-                    <h2 class="text-success mb-0">{{ special }}</h2>
-                    <span class="badge bg-danger fs-6">Sale</span>
-                  </div>
-                  <p class="text-body-secondary text-decoration-line-through mb-0">{{ price }}</p>
-                {% endif %}
-                {% if tax %}
-                  <small class="text-body-secondary d-block mt-2">{{ text_tax }} {{ tax }}</small>
-                {% endif %}
-                {% if points %}
-                  <small class="text-body-secondary d-block">{{ text_points }} {{ points }}</small>
-                {% endif %}
-                {% if discounts %}
-                  <hr class="my-3">
-                  <h6 class="mb-2">Bulk Discounts:</h6>
-                  <ul class="list-unstyled mb-0">
-                    {% for discount in discounts %}
-                      <li class="small">{{ discount.quantity }}{{ text_discount }}{{ discount.price }}</li>
-                    {% endfor %}
-                  </ul>
-                {% endif %}
-              </div>
+            <div class="mb-4">
+              {% if not special %}
+                <h2 class="h3 mb-0">
+                  <span class="price-new"><x-currency code="{{ currency }}" amount="{{ price }}"></x-currency></span>
+                </h2>
+              {% else %}
+                <h2 class="h3 mb-0">
+                  <span class="price-old text-muted text-decoration-line-through me-3"><x-currency code="{{ currency }}" amount="{{ price }}"></x-currency></span>
+                  <span class="price-new text-danger"><x-currency code="{{ currency }}" amount="{{ special }}"></x-currency></span>
+                </h2>
+              {% endif %}
+              {% if tax %}
+                <p class="text-muted mb-0">{{ text_tax }} <x-currency code="{{ currency }}" amount="{{ tax }}"></x-currency></p>
+              {% endif %}
+              {% if points %}
+                <p class="text-muted mb-0">{{ text_points }} {{ points }}</p>
+              {% endif %}
+              {% if discounts %}
+                <hr class="my-3"/>
+                <h6>{{ text_discount }}</h6>
+                {% for discount in discounts %}
+                  <p class="mb-1 text-sm">{{ discount.quantity }}{{ text_discount }} <x-currency code="{{ currency }}" amount="{{ discount.price }}"></x-currency></p>
+                {% endfor %}
+              {% endif %}
             </div>
           {% endif %}
 
-          {# Wishlist & Compare Buttons #}
-          <form method="post" data-oc-toggle="ajax" class="mb-3">
-            <div class="btn-group shadow-sm" role="group">
-              <button type="submit" formaction="{{ wishlist_add }}" data-bs-toggle="tooltip" class="btn btn-outline-danger" title="{{ button_wishlist }}">
-                <i class="fa-solid fa-heart"></i>
-                <span class="d-none d-lg-inline ms-2">Wishlist</span>
-              </button>
-              <button type="submit" formaction="{{ compare_add }}" data-bs-toggle="tooltip" class="btn btn-outline-secondary" title="{{ button_compare }}">
-                <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                <span class="d-none d-lg-inline ms-2">Compare</span>
-              </button>
-            </div>
-            <input type="hidden" name="product_id" value="{{ product_id }}"/>
-          </form>
-          {# Product Options & Add to Cart Form #}
           <div id="product">
-            <form id="form-product" class="card shadow-sm border-0">
-              <div class="card-body">
-                {% if options %}
-                  <h5 class="card-title border-bottom pb-2 mb-3">{{ text_option }}</h5>
-                  <div>
+            <form id="form-product" class="mb-4">
+              {% if options %}
+                <div class="mb-4">
+                  <h5 class="mb-3">{{ text_option }}</h5>
                   {% for option in options %}
-
                     {% if option.type == 'select' %}
                       <div class="mb-3{% if option.required %} required{% endif %}">
                         <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
@@ -163,11 +93,11 @@
                           {% for option_value in option.product_option_value %}
                             <option value="{{ option_value.product_option_value_id }}">{{ option_value.name }}
                               {% if option_value.price %}
-                                ({{ option_value.price_prefix }}{{ option_value.price }})
-                              {% endif %}</option>
+                                ({{ option_value.price_prefix }}<x-currency code="{{ currency }}" amount="{{ option_value.price }}"></x-currency>)
+                              {% endif %}
+                            </option>
                           {% endfor %}
                         </select>
-                        <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
                       </div>
                     {% endif %}
 
@@ -179,16 +109,14 @@
                             <div class="form-check">
                               <input type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}" id="input-option-value-{{ option_value.product_option_value_id }}" class="form-check-input"/>
                               <label for="input-option-value-{{ option_value.product_option_value_id }}" class="form-check-label">
-                                {% if option_value.image %}
-                                  <img src="{{ option_value.image }}" alt="{{ option_value.name }} {% if option_value.price %}{{ option_value.price_prefix }} {{ option_value.price }}{% endif %}" class="img-thumbnail"/>{% endif %}
                                 {{ option_value.name }}
                                 {% if option_value.price %}
-                                  ({{ option_value.price_prefix }}{{ option_value.price }})
-                                {% endif %}</label>
+                                  ({{ option_value.price_prefix }}<x-currency code="{{ currency }}" amount="{{ option_value.price }}"></x-currency>)
+                                {% endif %}
+                              </label>
                             </div>
                           {% endfor %}
                         </div>
-                        <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
                       </div>
                     {% endif %}
 
@@ -198,43 +126,40 @@
                         <div id="input-option-{{ option.product_option_id }}">
                           {% for option_value in option.product_option_value %}
                             <div class="form-check">
-                              <input type="checkbox" name="option[{{ option.product_option_id }}][]" value="{{ option_value.product_option_value_id }}" id="input-option-value-{{ option_value.product_option_value_id }}" class="form-check-input"/> 
-							                <label for="input-option-value-{{ option_value.product_option_value_id }}" class="form-check-label">
-                                {% if option_value.image %}
-                                  <img src="{{ option_value.image }}" alt="{{ option_value.name }} {% if option_value.price %}{{ option_value.price_prefix }} {{ option_value.price }}{% endif %}" class="img-thumbnail"/>{% endif %}
+                              <input type="checkbox" name="option[{{ option.product_option_id }}][]" value="{{ option_value.product_option_value_id }}" id="input-option-value-{{ option_value.product_option_value_id }}" class="form-check-input"/>
+                              <label for="input-option-value-{{ option_value.product_option_value_id }}" class="form-check-label">
                                 {{ option_value.name }}
                                 {% if option_value.price %}
-                                  ({{ option_value.price_prefix }}{{ option_value.price }})
-                                {% endif %}</label>
+                                  ({{ option_value.price_prefix }}<x-currency code="{{ currency }}" amount="{{ option_value.price }}"></x-currency>)
+                                {% endif %}
+                              </label>
                             </div>
                           {% endfor %}
                         </div>
-                        <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
                       </div>
                     {% endif %}
 
                     {% if option.type == 'text' %}
                       <div class="mb-3{% if option.required %} required{% endif %}">
-                        <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label> <input type="text" name="option[{{ option.product_option_id }}]" value="{{ option.value }}" placeholder="{{ option.name }}" id="input-option-{{ option.product_option_id }}" class="form-control"/>
-                        <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
+                        <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
+                        <input type="text" name="option[{{ option.product_option_id }}]" value="{{ option.value }}" placeholder="{{ option.name }}" id="input-option-{{ option.product_option_id }}" class="form-control"/>
                       </div>
                     {% endif %}
 
                     {% if option.type == 'textarea' %}
                       <div class="mb-3{% if option.required %} required{% endif %}">
-                        <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label> <textarea name="option[{{ option.product_option_id }}]" rows="5" placeholder="{{ option.name }}" id="input-option-{{ option.product_option_id }}" class="form-control">{{ option.value }}</textarea>
-                        <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
+                        <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
+                        <textarea name="option[{{ option.product_option_id }}]" rows="5" placeholder="{{ option.name }}" id="input-option-{{ option.product_option_id }}" class="form-control">{{ option.value }}</textarea>
                       </div>
                     {% endif %}
 
                     {% if option.type == 'file' %}
                       <div class="mb-3{% if option.required %} required{% endif %}">
-                        <label for="button-upload-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
+                        <label class="form-label">{{ option.name }}</label>
                         <div>
-                          <button type="button" id="button-upload-{{ option.product_option_id }}" data-oc-toggle="upload" data-oc-url="{{ upload }}" data-oc-target="#input-option-{{ option.product_option_id }}" data-oc-size-max="{{ config_file_max_size }}" data-oc-size-error="{{ error_upload_size }}" class="btn btn-outline-secondary w-100"><i class="fa-solid fa-upload"></i> {{ button_upload }}</button>
+                          <button type="button" id="button-upload-{{ option.product_option_id }}" data-oc-toggle="upload" data-oc-url="{{ upload }}" data-oc-target="#input-option-{{ option.product_option_id }}" data-oc-size-max="{{ config_file_max_size }}" data-oc-size-error="{{ error_upload_size }}" class="btn btn-light btn-sm"><i class="fa-solid fa-upload"></i> {{ button_upload }}</button>
                           <input type="hidden" name="option[{{ option.product_option_id }}]" value="" id="input-option-{{ option.product_option_id }}"/>
                         </div>
-                        <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
                       </div>
                     {% endif %}
 
@@ -242,15 +167,6 @@
                       <div class="mb-3{% if option.required %} required{% endif %}">
                         <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
                         <input type="date" name="option[{{ option.product_option_id }}]" value="{{ option.value }}" id="input-option-{{ option.product_option_id }}" class="form-control"/>
-                        <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
-                      </div>
-                    {% endif %}
-
-                    {% if option.type == 'time' %}
-                      <div class="mb-3{% if option.required %} required{% endif %}">
-                        <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
-                        <input type="time" name="option[{{ option.product_option_id }}]" value="{{ option.value }}" id="input-option-{{ option.product_option_id }}" class="form-control"/>
-                        <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
                       </div>
                     {% endif %}
 
@@ -258,196 +174,133 @@
                       <div class="mb-3{% if option.required %} required{% endif %}">
                         <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
                         <input type="datetime-local" name="option[{{ option.product_option_id }}]" value="{{ option.value }}" id="input-option-{{ option.product_option_id }}" class="form-control"/>
-                        <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
+                      </div>
+                    {% endif %}
+
+                    {% if option.type == 'time' %}
+                      <div class="mb-3{% if option.required %} required{% endif %}">
+                        <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
+                        <input type="time" name="option[{{ option.product_option_id }}]" value="{{ option.value }}" id="input-option-{{ option.product_option_id }}" class="form-control"/>
                       </div>
                     {% endif %}
                   {% endfor %}
                 </div>
               {% endif %}
 
-              {% if subscription_plans %}
-                  <h5 class="card-title border-bottom pb-2 mb-3 mt-4">{{ text_subscription }}</h5>
-                  <div class="mb-3 required">
-                    <select name="subscription_plan_id" id="input-subscription" class="form-select form-select-lg shadow-sm">
-                      <option value="">{{ text_select }}</option>
-                      {% for subscription_plan in subscription_plans %}
-                        <option value="{{ subscription_plan.subscription_plan_id }}">{{ subscription_plan.name }}</option>
-                      {% endfor %}
-                    </select>
-                    {% for subscription_plan in subscription_plans %}
-                      <div id="subscription-description-{{ subscription_plan.subscription_plan_id }}" class="form-text subscription d-none">{{ subscription_plan.description }}</div>
-                    {% endfor %}
-                    <div id="error-subscription" class="invalid-feedback"></div>
-                  </div>
-              {% endif %}
-
-              {# Quantity & Add to Cart #}
-              <div class="mb-3">
-                <div class="input-group input-group-lg shadow-sm">
-                  <span class="input-group-text">{{ entry_qty }}</span>
-                  <input type="text" name="quantity" value="{{ minimum }}" size="2" id="input-quantity" class="form-control text-center" style="max-width: 100px;"/>
-                  <button type="submit" id="button-cart" class="btn btn-primary flex-grow-1">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="ms-2">{{ button_cart }}</span>
+              {# Quantity #}
+              <div class="mb-4">
+                <label for="input-quantity" class="form-label">{{ entry_qty }}</label>
+                <div class="input-group" style="max-width: 200px;">
+                  <button type="button" class="btn btn-outline-secondary" onclick="$('#input-quantity').val(Math.max(parseInt($('#input-quantity').val()) - 1, 1));">
+                    <i class="bi bi-dash"></i>
+                  </button>
+                  <input type="text" name="quantity" value="{{ minimum }}" size="2" id="input-quantity" class="form-control text-center"/>
+                  <button type="button" class="btn btn-outline-secondary" onclick="$('#input-quantity').val(parseInt($('#input-quantity').val()) + 1);">
+                    <i class="bi bi-plus"></i>
                   </button>
                 </div>
-                <input type="hidden" name="product_id" value="{{ product_id }}" id="input-product-id"/>
-                <div id="error-quantity" class="form-text"></div>
+                <input type="hidden" name="product_id" value="{{ product_id }}"/>
               </div>
 
-              {% if minimum > 1 %}
-                <div class="alert alert-warning border-0 shadow-sm">
-                  <i class="fa-solid fa-circle-info me-2"></i>{{ text_minimum }}
-                </div>
-              {% endif %}
+              {# Add to Cart Button #}
+              <div class="d-flex gap-2 mb-4">
+                <button type="submit" id="button-cart" class="btn btn-primary btn-lg">
+                  <i class="bi bi-cart-plus"></i> {{ button_cart }}
+                </button>
+                <button type="button" class="btn btn-light btn-lg" onclick="wishlist.add('{{ product_id }}');" title="{{ button_wishlist }}">
+                  <i class="bi bi-heart"></i>
+                </button>
+                <button type="button" class="btn btn-light btn-lg" onclick="compare.add('{{ product_id }}');" title="{{ button_compare }}">
+                  <i class="bi bi-arrow-left-right"></i>
+                </button>
               </div>
             </form>
           </div>
-        </div>
-      </div>
-      {# Product Information Tabs #}
-      <div class="card border-0 shadow-sm mt-4">
-        <div class="card-header">
-          <ul class="nav nav-tabs card-header-tabs">
-            <li class="nav-item">
-              <a href="#tab-description" data-bs-toggle="tab" class="nav-link active">
-                <i class="fa-solid fa-file-lines me-2"></i>{{ tab_description }}
-              </a>
-            </li>
-            {% if attribute_groups %}
-              <li class="nav-item">
-                <a href="#tab-specification" data-bs-toggle="tab" class="nav-link">
-                  <i class="fa-solid fa-list-check me-2"></i>{{ tab_attribute }}
-                </a>
-              </li>
-            {% endif %}
-            {% if review_status %}
-              <li class="nav-item">
-                <a href="#tab-review" data-bs-toggle="tab" class="nav-link">
-                  <i class="fa-solid fa-star me-2"></i>{{ tab_review }}
-                </a>
-              </li>
-            {% endif %}
-          </ul>
-        </div>
-        <div class="card-body">
-          <div class="tab-content">
-            {# Description Tab #}
-            <div id="tab-description" class="tab-pane fade show active">
-              {{ description }}
-              {% if tags %}
-                <div class="mt-4">
-                  <h6 class="mb-2">{{ text_tags }}</h6>
-                  <div class="d-flex gap-2 flex-wrap">
-                    {% for tag in tags %}
-                      <a href="{{ tag.href }}" class="badge bg-secondary text-decoration-none">
-                        <i class="fa-solid fa-tag fa-xs"></i> {{ tag.tag }}
-                      </a>
-                    {% endfor %}
+
+          {# Subscription Plans #}
+          {% if subscription %}
+            <hr class="my-4"/>
+            <h5 class="mb-3">{{ text_subscription }}</h5>
+            <div id="subscription">
+              {% if subscription_plans %}
+                {% for subscription_plan in subscription_plans %}
+                  <div class="form-check">
+                    <input type="radio" name="subscription_plan_id" value="{{ subscription_plan.subscription_plan_id }}" id="subscription-{{ subscription_plan.subscription_plan_id }}" class="form-check-input"/>
+                    <label for="subscription-{{ subscription_plan.subscription_plan_id }}" class="form-check-label">{{ subscription_plan.name }}</label>
                   </div>
-                </div>
+                {% endfor %}
               {% endif %}
             </div>
-
-            {# Specifications Tab #}
-            {% if attribute_groups %}
-              <div id="tab-specification" class="tab-pane fade">
-                <div class="table-responsive">
-                  <table class="table table-hover table-striped">
-                    {% for attribute_group in attribute_groups %}
-                      <thead>
-                        <tr>
-                          <th colspan="2" class="fs-5">{{ attribute_group.name }}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for attribute in attribute_group.attribute %}
-                          <tr>
-                            <td class="fw-semibold" style="width: 30%;">{{ attribute.name }}</td>
-                            <td>{{ attribute.text }}</td>
-                          </tr>
-                        {% endfor %}
-                      </tbody>
-                    {% endfor %}
-                  </table>
-                </div>
-              </div>
-            {% endif %}
-
-            {# Reviews Tab #}
-            {% if review_status %}
-              <div id="tab-review" class="tab-pane fade">
-                {{ review }}
-              </div>
-            {% endif %}
-          </div>
+          {% endif %}
         </div>
       </div>
-      {{ related }}
+
+      {# Product Tabs #}
+      <ul class="nav nav-tabs mb-4" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="tab-description" data-bs-toggle="tab" data-bs-target="#tab-description-content" type="button" role="tab">{{ tab_description }}</button>
+        </li>
+        {% if attribute_groups %}
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-specification" data-bs-toggle="tab" data-bs-target="#tab-specification-content" type="button" role="tab">{{ tab_specification }}</button>
+          </li>
+        {% endif %}
+        {% if review_status %}
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-review" data-bs-toggle="tab" data-bs-target="#tab-review-content" type="button" role="tab">{{ tab_review }}</button>
+          </li>
+        {% endif %}
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="tab-description-content" role="tabpanel">
+          {{ description }}
+        </div>
+
+        {% if attribute_groups %}
+          <div class="tab-pane fade" id="tab-specification-content" role="tabpanel">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                {% for attribute_group in attribute_groups %}
+                  <thead>
+                    <tr>
+                      <td colspan="2"><strong>{{ attribute_group.name }}</strong></td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for attribute in attribute_group.attribute %}
+                      <tr>
+                        <td>{{ attribute.name }}</td>
+                        <td>{{ attribute.text }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        {% endif %}
+
+        {% if review_status %}
+          <div class="tab-pane fade" id="tab-review-content" role="tabpanel">
+            <div id="review"></div>
+          </div>
+        {% endif %}
+      </div>
+
+      {# Related Products #}
+      {% if products %}
+        <h3 class="mt-5 mb-4">{{ text_related }}</h3>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+          {% for product in products %}
+            <div class="col mb-4">{{ product }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
       {{ content_bottom }}
     </div>
     {{ column_right }}
   </div>
 </div>
-<script type="text/javascript"><!--
-$('#input-subscription').on('change', function(e) {
-    var element = this;
-
-    $('.subscription').addClass('d-none');
-
-    $('#subscription-description-' + $(element).val()).removeClass('d-none');
-});
-
-$('#form-product').on('submit', function(e) {
-    e.preventDefault();
-
-    $.ajax({
-        url: 'index.php?route=checkout/cart.add&language={{ language }}',
-        type: 'post',
-        data: $('#form-product').serialize(),
-        dataType: 'json',
-        contentType: 'application/x-www-form-urlencoded',
-        cache: false,
-        processData: false,
-        beforeSend: function() {
-            $('#button-cart').button('loading');
-        },
-        complete: function() {
-            $('#button-cart').button('reset');
-        },
-        success: function(json) {
-            console.log(json);
-
-            $('#form-product').find('.is-invalid').removeClass('is-invalid');
-            $('#form-product').find('.invalid-feedback').removeClass('d-block');
-
-            if (json['error']) {
-                for (key in json['error']) {
-                    $('#input-' + key.replaceAll('_', '-')).addClass('is-invalid').find('.form-control, .form-select, .form-check-input, .form-check-label').addClass('is-invalid');
-                    $('#error-' + key.replaceAll('_', '-')).html(json['error'][key]).addClass('d-block');
-                }
-            }
-
-            if (json['success']) {
-                $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
-
-                $('#cart').load('index.php?route=common/cart.info&language={{ language }}');
-            }
-        },
-        error: function(xhr, ajaxOptions, thrownError) {
-            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-        }
-    });
-});
-
-$(document).ready(function() {
-    $('.magnific-popup').magnificPopup({
-        type: 'image',
-        delegate: 'a',
-        gallery: {
-            enabled: true
-        }
-    });
-});
-//--></script>
 {{ footer }}

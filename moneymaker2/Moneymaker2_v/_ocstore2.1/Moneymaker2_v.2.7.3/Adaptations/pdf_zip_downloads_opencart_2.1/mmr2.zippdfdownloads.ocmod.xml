@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Moneymaker 2 ZIP/PDF Downloads</name>
+    <version>2.7.1</version>
+    <author>RGB</author>
+    <code>moneymaker2zippdfdownloads</code>
+    <link>http://moneymaker2.com</link>
+    <file path="admin/controller/common/filemanager.php">
+    <operation>
+        <search><![CDATA[$files = glob($directory . '/' . $filter_name . '*.{jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF}', GLOB_BRACE);]]></search>
+        <add position="replace"><![CDATA[$files = glob($directory . '/' . $filter_name . '*.{jpg,jpeg,png,gif,zip,pdf,JPG,JPEG,PNG,GIF,PDF,ZIP}', GLOB_BRACE);]]></add>
+    </operation>
+    <operation>
+        <search><![CDATA['thumb' => $this->model_tool_image->resize(utf8_substr($image, utf8_strlen(DIR_IMAGE)), 100, 100),]]></search>
+        <add position="replace"><![CDATA['thumb' => ((strrchr($image, '.') != ".pdf")&&(strrchr($image, '.') != ".zip")) ? $this->model_tool_image->resize(utf8_substr($image, utf8_strlen(DIR_IMAGE)), 100, 100) : ((strrchr($image, '.') != ".pdf") ? $this->model_tool_image->resize('zip_icon.png', 100, 100) : $this->model_tool_image->resize('pdf_icon.png', 100, 100)),]]></add>
+    </operation>
+    <operation>
+        <search><![CDATA['png']]></search>
+        <add position="after"><![CDATA[,'pdf','zip']]></add>
+    </operation>
+    <operation>
+        <search><![CDATA['image/gif']]></search>
+        <add position="after"><![CDATA[, 'application/pdf', 'application/zip']]></add>
+    </operation>
+    </file>
+    <file path="admin/controller/catalog/product.php">
+    <operation>
+        <search><![CDATA['thumb'      => $this->model_tool_image->resize($thumb, 100, 100),]]></search>
+        <add position="replace"><![CDATA['thumb' => ((strrchr($thumb, '.') != ".pdf")&&(strrchr($thumb, '.') != ".zip")) ? $this->model_tool_image->resize($thumb, 100, 100) : ((strrchr($thumb, '.') != ".pdf") ? $this->model_tool_image->resize('zip_icon.png', 100, 100) : $this->model_tool_image->resize('pdf_icon.png', 100, 100)),]]></add>
+    </operation>
+    </file>
+    <file path="admin/view/template/catalog/product_form.tpl">
+    <operation>
+        <search><![CDATA[<input type="hidden" name="product_image[<?php echo $image_row; ?>][image]" value="<?php echo $product_image['image']; ?>" id="input-image<?php echo $image_row; ?>" />]]></search>
+        <add position="replace"><![CDATA[<input type="hidden" name="product_image[<?php echo $image_row; ?>][image]" value="<?php echo $product_image['image']; ?>" id="input-image<?php echo $image_row; ?>" /><br /><?php echo $product_image['image']; ?>]]></add>
+    </operation>
+    </file>
+    <file path="catalog/controller/product/product.php">
+    <operation>
+        <search><![CDATA['popup' => $this->model_tool_image->resize($result['image'], $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height')),]]></search>
+        <add position="replace"><![CDATA['popup' => ((strrchr($result['image'], '.') != ".pdf")&&(strrchr($result['image'], '.') != ".zip")) ? $this->model_tool_image->resize($result['image'], $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height')) : "image/".$result['image'],]]></add>
+    </operation>
+    <operation>
+        <search><![CDATA['thumb' => $this->model_tool_image->resize($result['image'], $this->config->get('config_image_additional_width'), $this->config->get('config_image_additional_height'))]]></search>
+        <add position="replace"><![CDATA['thumb' => ((strrchr($result['image'], '.') != ".pdf")&&(strrchr($result['image'], '.') != ".zip")) ? $this->model_tool_image->resize($result['image'], $this->config->get('config_image_additional_width'), $this->config->get('config_image_additional_height')) : ""]]></add>
+    </operation>
+    </file>
+    <file path="catalog/view/theme/moneymaker2/template/product/product.tpl">
+    <operation>
+        <search><![CDATA[<?php foreach ($images as $image) { ?>]]></search>
+        <add position="before"><![CDATA[<?php $moneymaker2_pdfdownloads = 0; ?>]]></add>
+    </operation>
+    <operation>
+        <search><![CDATA[<a class="item thumbnail" href="<?php echo $image['popup']; ?>" title="<?php echo $heading_title; ?>"><img class="img-circle" src="<?php echo $image['thumb']; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" /></a>]]></search>
+        <add position="replace"><![CDATA[<?php if ((strrchr($image['popup'], '.') != ".pdf")&&(strrchr($image['popup'], '.') != ".zip")) { ?>
+        <a class="item thumbnail" href="<?php echo $image['popup']; ?>" title="<?php echo $heading_title; ?>"><img class="img-circle" src="<?php echo $image['thumb']; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" /></a>
+        <?php } else { ?>
+        <?php $moneymaker2_pdfdownloads++; ?>
+        <?php } ?>]]></add>
+    </operation>
+    <operation>
+        <search><![CDATA[<li><a href="#tab-review" data-toggle="tab"><i class="fa fa-fw fa-comments-o"></i>  <?php echo $tab_review; ?></a></li>]]></search>
+        <add position="before"><![CDATA[<?php } ?>
+        <?php if ($images&&$moneymaker2_pdfdownloads) { ?>
+            <li><a href="#tab-downloads" data-toggle="tab"><i class="fa fa-fw fa-download"></i>  <?php echo $text_downloads; ?> (<?php echo $moneymaker2_pdfdownloads; ?>)</a></li>
+        <?php } ?>
+        <?php if ($review_status) { ?>]]></add>
+    </operation>
+    <operation>
+        <search><![CDATA[<div class="tab-pane fade<?php if ($moneymaker2_product_tabs_hide) { ?> in active<?php } ?>" id="tab-review">]]></search>
+        <add position="before"><![CDATA[<?php } ?>
+        <?php if ($images&&$moneymaker2_pdfdownloads) { ?>
+            <div class="tab-pane fade<?php if ($moneymaker2_product_tabs_hide) { ?> in active<?php } ?>" id="tab-downloads">
+            <h3 class="text-center"><?php echo $text_downloads; ?></h3>
+            <?php foreach ($images as $image) { ?>
+              <?php if (strrchr($image['popup'], '.') == ".pdf") { ?>
+                <p><a href="<?php echo $image['popup']; ?>" target="_blank" title="<?php echo $heading_title; ?>"><i class="fa fa-file-pdf-o"></i> <?php echo substr(strrchr($image['popup'], '/'), 1); ?></a></p>
+              <?php } else if (strrchr($image['popup'], '.') == ".zip") { ?>
+                <p><a href="<?php echo $image['popup']; ?>" target="_blank" title="<?php echo $heading_title; ?>"><i class="fa fa-file-zip-o"></i> <?php echo substr(strrchr($image['popup'], '/'), 1); ?></a></p>
+              <?php } ?>
+            <?php } ?>
+            </div>
+        <?php } ?>
+        <?php if ($review_status) { ?>]]></add>
+    </operation>
+    </file>
+</modification>

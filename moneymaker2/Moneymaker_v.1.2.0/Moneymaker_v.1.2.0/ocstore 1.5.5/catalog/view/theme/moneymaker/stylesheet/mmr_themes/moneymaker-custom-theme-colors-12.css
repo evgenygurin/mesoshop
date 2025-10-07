@@ -1,0 +1,168 @@
+/* Burly Wood */
+a {
+    color: #deb887;
+}
+a:hover,
+a:focus {
+    color: #ce944b;
+}
+.text-primary {
+    color: #deb887;
+}
+a.text-primary:hover {
+    color: #d3a05f;
+}
+.bg-primary {
+    background-color: #deb887;
+}
+a.bg-primary:hover {
+    background-color: #d3a05f;
+}
+.btn-primary {
+    background-color: #deb887;
+    border-color: #d9ac73;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+    background-color: #d3a05f;
+    border-color: #cb9043;
+}
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+    background-color: #deb887;
+    border-color: #d9ac73;
+}
+.btn-primary .badge {
+    color: #deb887;
+}
+.btn-link {
+    color: #deb887;
+}
+.btn-link:hover,
+.btn-link:focus {
+    color: #ce944b;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+    background-color: #deb887;
+}
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+    border-color: #deb887;
+}
+.pagination > li > a,
+.pagination > li > span {
+    color: #deb887;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+    color: #ce944b;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background-color: #deb887;
+    border-color: #deb887;
+}
+.label-primary {
+    background-color: #deb887;
+}
+.label-primary[href]:hover,
+.label-primary[href]:focus {
+    background-color: #d3a05f;
+}
+a.list-group-item.active > .badge,
+.nav-pills > .active > a > .badge {
+    color: #deb887;
+}
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+    border-color: #deb887;
+}
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+    background-color: #deb887;
+    border-color: #deb887;
+}
+.list-group-item.active .list-group-item-text,
+.list-group-item.active:hover .list-group-item-text,
+.list-group-item.active:focus .list-group-item-text {
+    color: #ffffff;
+}
+.panel-primary {
+    border-color: #deb887;
+}
+.panel-primary > .panel-heading {
+    background-color: #deb887;
+    border-color: #deb887;
+}
+.panel-primary > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #deb887;
+}
+.panel-primary > .panel-heading .badge {
+    color: #deb887;
+}
+.panel-primary > .panel-footer + .panel-collapse > .panel-body {
+    border-bottom-color: #deb887;
+}
+a.button, input.button {
+    background-color: #deb887;
+    border-color: #d9ac73;
+}
+a.button:hover, input.button:hover {
+    background-color: #d3a05f;
+    border-color: #cb9043;
+}
+.pagination .links > *, .pagination_buttons > div .links > * {
+    color: #deb887;
+}
+.pagination .links > *:hover,
+.pagination_buttons > div .links > *:hover,
+.pagination .links > *:focus,
+.pagination_buttons > div .links > *:focus {
+    color: #ce944b;
+}
+.pagination_buttons > div .links > b,
+.pagination .links > b,
+.pagination_buttons > div .links > b:hover,
+.pagination .links > b:hover,
+.pagination_buttons > div .links > b:focus,
+.pagination .links > b:focus {
+    background-color: #deb887;
+    border-color: #deb887;
+}
+.product-grid .product-block:hover, .product-grid .product-block .description {
+    border-color: #f0e5d8;
+}
+.product-grid .product-block.product-block-detailed:hover, .product-grid .product-block.product-block-detailed .description {
+    border-color: transparent;
+}
+#footer {
+    border-top: 3px solid #deb887;
+    color: #777;
+}

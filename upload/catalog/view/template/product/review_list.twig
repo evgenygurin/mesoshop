@@ -1,30 +1,25 @@
 {% if reviews %}
-  <div class="vstack gap-3">
-    {% for review in reviews %}
-      <div class="card border-0 shadow-sm">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h6 class="mb-0 fw-bold">{{ review.author }}</h6>
-            <small class="text-body-secondary">{{ review.date_added }}</small>
-          </div>
-          <p class="card-text mb-3">{{ review.text }}</p>
-          <div class="text-warning">
+  {% for review in reviews %}
+    <table class="table table-striped table-bordered">
+      <tr>
+        <td style="width: 50%;"><strong>{{ review.author }}</strong></td>
+        <td class="text-end">{{ review.date_added }}</td>
+      </tr>
+      <tr>
+        <td colspan="2"><p>{{ review.text }}</p>
+          <div class="rating">
             {% for i in 1..5 %}
               {% if review.rating < i %}
-                <i class="fa-regular fa-star"></i>
+                <span class="fa-stack"><i class="fa-regular fa-star fa-stack-1x"></i></span>
               {% else %}
-                <i class="fa-solid fa-star"></i>
+                <span class="fa-stack"><i class="fa-solid fa-star fa-stack-1x"></i><i class="fa-regular fa-star fa-stack-1x"></i></span>
               {% endif %}
             {% endfor %}
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-  <div class="mt-4">{{ pagination }}</div>
+          </div></td>
+      </tr>
+    </table>
+  {% endfor %}
+  <div class="text-end">{{ pagination }}</div>
 {% else %}
-  <div class="text-center py-5">
-    <i class="fa-solid fa-comment-slash fa-3x mb-3 text-body-secondary opacity-25"></i>
-    <p class="text-body-secondary">{{ text_no_results }}</p>
-  </div>
+  <p class="text-center">{{ text_no_results }}</p>
 {% endif %}

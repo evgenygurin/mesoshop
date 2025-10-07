@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>Moneymaker2 Advanced Filter (Opencart 2.1)</name>
+	<version>2.6.0</version>
+	<author>RGB</author>
+	<code>moneymaker2advancedfilter</code>
+	<link>https://2.mnmkr.com</link>
+	<file path="catalog/view/theme/moneymaker2/template/module/filter.tpl">
+	<operation>
+		<search><![CDATA[<?php foreach ($filter_groups as $filter_group) { ?>]]></search>
+		<add position="after"><![CDATA[
+		<?php if (strpos($filter_group['name'], '[slider')&&(filterValidate($filter_group['filter']))) { ?>
+      <?php $slider_title = explode("[slider", $filter_group['name']); $slider_unit = ''; ?>
+      <?php if ($slider_title[1][0]==',') { $slider_unit = substr($slider_title[1], strpos($slider_title[1],',')+1,strlen($slider_title[1])-2); }; ?>
+      <?php $filter_group['name'] = $slider_title[0]; ?>
+      <p class="h5 text-muted"><?php echo $filter_group['name']; ?></p>
+      <?php $filters = array();
+      foreach ($filter_group['filter'] as $filter) { $filters[] = $filter['name']; };
+      sort($filters, SORT_NUMERIC);
+      ${"filters" . $filter_group['filter_group_id']} = $filters;
+      $max = $filters[sizeof($filters)-1]; $min = $filters[0];
+      $sel_filters = array();
+      foreach ($filter_group['filter'] as $filter) { if (in_array($filter['filter_id'], $filter_category)) $sel_filters[] = $filter['name']; }
+      sort($sel_filters, SORT_NUMERIC);
+      $sel_max = sizeof($sel_filters)>0 ? $sel_filters[sizeof($sel_filters)-1] : false;
+      $sel_min = sizeof($sel_filters)>0 ? $sel_filters[0] : false;
+      $filtered = true;
+      if (!isset($sel_max)||!$sel_max) $sel_max = $max;
+      if (!isset($sel_min)||!$sel_min) $sel_min = $min;
+      if (!isset($filter_category)||!$filter_category||$filter_category[0]==""||!isset($sel_filters)||!$sel_filters) $filtered = false;
+      ?>
+      <div id="filter-group<?php echo $filter_group['filter_group_id']; ?>">
+        <div class="filter-native-slider">
+          <input id="filter-slider<?php echo $filter_group['filter_group_id']; ?>" type="text" value=""  data-slider-min="<?php echo $min; ?>" data-slider-max="<?php echo $max; ?>" data-slider-value="[<?php echo $sel_min; ?>,<?php echo $sel_max; ?>]" data-slider-ticks="[<?php echo implode(',',$filters); ?>]" data-slider-ticks-labels='["<?php echo $min.$slider_unit; ?>", <?php for ($i=1;$i<=count($filters)-2;$i++) { echo '"",'; } ?> "<?php echo $max.$slider_unit; ?>"]' <?php if (!$filtered) { ?>data-slider-enabled="false"<?php } ?> />
+        </div>
+        <?php foreach ($filter_group['filter'] as $filter) { ?>
+            <?php if (in_array($filter['filter_id'], $filter_category)) { ?>
+            <input class="hidden" type="checkbox" name="filter[]" value="<?php echo $filter['filter_id']; ?>" checked="checked"/>
+            <?php } else { ?>
+            <input class="hidden" type="checkbox" name="filter[]" value="<?php echo $filter['filter_id']; ?>" />
+            <?php } ?>
+        <?php } ?>
+      </div>
+    <?php } else if (strpos($filter_group['name'], '[color]')) { ?>
+      <?php $filter_group['name'] = str_replace('[color]', '', $filter_group['name']); ?>
+      <p class="h5 text-muted"><?php echo $filter_group['name']; ?></p>
+      <div id="filter-group<?php echo $filter_group['filter_group_id']; ?>">
+        <div class="filter-native-color">
+          <?php foreach ($filter_group['filter'] as $filter) { ?><?php if (in_array($filter['filter_id'], $filter_category)) { ?><input type="checkbox" name="filter[]" value="<?php echo $filter['filter_id']; ?>" checked="checked" id="<?php echo $filter['filter_id']; ?>"/><label style="background-color: <?php echo $filter['name']; ?>" for="<?php echo $filter['filter_id']; ?>"></label><?php } else { ?><input type="checkbox" name="filter[]" value="<?php echo $filter['filter_id']; ?>" id="<?php echo $filter['filter_id']; ?>"/><label style="background-color: <?php echo $filter['name']; ?>" for="<?php echo $filter['filter_id']; ?>"></label><?php } ?><?php } ?>
+        </div>
+      </div>
+    <?php } else { ?>
+		]]></add>
+	</operation>
+  <operation>
+    <search><![CDATA[<p>]]></search>
+    <add position="replace"><![CDATA[
+<?php } ?>
+<!--p>
+]]></add>
+  </operation>
+  <operation>
+    <search index="4"><![CDATA[</p>]]></search>
+    <add position="replace"><![CDATA[
+</p-->
+<div class="btn-group btn-group-justified">
+  <div class="btn-group btn-group-sm">
+    <button type="button" id="button-filter" class="btn btn-default"><i class="fa fa-fw fa-angle-right"></i><?php echo $button_filter; ?></button>
+  </div>
+  <div class="btn-group btn-group-sm">
+    <button type="button" id="button-filter-reset" class="btn btn-default" data-toggle="tooltip" title="<?php echo $button_cancel; ?>"><i class="fa fa-angle-right"></i><i class="fa fa-angle-left"></i></button>
+  </div>
+</div>
+]]></add>
+  </operation>
+	<operation>
+		<search><![CDATA[//--></script>]]></search>
+		<add position="before"><![CDATA[
+<?php function filterValidate($filters){ $valid = true; foreach ($filters as $filter) { if (!is_numeric($filter['name'])) $valid = false; }; return $valid; } ?>
+<?php foreach ($filter_groups as $filter_group) { ?>
+  <?php if (strpos($filter_group['name'], '[slider')&&(filterValidate($filter_group['filter']))) { ?>
+  <?php $slider_title = explode("[slider", $filter_group['name']); $slider_unit = ''; ?>
+  <?php if ($slider_title[1][0]==',') { $slider_unit = substr($slider_title[1], strpos($slider_title[1],',')+1,strlen($slider_title[1])-2); }; ?>
+    $("#filter-slider<?php echo $filter_group['filter_group_id']; ?>").bootstrapSlider({
+      formatter: function(value) {return value[0] + "<?php echo $slider_unit; ?> - " + value[1] + '<?php echo $slider_unit; ?>';},
+    });
+    $("#filter-group<?php echo $filter_group['filter_group_id']; ?> .slider").on("click mouseover", function() {
+      if (!$("#filter-slider<?php echo $filter_group['filter_group_id']; ?>").bootstrapSlider("isEnabled")) {
+        $("#filter-slider<?php echo $filter_group['filter_group_id']; ?>").bootstrapSlider("enable");
+      }
+    });
+    $("#filter-slider<?php echo $filter_group['filter_group_id']; ?>").on("change", function(slideEvt) {
+      <?php foreach ($filter_group['filter'] as $filter) { ?>
+        if ((<?php echo $filter['name']; ?>>=$("#filter-slider<?php echo $filter_group['filter_group_id']; ?>").bootstrapSlider('getValue')[0])&&(<?php echo $filter['name']; ?><=$("#filter-slider<?php echo $filter_group['filter_group_id']; ?>").bootstrapSlider('getValue')[1])) {
+          $('input[value=<?php echo $filter['filter_id']; ?>]').prop('checked', true);
+        } else {
+          $('input[value=<?php echo $filter['filter_id']; ?>]').prop('checked', false);
+        }
+      <?php } ?>
+    });
+    $("#filter-slider<?php echo $filter_group['filter_group_id']; ?>").on("slideDisabled", function(slideEvt) {
+      <?php foreach ($filter_group['filter'] as $filter) { ?>
+        $('input[value=<?php echo $filter['filter_id']; ?>]').prop('checked', false);
+      <?php } ?>
+    });
+    $(document).ready(function() {
+      $('#filter-slider<?php echo $filter_group['filter_group_id']; ?>').bootstrapSlider('refresh');
+    });
+  <?php } ?>
+<?php } ?>
+$('#button-filter-reset').on('click', function() { location = '<?php echo $action; ?>&filter='; });
+	]]></add>
+	</operation>
+	</file>
+	<file path="catalog/controller/module/filter.php">
+	<operation>
+		<search><![CDATA[$data['heading_title'] = $this->language->get('heading_title');]]></search>
+		<add position="before"><![CDATA[
+		/*mmr*/
+		$data['button_cancel'] = $this->language->get('button_cancel');
+		$this->document->addStyle('admin/view/javascript/jquery/bootstrap-slider.moneymaker2/bootstrap-slider.min.css');
+		$this->document->addScript('admin/view/javascript/jquery/bootstrap-slider.moneymaker2/bootstrap-slider.min.js');
+		/*mmr*/
+		]]></add>
+	</operation>
+	<operation>
+		<search><![CDATA[($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : '')]]></search>
+		<add position="replace"><![CDATA['']]></add>
+	</operation>
+	</file>
+</modification>

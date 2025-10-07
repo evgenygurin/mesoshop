@@ -1,84 +1,59 @@
-<div id="cart" class="dropdown">
-  <button type="button" data-bs-toggle="dropdown" class="btn btn-dark btn-lg w-100 shadow-sm">
-    <i class="fa-solid fa-cart-shopping"></i>
-    <span class="ms-2">{{ text_items }}</span>
-  </button>
-
-  <ul class="dropdown-menu dropdown-menu-end shadow-lg" style="min-width: 400px;">
+<div class="dropdown d-grid">
+  <button type="button" data-bs-toggle="dropdown" class="btn btn-lg btn-dark d-block dropdown-toggle"><i class="fa-solid fa-cart-shopping"></i> {{ text_items }}</button>
+  <ul class="dropdown-menu dropdown-menu-end p-2">
     {% if products %}
-      <li class="px-3 py-2">
-        {# Cart Items #}
-        <div class="cart-items mb-3" style="max-height: 400px; overflow-y: auto;">
+      <li>
+        <table class="table table-striped mb-2">
           {% for product in products %}
-            <div class="d-flex gap-3 mb-3 pb-3 border-bottom">
-              {# Product Image #}
-              {% if product.thumb %}
-                <div class="flex-shrink-0">
-                  <a href="{{ product.href }}">
-                    <img src="{{ product.thumb }}" alt="{{ product.name }}" class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover;"/>
-                  </a>
-                </div>
-              {% endif %}
-
-              {# Product Details #}
-              <div class="flex-grow-1">
-                <h6 class="mb-1">
-                  <a href="{{ product.href }}" class="text-decoration-none text-dark">{{ product.name }}</a>
-                </h6>
-                <p class="mb-1 small text-body-secondary">{{ text_model }}: {{ product.model }}</p>
-
-                {% if product.option %}
+            <tr>
+              <td class="text-center w-25">{% if product.thumb %}<a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail"/></a>{% endif %}</td>
+              <td><a href="{{ product.href }}">{{ product.name }}</a>
+                <ul class="list-unstyled mb-0">
+                  <li>
+                    <small> - {{ text_model }}: {{ product.model }}</small>
+                  </li>
                   {% for option in product.option %}
-                    <p class="mb-0 small text-body-secondary">{{ option.name }}: {{ option.value }}</p>
+                    <li>
+                      <small> - {{ option.name }}: {{ option.value }}</small>
+                    </li>
                   {% endfor %}
-                {% endif %}
-
-                <div class="d-flex justify-content-between align-items-center mt-2">
-                  <span class="badge bg-secondary">x{{ product.quantity }}</span>
-                  <strong class="text-primary">{{ product.total }}</strong>
-                </div>
-              </div>
-
-              {# Remove Button #}
-              <div class="flex-shrink-0">
+                  {% if product.subscription %}
+                    <li>
+                      <small> - {{ text_subscription }}: {{ product.subscription }}</small>
+                    </li>
+                  {% endif %}
+                  {% if product.reward %}
+                    <li>
+                      <small> - {{ text_points }}: {{ product.reward }}</small>
+                    </li>
+                  {% endif %}
+                </ul>
+              </td>
+              <td class="text-end text-nowrap">x {{ product.quantity }}</td>
+              <td class="text-end"><x-currency code="{{ currency }}" amount="{{ product.total }}"></x-currency></td>
+              <td class="text-end">
                 <form action="{{ remove }}" method="post" data-oc-toggle="ajax" data-oc-load="{{ list }}" data-oc-target="#cart">
-                  <input type="hidden" name="key" value="{{ product.cart_id }}"/>
-                  <button type="submit" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="{{ button_remove }}">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
+                  <input type="hidden" name="key" value="{{ product.cart_id }}">
+                  <button type="submit" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-circle-xmark"></i></button>
                 </form>
-              </div>
-            </div>
+              </td>
+            </tr>
           {% endfor %}
-        </div>
-
-        {# Cart Totals #}
-        <div class="card bg-light mb-3">
-          <div class="card-body p-2">
+        </table>
+        <div>
+          <table class="table table-sm table-bordered mb-2">
             {% for total in totals %}
-              <div class="d-flex justify-content-between mb-1">
-                <span class="{% if loop.last %}fw-bold{% endif %}">{{ total.title }}</span>
-                <span class="{% if loop.last %}fw-bold text-primary{% endif %}">{{ total.text }}</span>
-              </div>
+              <tr>
+                <td class="text-end"><strong>{{ total.title }}</strong></td>
+                <td class="text-end"><x-currency code="{{ currency }}" amount="{{ total.value }}"></x-currency></td>
+              </tr>
             {% endfor %}
-          </div>
-        </div>
-
-        {# Action Buttons #}
-        <div class="d-grid gap-2">
-          <a href="{{ cart }}" class="btn btn-outline-primary">
-            <i class="fa-solid fa-cart-shopping"></i> {{ text_cart }}
-          </a>
-          <a href="{{ checkout }}" class="btn btn-primary">
-            <i class="fa-solid fa-credit-card"></i> {{ text_checkout }}
-          </a>
+          </table>
+          <p class="text-end"><a href="{{ cart }}"><strong><i class="fa-solid fa-cart-shopping"></i> {{ text_cart }}</strong></a>&nbsp;&nbsp;&nbsp;<a href="{{ checkout }}"><strong><i class="fa-solid fa-share"></i> {{ text_checkout }}</strong></a></p>
         </div>
       </li>
     {% else %}
-      <li class="text-center py-5 text-body-secondary">
-        <i class="fa-solid fa-cart-shopping fa-3x mb-3 opacity-25"></i>
-        <p class="mb-0">{{ text_no_results }}</p>
-      </li>
+      <li class="text-center p-4">{{ text_no_results }}</li>
     {% endif %}
   </ul>
 </div>

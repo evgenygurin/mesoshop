@@ -1,0 +1,883 @@
+<modification>
+    <id>Moneymaker Template Modifications</id>
+    <version>1.1.9</version>
+    <vqmver>2.3</vqmver>
+    <author>RGB</author>
+    <!-- categories menu -->
+    <file name="catalog/controller/common/header.php">
+        <operation>
+            <search position="after"><![CDATA[$this->data['categories'] = array();]]></search>
+            <add><![CDATA[
+                $this->load->model('tool/image');
+                ]]></add>
+        </operation>
+        <operation>
+            <search position="replace"><![CDATA[$children_data[] = array(]]></search>
+            <add><![CDATA[
+              $mmr_children_data = array();
+              $mmr_children = $this->model_catalog_category->getCategories($child['category_id']);
+              foreach ($mmr_children as $mmr_child) {
+                $mmr_data = array(
+                  'filter_category_id'  => $mmr_child['category_id'],
+                  'filter_sub_category' => true
+                );
+                if ($this->config->get('config_product_count')) {
+                $mmr_product_total = $this->model_catalog_product->getTotalProducts($mmr_data);
+                }
+                $mmr_children_data[] = array(
+                  'name'  => $mmr_child['name'] . ($this->config->get('config_product_count') ? ' (' . $mmr_product_total . ')' : ''),
+                  'href'  => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'] . '_' . $mmr_child['category_id'])
+                );
+              }
+              if ($child['image']) {
+                $child_image = $this->model_tool_image->resize($child['image'], $this->config->get('config_image_category_width'), $this->config->get('config_image_category_height'));
+              } else {
+                $child_image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_category_width'), $this->config->get('config_image_category_height'));
+              }
+              $children_data[] = array(
+                'child_image' => $child_image,
+                'children' => $mmr_children_data,
+                ]]></add>
+        </operation>
+        <operation>
+            <search position="before"><![CDATA[$this->data['categories'][] = array(]]></search>
+            <add><![CDATA[
+            if ($category['image']) {
+              $image = $this->model_tool_image->resize($category['image'], $this->config->get('config_image_category_width'), $this->config->get('config_image_category_height'));
+            } else {
+              $image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_category_width'), $this->config->get('config_image_category_height'));
+            }
+                ]]></add>
+        </operation>
+        <operation>
+            <search position="after"><![CDATA[$this->data['categories'][] = array(]]></search>
+            <add><![CDATA[
+			'description'   => utf8_substr(strip_tags(html_entity_decode($category['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('mmr_header_categories_description_limit') ? $this->config->get('mmr_header_categories_description_limit') : 300) . '..',
+            'image'         => $image,
+            'category_id'   => $category['category_id'],
+                ]]></add>
+        </operation>
+    </file>
+    <file name="catalog/controller/product/category.php">
+        <!-- category images -->
+        <operation>
+            <search position="replace"><![CDATA[$this->data['categories'][] = array(]]></search>
+            <add><![CDATA[
+                if ($result['image']) {
+                  $image = $this->model_tool_image->resize($result['image'], $this->config->get('config_image_category_width'), $this->config->get('config_image_category_height'));
+                } else {
+                  $image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_category_width'), $this->config->get('config_image_category_height'));
+                }
+                $this->data['categories'][] = array(
+                  'thumb' => $image,
+                ]]></add>
+        </operation>
+        <!-- savings -->
+        <operation>
+            <search position="before">
+                <![CDATA[if ($this->config->get('config_tax')) {]]>
+            </search>
+            <add>
+                <![CDATA[
+                if ((float)$result['special']) {
+				    $mmr_savings = $this->currency->format((($result['special'])-($result['price']))*(-1));
+			    } else {
+				    $mmr_savings = false;
+			    }
+                ]]>
+            </add>
+        </operation>
+        <!-- in stock text -->
+        <operation>
+            <search position="before">
+                <![CDATA[$this->language->load('product/category');]]>
+            </search>
+            <add>
+                <![CDATA[$this->language->load('product/product');]]>
+            </add>
+        </operation>
+        <!-- additional fields -->
+        <operation>
+            <search position="after"><![CDATA[$this->data['products'][] = array(]]></search>
+            <add><![CDATA[
+                'model' => $result['model'],
+                'sku'   => $result['sku'],
+                'upc'   => $result['upc'],
+                'jan'   => $result['jan'],
+                'ean'   => $result['ean'],
+                'isbn'  => $result['isbn'],
+                'mpn'   => $result['mpn'],
+                'meta_description'=> $this->config->get('mmr_common_catalog_metadescriptions_enabled') ? $result['meta_description'] : 0,
+                'review_count'=> $result['reviews'],
+                'viewed'=> $result['viewed'],
+                'date_available'=> $result['date_available'],
+                'quantity'=> $result['quantity'],
+                'stock'=> ($result['quantity']<=0) ? $result['stock_status'] : $this->language->get('text_instock'),
+                'mmr_savings'=> $mmr_savings,
+                'attribute_groups' => $this->config->get('mmr_common_catalog_attributes_enabled') ? $this->model_catalog_product->getProductAttributes($result['product_id']) : 0,
+                ]]></add>
+        </operation>
+        <!-- product details description -->
+        <operation error="skip">
+            <search position="replace"><![CDATA['description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, 300) . '..',]]></search>
+            <add><![CDATA['description' => $this->config->get('mmr_common_catalog_descriptions_enabled') ? utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('mmr_common_descriptions_limit')) . '..' : 0,]]></add>
+        </operation>
+        <!-- product no_image -->
+        <operation error="skip">
+            <search position="replace"><![CDATA[$image = false;]]></search>
+            <add><![CDATA[$image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));]]></add>
+        </operation>
+    </file>
+    <file name="catalog/controller/product/manufacturer.php">
+        <!-- savings -->
+        <operation>
+            <search position="before">
+                <![CDATA[if ($this->config->get('config_tax')) {]]>
+            </search>
+            <add>
+                <![CDATA[
+                if ((float)$result['special']) {
+				    $mmr_savings = $this->currency->format((($result['special'])-($result['price']))*(-1));
+			    } else {
+				    $mmr_savings = false;
+			    }
+                ]]>
+            </add>
+        </operation>
+        <!-- in stock text -->
+        <operation>
+            <search position="before">
+                <![CDATA[$this->language->load('product/manufacturer');]]>
+            </search>
+            <add>
+                <![CDATA[$this->language->load('product/product');]]>
+            </add>
+        </operation>
+        <!-- additional fields -->
+        <operation>
+            <search position="after"><![CDATA[$this->data['products'][] = array(]]></search>
+            <add><![CDATA[
+                'model' => $result['model'],
+                'sku'   => $result['sku'],
+                'upc'   => $result['upc'],
+                'jan'   => $result['jan'],
+                'ean'   => $result['ean'],
+                'isbn'  => $result['isbn'],
+                'mpn'   => $result['mpn'],
+                'meta_description'=> $this->config->get('mmr_common_catalog_metadescriptions_enabled') ? $result['meta_description'] : 0,
+                'viewed'=> $result['viewed'],
+                'date_available'=> $result['date_available'],
+                'quantity'=> $result['quantity'],
+                'stock'=> ($result['quantity']<=0) ? $result['stock_status'] : $this->language->get('text_instock'),
+                'mmr_savings'=> $mmr_savings,
+                'attribute_groups' => $this->config->get('mmr_common_catalog_attributes_enabled') ? $this->model_catalog_product->getProductAttributes($result['product_id']) : 0,
+                ]]></add>
+        </operation>
+        <!-- product details description -->
+        <operation error="skip">
+            <search position="replace"><![CDATA['description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, 300) . '..',]]></search>
+            <add><![CDATA['description' => $this->config->get('mmr_common_catalog_descriptions_enabled') ? utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('mmr_common_descriptions_limit')) . '..' : 0,]]></add>
+        </operation>
+        <!-- product no_image -->
+        <operation error="skip">
+            <search position="replace"><![CDATA[$image = false;]]></search>
+            <add><![CDATA[$image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));]]></add>
+        </operation>
+    </file>
+    <file name="catalog/controller/product/search.php">
+        <!-- savings -->
+        <operation>
+            <search position="before">
+                <![CDATA[if ($this->config->get('config_tax')) {]]>
+            </search>
+            <add>
+                <![CDATA[
+                if ((float)$result['special']) {
+				    $mmr_savings = $this->currency->format((($result['special'])-($result['price']))*(-1));
+			    } else {
+				    $mmr_savings = false;
+			    }
+                ]]>
+            </add>
+        </operation>
+        <!-- in stock text -->
+        <operation>
+            <search position="before">
+                <![CDATA[$this->language->load('product/search');]]>
+            </search>
+            <add>
+                <![CDATA[$this->language->load('product/product');]]>
+            </add>
+        </operation>
+        <!-- additional fields -->
+        <operation>
+            <search position="after"><![CDATA[$this->data['products'][] = array(]]></search>
+            <add><![CDATA[
+                'model' => $result['model'],
+                'sku'   => $result['sku'],
+                'upc'   => $result['upc'],
+                'jan'   => $result['jan'],
+                'ean'   => $result['ean'],
+                'isbn'  => $result['isbn'],
+                'mpn'   => $result['mpn'],
+                'meta_description'=> $this->config->get('mmr_common_catalog_metadescriptions_enabled') ? $result['meta_description'] : 0,
+                'viewed'=> $result['viewed'],
+                'date_available'=> $result['date_available'],
+                'quantity'=> $result['quantity'],
+                'stock'=> ($result['quantity']<=0) ? $result['stock_status'] : $this->language->get('text_instock'),
+                'mmr_savings'=> $mmr_savings,
+                'attribute_groups' => $this->config->get('mmr_common_catalog_attributes_enabled') ? $this->model_catalog_product->getProductAttributes($result['product_id']) : 0,
+                ]]></add>
+        </operation>
+        <!-- product details description -->
+        <operation error="skip">
+            <search position="replace"><![CDATA['description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, 300) . '..',]]></search>
+            <add><![CDATA['description' => $this->config->get('mmr_common_catalog_descriptions_enabled') ? utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('mmr_common_descriptions_limit')) . '..' : 0,]]></add>
+        </operation>
+        <!-- product no_image -->
+        <operation error="skip">
+            <search position="replace"><![CDATA[$image = false;]]></search>
+            <add><![CDATA[$image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));]]></add>
+        </operation>
+        <!-- ajax search -->
+        <operation>
+            <search position="before" offset="1"><![CDATA[?>]]></search>
+            <add><![CDATA[
+    public function ajax() {
+        $data = array();
+        if( isset($this->request->get['keyword']) ) {
+            function custom_escape_string($inp) {
+                if(is_array($inp))
+                    return array_map(__METHOD__, $inp);
+                if(!empty($inp) && is_string($inp)) {
+                    return str_replace(array('\\', "\0", "\n", "\r", "'", '"', "\x1a"), array('\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\Z'), $inp);
+                }
+                return $inp;
+            }
+            $keywords = custom_escape_string( $this->request->get['keyword'] );
+            if( strlen($keywords) >= 3 ) {
+                $parts = $keywords;
+                $add = '';
+                $add .= ' AND ((LOWER(pd.name) LIKE "%' . $this->db->escape($parts) . '%")';
+                $add .= ' OR (LOWER(p.sku) LIKE "%' . $this->db->escape($parts) . '%")';
+                $add .= ' OR (LOWER(p.model) LIKE "%' . $this->db->escape($parts) . '%"))';
+                $add = substr( $add, 4 );
+                $sql  = 'SELECT DISTINCT pd.product_id, pd.name FROM ' . DB_PREFIX . 'product_description AS pd ';
+                $sql .= 'LEFT JOIN ' . DB_PREFIX . 'product AS p ON p.product_id = pd.product_id ';
+                $sql .= 'LEFT JOIN ' . DB_PREFIX . 'product_to_store AS p2s ON p2s.product_id = pd.product_id ';
+                $sql .= 'WHERE ' . $add . ' AND p.status = 1 ';
+                $sql .= 'AND pd.language_id = ' . (int)$this->config->get('config_language_id');
+                $sql .= ' AND p2s.store_id =  ' . (int)$this->config->get('config_store_id');
+                $sql .= ' ORDER BY p.sort_order ASC, LOWER(pd.name) ASC, LOWER(p.model) ASC';
+                $sql .= ' LIMIT 8';
+                $res = $this->db->query( $sql );
+                if( $res ) {
+                    $data = ( isset($res->rows) ) ? $res->rows : $res->row;
+                    $basehref = 'product/product&keyword=' . $this->request->get['keyword'] . '&product_id=';
+                    foreach( $data as $key => $values ) {
+                        $data[$key] = array(
+                            'name' => htmlspecialchars_decode($values['name'], ENT_QUOTES),
+                            'href' => html_entity_decode($this->url->link($basehref . $values['product_id']))
+                        );
+                    }
+                }
+            }
+        }
+        echo json_encode( $data );
+    }
+                ]]></add>
+        </operation>
+    </file>
+    <file name="catalog/controller/product/special.php">
+        <!-- savings -->
+        <operation>
+            <search position="before">
+                <![CDATA[if ($this->config->get('config_tax')) {]]>
+            </search>
+            <add>
+                <![CDATA[
+                if ((float)$result['special']) {
+				    $mmr_savings = $this->currency->format((($result['special'])-($result['price']))*(-1));
+			    } else {
+				    $mmr_savings = false;
+			    }
+                ]]>
+            </add>
+        </operation>
+        <!-- in stock text -->
+        <operation>
+            <search position="before">
+                <![CDATA[$this->language->load('product/special');]]>
+            </search>
+            <add>
+                <![CDATA[$this->language->load('product/product');]]>
+            </add>
+        </operation>
+        <!-- additional fields -->
+        <operation>
+            <search position="after"><![CDATA[$this->data['products'][] = array(]]></search>
+            <add><![CDATA[
+                'model' => $result['model'],
+                'sku'   => $result['sku'],
+                'upc'   => $result['upc'],
+                'jan'   => $result['jan'],
+                'ean'   => $result['ean'],
+                'isbn'  => $result['isbn'],
+                'mpn'   => $result['mpn'],
+                'viewed'=> $result['viewed'],
+                'meta_description'=> $this->config->get('mmr_common_catalog_metadescriptions_enabled') ? $result['meta_description'] : 0,
+                'date_available'=> $result['date_available'],
+                'quantity'=> $result['quantity'],
+                'stock'=> ($result['quantity']<=0) ? $result['stock_status'] : $this->language->get('text_instock'),
+                'mmr_savings'=> $mmr_savings,
+                'attribute_groups' => $this->config->get('mmr_common_catalog_attributes_enabled') ? $this->model_catalog_product->getProductAttributes($result['product_id']) : 0,
+                ]]></add>
+        </operation>
+        <!-- product details description -->
+        <operation error="skip">
+            <search position="replace"><![CDATA['description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, 300) . '..',]]></search>
+            <add><![CDATA['description' => $this->config->get('mmr_common_catalog_descriptions_enabled') ? utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('mmr_common_descriptions_limit')) . '..' : 0,]]></add>
+        </operation>
+        <!-- product no_image -->
+        <operation error="skip">
+            <search position="replace"><![CDATA[$image = false;]]></search>
+            <add><![CDATA[$image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));]]></add>
+        </operation>
+    </file>
+    <file name="catalog/controller/product/product.php">
+        <!-- savings -->
+        <operation>
+            <search position="before">
+                <![CDATA[if ($this->config->get('config_tax')) {]]>
+            </search>
+            <add>
+                <![CDATA[
+                if ((float)$product_info['special']) {
+				    $this->data['mmr_savings'] = $this->currency->format((($product_info['special'])-($product_info['price']))*(-1)) ;
+			    } else {
+				    $this->data['mmr_savings'] = false;
+			    }
+                ]]>
+            </add>
+        </operation>
+        <!-- savings for the related products -->
+        <operation>
+            <search position="before">
+                <![CDATA[if ((float)$result['special']) {]]>
+            </search>
+            <add>
+                <![CDATA[
+                if ((float)$result['special']) {
+				    $mmr_savings = $this->currency->format((($result['special'])-($result['price']))*(-1));
+			    } else {
+				    $mmr_savings = false;
+			    }
+                ]]>
+            </add>
+        </operation>
+        <!-- additional fields & timer -->
+        <operation>
+            <search position="after"><![CDATA[$this->data['points'] = $product_info['points'];]]></search>
+            <add><![CDATA[
+                if ($this->config->get('mmr_timer_enabled')) {
+                if ($this->customer->isLogged()){
+                    $customer_group_id = $this->customer->getCustomerGroupId();
+                } else {
+                    $customer_group_id = 0;
+                }
+                $sql = "SELECT date_end FROM " . DB_PREFIX . "product_special
+                    WHERE product_id ='" . $product_id . "' AND date_start <= NOW() AND date_end >= NOW() ";
+                if ($customer_group_id){ $sql .= " AND customer_group_id ='" . $customer_group_id . "'"; }
+                $sql .= " ORDER BY priority LIMIT 0,1";
+                $query = $this->db->query($sql);
+                if ($query->num_rows){ $date_end = $query->row['date_end']; } else { $date_end = 0; }
+                if ($date_end){
+                    $mmr_timer_date_end = date_create($date_end);
+                    $this->data['mmr_timer_date_end'] = date_format($mmr_timer_date_end, 'd.m.Y');
+                } else {
+                    $this->data['mmr_timer_date_end'] = $date_end;
+                };
+                if ($date_end){
+                    $target_split = preg_split('/\-/', $date_end);
+                    $now = time();
+                    $target = mktime(0,0,0, $target_split[1], $target_split[2], $target_split[0]);
+                    $diffSecs = $target - $now;
+                    if ($diffSecs > 0){
+                        $this->data['show_special_price_countdown'] = 1;
+                        $this->data['countdown_format'] = 'dd:hh:mm:ss';
+                        $this->data['show_days'] = 1;
+                        if ($diffSecs < 24 * 60 * 60 ){
+                            $this->data['countdown_format'] = 'hh:mm:ss';
+                            $this->data['show_days'] = 0;
+                        }
+                        $date = array();
+                        $date['secs'] = $diffSecs % 60;
+                        $date['mins'] = floor($diffSecs/60)%60;
+                        $date['hours'] = floor($diffSecs/60/60)%24;
+                        $date['days'] = floor($diffSecs/60/60/24);//%7;
+                        $date['weeks']	= floor($diffSecs/60/60/24/7);
+                        foreach ($date as $i => $d) {
+                            $d1 = $d%10;
+                            $d2 = ($d-$d1) / 10;
+                            $date[$i] = array(
+                                (int)$d2,
+                                (int)$d1,
+                                (int)$d
+                            );
+                        }
+                        $this->data['mmr_timer_target_split'] = $target_split;
+                        $this->data['mmr_timer_date']         = $date;
+                        $this->data['mmr_timer_secs']  = $diffSecs % 60;
+                        $this->data['mmr_timer_mins']  = floor($diffSecs/60)%60;
+                        $this->data['mmr_timer_hours'] = floor($diffSecs/60/60)%24;
+                        $this->data['mmr_timer_days']  = floor($diffSecs/60/60/24);//%7;
+                        $this->data['mmr_timer_weeks'] = floor($diffSecs/60/60/24/7);
+                    }
+                }
+                }
+                $this->data['model'] = $product_info['model'];
+                $this->data['sku'] = $product_info['sku'];
+                $this->data['upc'] = $product_info['upc'];
+                $this->data['jan'] = $product_info['jan'];
+                $this->data['ean'] = $product_info['ean'];
+                $this->data['isbn'] = $product_info['isbn'];
+                $this->data['mpn'] = $product_info['mpn'];
+                $this->data['viewed'] = $product_info['viewed'];
+                $this->data['meta_description'] = $product_info['meta_description'];
+                $this->data['date_available'] = $product_info['date_available'];
+                $this->data['quantity'] = $product_info['quantity'];
+                $this->data['weight'] = ($product_info['weight']>0) ? $this->weight->format($product_info['weight'], $product_info['weight_class_id']) : "";
+                $this->data['length'] = ($product_info['length']>0) ? $this->length->format($product_info['length'], $product_info['length_class_id']) : "";
+				$this->data['width'] = ($product_info['width']>0) ? $this->length->format($product_info['width'], $product_info['length_class_id']) : "";
+				$this->data['height'] = ($product_info['height']>0) ? $this->length->format($product_info['height'], $product_info['length_class_id']) : "";
+                ]]></add>
+        </operation>
+        <!-- additional fields and product details for the related products -->
+        <operation>
+            <search position="after"><![CDATA[$this->data['products'][] = array(]]></search>
+            <add><![CDATA[
+                'description' => $this->config->get('mmr_common_related_descriptions_enabled') ? utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('mmr_common_descriptions_limit')) . '..' : 0,
+                'attribute_groups' => $this->config->get('mmr_common_related_attributes_enabled') ? $this->model_catalog_product->getProductAttributes($result['product_id']) : 0,
+                'model' => $result['model'],
+                'sku'   => $result['sku'],
+                'upc'   => $result['upc'],
+                'jan'   => $result['jan'],
+                'ean'   => $result['ean'],
+                'isbn'  => $result['isbn'],
+                'mpn'   => $result['mpn'],
+                'viewed'=> $result['viewed'],
+                'meta_description'=> $this->config->get('mmr_common_related_metadescriptions_enabled') ? $result['meta_description'] : 0,
+                'date_available'=> $result['date_available'],
+                'quantity'=> $result['quantity'],
+                'stock'=> ($result['quantity']<=0) ? $result['stock_status'] : $this->language->get('text_instock'),
+                'mmr_savings'=> $mmr_savings,
+                ]]></add>
+        </operation>
+        <!-- product no_image (popup) -->
+        <operation error="skip">
+            <search position="replace"><![CDATA[$this->data['popup'] = '';]]></search>
+            <add><![CDATA[$this->data['popup'] = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height'));]]></add>
+        </operation>
+        <!-- product no_image (thumb) -->
+        <operation error="skip">
+            <search position="replace"><![CDATA[$this->data['thumb'] = '';]]></search>
+            <add><![CDATA[$this->data['thumb'] = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));]]></add>
+        </operation>
+        <!-- product no_image (related) -->
+        <operation error="skip">
+            <search position="replace"><![CDATA[$image = false;]]></search>
+            <add><![CDATA[$image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_related_width'), $this->config->get('config_image_related_height'));]]></add>
+        </operation>
+        <!-- remove 2nd colorbox -->
+        <operation error="skip">
+            <search position="replace"><![CDATA[$this->document->addScript('catalog/view/javascript/jquery/colorbox/jquery.colorbox-min.js');]]></search>
+            <add><![CDATA[//$this->document->addScript('catalog/view/javascript/jquery/colorbox/jquery.colorbox-min.js');]]></add>
+        </operation>
+        <operation error="skip">
+            <search position="replace"><![CDATA[$this->document->addStyle('catalog/view/javascript/jquery/colorbox/colorbox.css');]]></search>
+            <add><![CDATA[//$this->document->addStyle('catalog/view/javascript/jquery/colorbox/colorbox.css');]]></add>
+        </operation>
+    </file>
+    <file name="catalog/controller/account/wishlist.php">
+        <!-- savings and rating -->
+        <operation>
+            <search position="before">
+                <![CDATA[if ((float)$product_info['special']) {]]>
+            </search>
+            <add>
+                <![CDATA[
+                if ($this->config->get('config_review_status')) {
+					$rating = $product_info['rating'];
+				} else {
+					$rating = false;
+				}
+                if ((float)$product_info['special']) {
+				    $mmr_savings = $this->currency->format((($product_info['special'])-($product_info['price']))*(-1));
+			    } else {
+				    $mmr_savings = false;
+			    }
+                ]]>
+            </add>
+        </operation>
+        <!-- in stock text -->
+        <operation>
+            <search position="before">
+                <![CDATA[$this->language->load('account/wishlist');]]>
+            </search>
+            <add>
+                <![CDATA[$this->language->load('product/product');]]>
+            </add>
+        </operation>
+        <!-- additional fields -->
+        <operation>
+            <search position="after"><![CDATA[$this->data['products'][] = array(]]></search>
+            <add><![CDATA[
+                'description' => $this->config->get('mmr_common_catalog_descriptions_enabled') ? utf8_substr(strip_tags(html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('mmr_common_descriptions_limit')) . '..' : 0,
+                'rating'=> $rating,
+                'model' => $product_info['model'],
+                'sku'   => $product_info['sku'],
+                'upc'   => $product_info['upc'],
+                'jan'   => $product_info['jan'],
+                'ean'   => $product_info['ean'],
+                'isbn'  => $product_info['isbn'],
+                'mpn'   => $product_info['mpn'],
+                'viewed'=> $product_info['viewed'],
+                'meta_description'=> $this->config->get('mmr_common_catalog_metadescriptions_enabled') ? $product_info['meta_description'] : 0,
+                'date_available'=> $product_info['date_available'],
+                'quantity'=> $product_info['quantity'],
+                'stock'=> ($product_info['quantity']<=0) ? $product_info['stock_status'] : $this->language->get('text_instock'),
+                'mmr_savings'=> $mmr_savings,
+                'attribute_groups' => $this->config->get('mmr_common_catalog_attributes_enabled') ? $this->model_catalog_product->getProductAttributes($product_info['product_id']) : 0,
+                ]]></add>
+        </operation>
+        <!-- product no_image -->
+        <operation error="skip">
+            <search position="replace"><![CDATA[$image = false;]]></search>
+            <add><![CDATA[$image = $this->model_tool_image->resize('no_image.jpg', $this->config->get('config_image_wishlist_width'), $this->config->get('config_image_wishlist_height'));]]></add>
+        </operation>
+    </file>
+    <file name="catalog/controller/module/featured.php">
+        <!-- savings -->
+        <operation>
+        <search position="before">
+            <![CDATA[if ((float)$product_info['special']) {]]>
+        </search>
+        <add>
+            <![CDATA[
+                if ((float)$product_info['special']) {
+				    $mmr_savings = $this->currency->format((($product_info['special'])-($product_info['price']))*(-1));
+			    } else {
+				    $mmr_savings = false;
+			    }
+                ]]>
+        </add>
+    </operation>
+        <!-- in stock text -->
+        <operation>
+            <search position="before">
+                <![CDATA[$this->language->load('module/featured');]]>
+            </search>
+            <add>
+                <![CDATA[$this->language->load('product/product');]]>
+            </add>
+        </operation>
+        <!-- additional fields -->
+        <operation>
+            <search position="after"><![CDATA[$this->data['products'][] = array(]]></search>
+            <add><![CDATA[
+                'description' => $this->config->get('mmr_common_featured_descriptions_enabled') ? utf8_substr(strip_tags(html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('mmr_common_descriptions_limit')) . '..' : 0,
+                'attribute_groups' => $this->config->get('mmr_common_featured_attributes_enabled') ? $this->model_catalog_product->getProductAttributes($product_info['product_id']) : 0,
+                'model' => $product_info['model'],
+                'sku'   => $product_info['sku'],
+                'upc'   => $product_info['upc'],
+                'jan'   => $product_info['jan'],
+                'ean'   => $product_info['ean'],
+                'isbn'  => $product_info['isbn'],
+                'mpn'   => $product_info['mpn'],
+                'viewed'=> $product_info['viewed'],
+                'meta_description'=> $this->config->get('mmr_common_featured_metadescriptions_enabled') ? $product_info['meta_description'] : 0,
+                'date_available'=> $product_info['date_available'],
+                'quantity'=> $product_info['quantity'],
+                'stock'=> ($product_info['quantity']<=0) ? $product_info['stock_status'] : $this->language->get('text_instock'),
+                'mmr_savings'=> $mmr_savings,
+                ]]></add>
+        </operation>
+        <!-- product no_image -->
+        <operation error="skip">
+            <search position="replace"><![CDATA[$image = false;]]></search>
+            <add><![CDATA[$image = $this->model_tool_image->resize('no_image.jpg', $setting['image_width'], $setting['image_height']);]]></add>
+        </operation>
+    </file>
+    <file name="catalog/controller/module/bestseller.php">
+        <!-- savings -->
+        <operation>
+            <search position="before">
+                <![CDATA[if ((float)$result['special']) {]]>
+            </search>
+            <add>
+                <![CDATA[
+                if ((float)$result['special']) {
+				    $mmr_savings = $this->currency->format((($result['special'])-($result['price']))*(-1));
+			    } else {
+				    $mmr_savings = false;
+			    }
+                ]]>
+            </add>
+        </operation>
+        <!-- in stock text -->
+        <operation>
+            <search position="before">
+                <![CDATA[$this->language->load('module/bestseller');]]>
+            </search>
+            <add>
+                <![CDATA[$this->language->load('product/product');]]>
+            </add>
+        </operation>
+        <!-- additional fields -->
+        <operation>
+            <search position="after"><![CDATA[$this->data['products'][] = array(]]></search>
+            <add><![CDATA[
+                'description' => $this->config->get('mmr_common_bestsellers_descriptions_enabled') ? utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('mmr_common_descriptions_limit')) . '..' : 0,
+                'attribute_groups' => $this->config->get('mmr_common_bestsellers_attributes_enabled') ? $this->model_catalog_product->getProductAttributes($result['product_id']) : 0,
+                'model' => $result['model'],
+                'sku'   => $result['sku'],
+                'upc'   => $result['upc'],
+                'jan'   => $result['jan'],
+                'ean'   => $result['ean'],
+                'isbn'  => $result['isbn'],
+                'mpn'   => $result['mpn'],
+                'viewed'=> $result['viewed'],
+                'meta_description'=> $this->config->get('mmr_common_bestsellers_metadescriptions_enabled') ? $result['meta_description'] : 0,
+                'date_available'=> $result['date_available'],
+                'quantity'=> $result['quantity'],
+                'stock'=> ($result['quantity']<=0) ? $result['stock_status'] : $this->language->get('text_instock'),
+                'mmr_savings'=> $mmr_savings,
+                ]]></add>
+        </operation>
+        <!-- product no_image -->
+        <operation error="skip">
+            <search position="replace"><![CDATA[$image = false;]]></search>
+            <add><![CDATA[$image = $this->model_tool_image->resize('no_image.jpg', $setting['image_width'], $setting['image_height']);]]></add>
+        </operation>
+    </file>
+    <file name="catalog/controller/module/latest.php">
+        <!-- savings -->
+        <operation>
+            <search position="before">
+                <![CDATA[if ((float)$result['special']) {]]>
+            </search>
+            <add>
+                <![CDATA[
+                if ((float)$result['special']) {
+				    $mmr_savings = $this->currency->format((($result['special'])-($result['price']))*(-1));
+			    } else {
+				    $mmr_savings = false;
+			    }
+                ]]>
+            </add>
+        </operation>
+        <!-- in stock text -->
+        <operation>
+            <search position="before">
+                <![CDATA[$this->language->load('module/latest');]]>
+            </search>
+            <add>
+                <![CDATA[$this->language->load('product/product');]]>
+            </add>
+        </operation>
+        <!-- additional fields -->
+        <operation>
+            <search position="after"><![CDATA[$this->data['products'][] = array(]]></search>
+            <add><![CDATA[
+                'description' => $this->config->get('mmr_common_latest_descriptions_enabled') ? utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('mmr_common_descriptions_limit')) . '..' : 0,
+                'attribute_groups' => $this->config->get('mmr_common_latest_attributes_enabled') ? $this->model_catalog_product->getProductAttributes($result['product_id']) : 0,
+                'model' => $result['model'],
+                'sku'   => $result['sku'],
+                'upc'   => $result['upc'],
+                'jan'   => $result['jan'],
+                'ean'   => $result['ean'],
+                'isbn'  => $result['isbn'],
+                'mpn'   => $result['mpn'],
+                'viewed'=> $result['viewed'],
+                'meta_description'=> $this->config->get('mmr_common_latest_metadescriptions_enabled') ? $result['meta_description'] : 0,
+                'date_available'=> $result['date_available'],
+                'quantity'=> $result['quantity'],
+                'stock'=> ($result['quantity']<=0) ? $result['stock_status'] : $this->language->get('text_instock'),
+                'mmr_savings'=> $mmr_savings,
+                ]]></add>
+        </operation>
+        <!-- product no_image -->
+        <operation error="skip">
+            <search position="replace"><![CDATA[$image = false;]]></search>
+            <add><![CDATA[$image = $this->model_tool_image->resize('no_image.jpg', $setting['image_width'], $setting['image_height']);]]></add>
+        </operation>
+    </file>
+    <file name="catalog/controller/module/special.php">
+        <!-- savings -->
+        <operation>
+            <search position="before">
+                <![CDATA[if ((float)$result['special']) {]]>
+            </search>
+            <add>
+                <![CDATA[
+                if ((float)$result['special']) {
+				    $mmr_savings = $this->currency->format((($result['special'])-($result['price']))*(-1));
+			    } else {
+				    $mmr_savings = false;
+			    }
+                ]]>
+            </add>
+        </operation>
+        <!-- in stock text -->
+        <operation>
+            <search position="before">
+                <![CDATA[$this->language->load('module/special');]]>
+            </search>
+            <add>
+                <![CDATA[$this->language->load('product/product');]]>
+            </add>
+        </operation>
+        <!-- additional fields -->
+        <operation>
+            <search position="after"><![CDATA[$this->data['products'][] = array(]]></search>
+            <add><![CDATA[
+                'description' => $this->config->get('mmr_common_specials_descriptions_enabled') ? utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('mmr_common_descriptions_limit')) . '..' : 0,
+                'attribute_groups' => $this->config->get('mmr_common_specials_attributes_enabled') ? $this->model_catalog_product->getProductAttributes($result['product_id']) : 0,
+                'model' => $result['model'],
+                'sku'   => $result['sku'],
+                'upc'   => $result['upc'],
+                'jan'   => $result['jan'],
+                'ean'   => $result['ean'],
+                'isbn'  => $result['isbn'],
+                'mpn'   => $result['mpn'],
+                'viewed'=> $result['viewed'],
+                'meta_description'=> $this->config->get('mmr_common_specials_metadescriptions_enabled') ? $result['meta_description'] : 0,
+                'date_available'=> $result['date_available'],
+                'quantity'=> $result['quantity'],
+                'stock'=> ($result['quantity']<=0) ? $result['stock_status'] : $this->language->get('text_instock'),
+                'mmr_savings'=> $mmr_savings,
+                ]]></add>
+        </operation>
+        <!-- product no_image -->
+        <operation error="skip">
+            <search position="replace"><![CDATA[$image = false;]]></search>
+            <add><![CDATA[$image = $this->model_tool_image->resize('no_image.jpg', $setting['image_width'], $setting['image_height']);]]></add>
+        </operation>
+    </file>
+
+    <!-- recaptcha -->
+    <file name="catalog/controller/information/contact.php">
+        <operation error="abort">
+            <search position="before"><![CDATA[if (isset($this->request->post['name'])) {]]></search>
+            <add><![CDATA[
+            if ($this->config->get('mmr_catalog_recaptcha_enabled') && $this->config->get('mmr_catalog_recaptcha_private_key') && $this->config->get('mmr_catalog_recaptcha_public_key')) {
+			require_once(DIR_SYSTEM . 'library/recaptchalib.php');
+			if ($this->config->get('config_ssl')) {
+				$recaptcha_ssl = true;
+			} else {
+				$recaptcha_ssl = false;
+			}
+			$this->data['recaptcha'] = recaptcha_get_html($this->config->get('mmr_catalog_recaptcha_public_key'), null, $recaptcha_ssl);
+		    } else {
+			$this->data['recaptcha'] = '';
+		    }
+        ]]></add>
+        </operation>
+        <operation error="abort">
+            <search position="replace" regex="true" offset="2"><![CDATA[~.*\$this->session->data\['captcha'\] != \$this->request->post\['captcha'\].*~]]></search>
+            <add><![CDATA[
+            if (!$this->config->get('mmr_catalog_recaptcha_enabled') || !$this->config->get('mmr_catalog_recaptcha_private_key') || !$this->config->get('mmr_catalog_recaptcha_public_key')) {
+			if (empty($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
+				$this->error['captcha'] = $this->language->get('error_captcha');
+			}
+		    } else {
+			require_once(DIR_SYSTEM . 'library/recaptchalib.php');
+			if (!isset($this->request->post['recaptcha_challenge_field']) || !isset($this->request->post['recaptcha_response_field'])) {
+				$this->error['captcha'] = $this->language->get('error_captcha');
+			} else {
+				$response = recaptcha_check_answer($this->config->get('mmr_catalog_recaptcha_private_key'), $this->request->server['REMOTE_ADDR'], $this->request->post['recaptcha_challenge_field'], $this->request->post['recaptcha_response_field']);
+				if (!$response->is_valid) {
+					$this->error['captcha'] = $this->language->get('error_captcha');
+				}
+			}
+		    }
+		]]></add>
+        </operation>
+    </file>
+    <file name="catalog/controller/product/product.php">
+        <operation error="abort">
+            <search position="after"><![CDATA[$this->data['button_continue'] = $this->language->get('button_continue');]]></search>
+            <add><![CDATA[
+            if ($this->config->get('mmr_catalog_recaptcha_enabled') && $this->config->get('mmr_catalog_recaptcha_private_key') && $this->config->get('mmr_catalog_recaptcha_public_key')) {
+			require_once(DIR_SYSTEM . 'library/recaptchalib.php');
+			if ($this->config->get('config_ssl')) {
+				$recaptcha_ssl = true;
+			} else {
+				$recaptcha_ssl = false;
+			}
+			$this->data['recaptcha'] = recaptcha_get_html($this->config->get('mmr_catalog_recaptcha_public_key'), null, $recaptcha_ssl);
+		    } else {
+			$this->data['recaptcha'] = '';
+		    }
+        ]]></add>
+        </operation>
+        <operation error="abort">
+            <search position="replace" regex="true" offset="2"><![CDATA[~.*\$this->session->data\['captcha'\] != \$this->request->post\['captcha'\].*~]]></search>
+            <add><![CDATA[
+            if (!$this->config->get('mmr_catalog_recaptcha_enabled') || !$this->config->get('mmr_catalog_recaptcha_private_key') || !$this->config->get('mmr_catalog_recaptcha_public_key')) {
+			if (empty($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
+				$json['error'] = $this->language->get('error_captcha');
+			}
+		    } else {
+			require_once(DIR_SYSTEM . 'library/recaptchalib.php');
+			if (!isset($this->request->post['recaptcha_challenge_field']) || !isset($this->request->post['recaptcha_response_field'])) {
+				$json['error'] = $this->language->get('error_captcha');
+			} else {
+				$response = recaptcha_check_answer($this->config->get('mmr_catalog_recaptcha_private_key'), $this->request->server['REMOTE_ADDR'], $this->request->post['recaptcha_challenge_field'], $this->request->post['recaptcha_response_field']);
+				if (!$response->is_valid) {
+					$json['error'] = $this->language->get('error_captcha');
+				}
+			}
+		    }
+		]]></add>
+        </operation>
+    </file>
+    <file name="catalog/controller/account/return.php">
+    <operation error="abort">
+        <search position="before"><![CDATA[if (isset($this->request->post['comment'])) {]]></search>
+        <add><![CDATA[
+            if ($this->config->get('mmr_catalog_recaptcha_enabled') && $this->config->get('mmr_catalog_recaptcha_private_key') && $this->config->get('mmr_catalog_recaptcha_public_key')) {
+			require_once(DIR_SYSTEM . 'library/recaptchalib.php');
+			if ($this->config->get('config_ssl')) {
+				$recaptcha_ssl = true;
+			} else {
+				$recaptcha_ssl = false;
+			}
+			$this->data['recaptcha'] = recaptcha_get_html($this->config->get('mmr_catalog_recaptcha_public_key'), null, $recaptcha_ssl);
+		    } else {
+			$this->data['recaptcha'] = '';
+		    }
+        ]]></add>
+    </operation>
+    <operation error="abort">
+        <search position="replace" regex="true" offset="2"><![CDATA[~.*\$this->session->data\['captcha'\] != \$this->request->post\['captcha'\].*~]]></search>
+        <add><![CDATA[
+            if (!$this->config->get('mmr_catalog_recaptcha_enabled') || !$this->config->get('mmr_catalog_recaptcha_private_key') || !$this->config->get('mmr_catalog_recaptcha_public_key')) {
+			if (empty($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
+				$this->error['captcha'] = $this->language->get('error_captcha');
+			}
+		    } else {
+			require_once(DIR_SYSTEM . 'library/recaptchalib.php');
+			if (!isset($this->request->post['recaptcha_challenge_field']) || !isset($this->request->post['recaptcha_response_field'])) {
+				$this->error['captcha'] = $this->language->get('error_captcha');
+			} else {
+				$response = recaptcha_check_answer($this->config->get('mmr_catalog_recaptcha_private_key'), $this->request->server['REMOTE_ADDR'], $this->request->post['recaptcha_challenge_field'], $this->request->post['recaptcha_response_field']);
+				if (!$response->is_valid) {
+					$this->error['captcha'] = $this->language->get('error_captcha');
+				}
+			}
+		    }
+		]]></add>
+    </operation>
+    </file>
+</modification>

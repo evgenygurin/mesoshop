@@ -1,0 +1,38 @@
+{# Order Summary Component - адаптация из astro-ecommerce/src/components/cart/orderSummary.tsx #}
+{# Итоговая сводка заказа #}
+<div class="card border-0 shadow-xs">
+  <div class="card-body p-4">
+    <h5 class="card-title mb-4 text-{{ textColor|default('dark') }}">Order Summary</h5>
+
+    <div class="d-flex justify-content-between mb-3">
+      <span class="text-{{ textColor|default('dark') }}">Subtotal</span>
+      <span class="text-{{ textColor|default('dark') }} font-weight-bold">{{ sub_total }}</span>
+    </div>
+
+    {% if totals %}
+      {% for total in totals %}
+        {% if total.code != 'sub_total' and total.code != 'total' %}
+          <div class="d-flex justify-content-between mb-3">
+            <span class="text-{{ textColor|default('dark') }}">{{ total.title }}</span>
+            <span class="text-{{ textColor|default('dark') }}">{{ total.text }}</span>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    <hr class="my-3" />
+
+    <div class="d-flex justify-content-between">
+      <span class="h5 text-{{ textColor|default('dark') }}">Total</span>
+      <span class="h5 text-{{ textColor|default('dark') }} font-weight-bold">{{ total }}</span>
+    </div>
+
+    {% if checkout_button %}
+      <div class="mt-4">
+        <a href="{{ checkout }}" class="btn btn-primary w-100">
+          Proceed to Checkout
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>

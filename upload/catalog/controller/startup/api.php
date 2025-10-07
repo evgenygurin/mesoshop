@@ -11,7 +11,7 @@ class Api extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return \Opencart\System\Engine\Action|null
 	 */
-	public function index(): ?\Opencart\System\Engine\Action {
+	public function index() {
 		if (isset($this->request->get['route'])) {
 			$route = (string)$this->request->get['route'];
 		} else {
@@ -49,7 +49,7 @@ class Api extends \Opencart\System\Engine\Controller {
 			}
 
 			if ($status) {
-				// API
+				// Api
 				$this->load->model('user/api');
 
 				$api_info = $this->model_user_api->getApiByUsername((string)$this->request->get['username']);
@@ -93,7 +93,7 @@ class Api extends \Opencart\System\Engine\Controller {
 				$string .= md5(http_build_query($this->request->post)) . "\n";
 				$string .= $time . "\n";
 
-				if (rawurldecode($this->request->get['signature']) != base64_encode(hash_hmac('sha1', $string, $api_info['key'], 1))) {
+				if (rawurldecode($this->request->get['signature']) != base64_encode(hash_hmac('sha1', $string, $api_info['key'], true))) {
 					$status = false;
 				}
 			}

@@ -11,7 +11,7 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return \Opencart\System\Engine\Action|null
 	 */
-	public function index(): ?\Opencart\System\Engine\Action {
+	public function index() {
 		// Information
 		$this->load->model('catalog/information');
 
@@ -121,6 +121,7 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 			// Added additional check so people are not spamming requests
 			$status = true;
 
+			// GDPR
 			$this->load->model('account/gdpr');
 
 			$results = $this->model_account_gdpr->getGdprsByEmail($post_info['email']);
@@ -149,13 +150,14 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return \Opencart\System\Engine\Action|null
 	 */
-	public function success(): ?\Opencart\System\Engine\Action {
+	public function success() {
 		if (isset($this->request->get['code'])) {
 			$code = (string)$this->request->get['code'];
 		} else {
 			$code = '';
 		}
 
+		// GDPR
 		$this->load->model('account/gdpr');
 
 		$gdpr_info = $this->model_account_gdpr->getGdprByCode($code);

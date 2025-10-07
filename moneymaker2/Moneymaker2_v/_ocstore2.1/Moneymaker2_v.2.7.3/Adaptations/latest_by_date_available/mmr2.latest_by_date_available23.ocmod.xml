@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Moneymaker 2 Latest By Date Available (Opencart 2.3)</name>
+    <version>2.2.0</version>
+    <author>RGB</author>
+    <code>moneymaker2latestbydateavailable</code>
+    <link>http://moneymaker2.com</link>
+    <file path="catalog/controller/extension/module/latest.php">
+    <operation>
+        <search><![CDATA['sort'  => 'p.date_added',]]></search>
+        <add position="replace"><![CDATA['sort'  => 'p.date_available',]]></add>
+    </operation>
+    </file>
+    <file path="catalog/model/catalog/product.php">
+    <operation>
+        <search><![CDATA['p.sort_order',]]></search>
+        <add position="after"><![CDATA['p.date_available',]]></add>
+    </operation>
+    </file>
+</modification>

@@ -1,0 +1,41 @@
+{# Card Product Component - адаптация из astro-ecommerce/src/components/products/cardProduct.tsx #}
+{# Карточка товара для списка/сетки продуктов #}
+<div class="card card-product border mb-5 shadow-xs border-radius-lg">
+  <a href="{{ href }}">
+    <div class="height-350">
+      <img class="w-100 h-100 p-4 rounded-top" src="{{ thumb }}" alt="{{ name }}" />
+    </div>
+    <div class="card-body text-{{ position|default('start') }}">
+      {% if color %}
+        <h6 class="text-md mb-1 text-body">{{ color }}</h6>
+      {% endif %}
+
+      {% if name %}
+        <h4 class="font-weight-bold">{{ name }}</h4>
+      {% endif %}
+
+      {% if description %}
+        <p class="text-body">{{ description }}</p>
+      {% endif %}
+
+      {% if colors %}
+        {% include 'product/components/product_badge.twig' with {'colors': colors} %}
+      {% endif %}
+
+      {% if price %}
+        <h4 class="mb-0 text-lg mt-1 mb-3">
+          {% if special %}
+            <span class="price-old text-muted text-decoration-line-through">{{ price }}</span>
+            <span class="price-new text-danger">{{ special }}</span>
+          {% else %}
+            {{ price }}
+          {% endif %}
+        </h4>
+      {% endif %}
+
+      {% if not (description or colors or color) %}
+        <a href="{{ href }}" class="font-weight-normal text-body text-sm">Shop Now</a>
+      {% endif %}
+    </div>
+  </a>
+</div>

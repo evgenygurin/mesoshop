@@ -1,0 +1,168 @@
+/* Violet */
+a {
+    color: #a068ad;
+}
+a:hover,
+a:focus {
+    color: #774782;
+}
+.text-primary {
+    color: #a068ad;
+}
+a.text-primary:hover {
+    color: #865092;
+}
+.bg-primary {
+    background-color: #a068ad;
+}
+a.bg-primary:hover {
+    background-color: #865092;
+}
+.btn-primary {
+    background-color: #a068ad;
+    border-color: #9559a3;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+    background-color: #865092;
+    border-color: #71437b;
+}
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+    background-color: #a068ad;
+    border-color: #9559a3;
+}
+.btn-primary .badge {
+    color: #a068ad;
+}
+.btn-link {
+    color: #a068ad;
+}
+.btn-link:hover,
+.btn-link:focus {
+    color: #774782;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+    background-color: #a068ad;
+}
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+    border-color: #a068ad;
+}
+.pagination > li > a,
+.pagination > li > span {
+    color: #a068ad;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+    color: #774782;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+    background-color: #a068ad;
+    border-color: #a068ad;
+}
+.label-primary {
+    background-color: #a068ad;
+}
+.label-primary[href]:hover,
+.label-primary[href]:focus {
+    background-color: #865092;
+}
+a.list-group-item.active > .badge,
+.nav-pills > .active > a > .badge {
+    color: #a068ad;
+}
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+    border-color: #a068ad;
+}
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+    background-color: #a068ad;
+    border-color: #a068ad;
+}
+.list-group-item.active .list-group-item-text,
+.list-group-item.active:hover .list-group-item-text,
+.list-group-item.active:focus .list-group-item-text {
+    color: #ffffff;
+}
+.panel-primary {
+    border-color: #a068ad;
+}
+.panel-primary > .panel-heading {
+    background-color: #a068ad;
+    border-color: #a068ad;
+}
+.panel-primary > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #a068ad;
+}
+.panel-primary > .panel-heading .badge {
+    color: #a068ad;
+}
+.panel-primary > .panel-footer + .panel-collapse > .panel-body {
+    border-bottom-color: #a068ad;
+}
+a.button, input.button {
+    background-color: #a068ad;
+    border-color: #9559a3;
+}
+a.button:hover, input.button:hover {
+    background-color: #865092;
+    border-color: #71437b;
+}
+.pagination .links > *, .pagination_buttons > div .links > * {
+    color: #a068ad;
+}
+.pagination .links > *:hover,
+.pagination_buttons > div .links > *:hover,
+.pagination .links > *:focus,
+.pagination_buttons > div .links > *:focus {
+    color: #774782;
+}
+.pagination_buttons > div .links > b,
+.pagination .links > b,
+.pagination_buttons > div .links > b:hover,
+.pagination .links > b:hover,
+.pagination_buttons > div .links > b:focus,
+.pagination .links > b:focus {
+    background-color: #a068ad;
+    border-color: #a068ad;
+}
+.product-grid .product-block:hover, .product-grid .product-block .description {
+    border-color: #beaec2;
+}
+.product-grid .product-block.product-block-detailed:hover, .product-grid .product-block.product-block-detailed .description {
+    border-color: transparent;
+}
+#footer {
+    border-top: 3px solid #a068ad;
+    color: #777;
+}

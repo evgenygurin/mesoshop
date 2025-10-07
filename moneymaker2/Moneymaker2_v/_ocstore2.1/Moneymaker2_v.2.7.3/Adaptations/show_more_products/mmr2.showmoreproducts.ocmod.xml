@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>Moneymaker2 Show More Products</name>
+	<version>2.7.0</version>
+	<author>RGB</author>
+	<code>moneymaker2showmoreproducts</code>
+	<link>https://2.mnmkr.com</link>
+	<file path="catalog/view/theme/moneymaker2/template/common/footer.tpl">
+	<operation>
+		<search index="0,100"><![CDATA[$(document).ready(function() {]]></search>
+		<add position="before"><![CDATA[
+		$(document).ready(function () {
+		if ((($('body').attr('class').indexOf('product-category')>-1)||($('body').attr('class').indexOf('product-search')>-1)||($('body').attr('class').indexOf('product-special')>-1)||($('body').attr('class').indexOf('product-manufacturer')>-1))&&$('.pagination li.active').last().next('li').length > 0) {
+		  $('.pagination').before('<p id="showmore"><a class="btn btn-lg btn-default" onclick="showmore()"><i class="fa fa-fw fa-refresh"></i> <?php echo $button_show_more_items; ?></a></p>');
+		}
+	  });
+	  function showmore() {
+		$('#showmore > a > .fa').addClass('fa-spin');
+		var $next = $('.pagination li.active').last().next('li');
+		if ($next.length == 0) {
+		  return;
+		}
+		$.get($next.children().attr('href'), function (data) {
+		  $('#showmore > a > .fa').removeClass('fa-spin');
+		  $data = $(data);
+		  var $container = $('.limits + .products');
+		  $container.append($data.find('.limits + .products > *').hide().velocity("fadeIn", { duration: 750 }));
+
+			if (localStorage.getItem('display') == 'list') {
+				$('#list-view').trigger('click');
+				$('#list-view').addClass('active');
+				$('#grid-view').removeClass('active');
+			} else if (localStorage.getItem('display') == 'grid') {
+				$('#grid-view').trigger('click');
+				$('#grid-view').addClass('active');
+				$('#list-view').removeClass('active');
+			}
+
+		  $('.pagination').html($data.find('.pagination > *'));
+		  $('.pagination').addClass('hidden');
+		  if ($('.pagination li.active').last().next('li').length == 0) {
+			$('#showmore a').addClass('disabled');
+			$('.paginator .text-right').addClass('disabled');
+		  }
+		  $('.paginator .text-right').html($data.find('.paginator .text-right').text());
+		}, "html");
+		return false;
+	  }
+		]]></add>
+	</operation>
+	</file>
+</modification>

@@ -15,3 +15,6 @@ RUN apt-get update \
   && docker-php-ext-enable gd zip mysqli curl
 
 RUN a2enmod rewrite
+
+# Fix Apache ServerName warning
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf

@@ -1,28 +1,16 @@
 {{ header }}
-<div id="common-home" class="container my-4 my-lg-5">
-  <div class="row g-4">
-    {% if column_left %}
-    <div class="col-12 col-lg-3">
-      <div class="sticky-top-100">
-        {{ column_left }}
+<div id="common-home" class="container">
+  <div class="row">{{ column_left }}
+    <div id="content" class="col">
+      {{ content_top }}
+
+      {# Incentives Section - What we offer #}
+      <div class="container my-5">
+        {% include 'common/incentives/incentive_cols.twig' %}
       </div>
+
+      {{ content_bottom }}
     </div>
-    {% endif %}
-    
-    <div id="content" class="col-12{% if column_left and column_right %} col-lg-6{% elseif column_left or column_right %} col-lg-9{% endif %} main-content">
-      <div class="fade-in">
-        {{ content_top }}
-        {{ content_bottom }}
-      </div>
-    </div>
-    
-    {% if column_right %}
-    <div class="col-12 col-lg-3">
-      <div class="sticky-top-100">
-        {{ column_right }}
-      </div>
-    </div>
-    {% endif %}
-  </div>
+    {{ column_right }}</div>
 </div>
 {{ footer }}

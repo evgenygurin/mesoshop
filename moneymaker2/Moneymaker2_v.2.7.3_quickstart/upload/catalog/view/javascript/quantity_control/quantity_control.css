@@ -1,0 +1,64 @@
+.quantity_div .stock_warning {
+	position:absolute; 
+	z-index:999; 
+	display:none;
+	left:-52px;
+	bottom:35px; 
+	width:180px !important; 
+	padding:8px 6px 9px; 
+	background:#fefefe; 
+	background: linear-gradient(to bottom, #fefefe 0%, #f0f0f0 100%); 
+	text-shadow: 0 2px 0px #fff;
+	line-height:17px; 
+	border:solid 1px #ddd; 
+	border-radius:8px; 
+	color:#f00 !important; 
+	font-size:11px;
+	font-weight:700;
+}
+.product-list .quantity_div .stock_warning {
+	left: 75px;
+}
+
+.quantity_div .stock_warning:before{
+    border: solid;
+    border-color: #e4e4e4 transparent;
+    border-width: 6px 6px 0 6px;
+    bottom: -6px;
+    content: "";
+    left: 50%;
+    margin-left:-6px;
+    position: absolute;
+    z-index: 999;
+}
+
+.product-list .quantity_div {
+	display: block;
+	margin-top: 10px;
+	height: 20px;
+}
+.product-grid .quantity_div {
+	display: block;
+	margin: 0 auto;
+	height: 20px;
+	width: 86px;
+	margin-top: 15px;
+}
+.quantity_div .btn.btn-link, .quantity_div .btn.btn-default {
+	padding: 1px 3px;
+
+	padding: 0px 3px;
+	border: 1px solid #ccc;
+	color: #777;
+}
+.quantity_div .form-control.quantity_input {
+	float: left;
+	display: inline-block;
+	position: relative;
+	width: 35px;
+	padding: 3px;
+	text-align: center;
+	height: 20px;
+	margin-left: -1px;
+	margin-right: -1px;
+}

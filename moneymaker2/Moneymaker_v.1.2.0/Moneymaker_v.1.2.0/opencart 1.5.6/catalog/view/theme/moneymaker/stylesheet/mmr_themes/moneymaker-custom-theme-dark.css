@@ -1,0 +1,56 @@
+/* Dark */
+.content-container > .container {
+    background: url('../../image/dot_black_65.png');
+}
+#column-left .product-grid .product-block .description, #column-right .product-grid .product-block .description {
+    background: url('../../image/dot_black_25.png');
+    border-radius: 4px;
+    color: #999;
+}
+#content {
+    padding-top: 15px;
+}
+#column-left, #column-right {
+    padding-top: 15px;
+    color: #999;
+}
+.header-container {
+    background: url('../../image/dot_white_20.png');
+}
+.navbar-default {
+    background: url('../../image/dot_white_45.png');
+    border-color: #888;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    background: url('../../image/dot_white_30.png');
+}
+#column-left .sticker-caption, #column-right .sticker-caption {
+    background: url('../../image/dot_black_20.png');
+}
+#column-left .product-grid .product-block .price > div, #column-right .product-grid .product-block .price > div {
+    background: url('../../image/dot_black_25.png');
+}
+#column-left .product-grid .product-block .price , #column-right .product-grid .product-block .price  {
+    color: #999;
+}
+#column-left .product-grid .product-block .price .price-ldot, #column-right .product-grid .product-block .price .price-ldot,
+#column-left .product-grid .product-block .price .price-rdot, #column-right .product-grid .product-block .price .price-rdot {
+    color: #555;
+}
+#column-left .btn-default, #column-right .btn-default {
+    background-color: #ddd;
+    border-color: #aaa;
+}
+#column-left .btn-default:hover, #column-left .btn-default:focus, #column-left .btn-default:active, #column-left .btn-default.active,
+#column-right .btn-default:hover, #column-right .btn-default:focus, #column-right .btn-default:active, #column-right .btn-default.active {
+    background-color: #fff;
+    border-color: #ccc;
+}
+#column-left .box .box-heading, #column-right .box .box-heading {
+    background: url('../../image/dot_black_25.png');
+    color: #ccc;
+}
+.breadcrumb {
+    background: #fff;
+}
