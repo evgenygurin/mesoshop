@@ -8,39 +8,97 @@
   <div class="row">{{ column_left }}
     <div id="content" class="col">{{ content_top }}
       <h1>{{ heading_title }}</h1>
-      <p>{{ text_total }} <b>{{ total }}</b>.</p>
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th>{{ column_date_added }}</th>
-              <th>{{ column_description }}</th>
-              <th class="text-end">{{ column_points }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% if rewards %}
-              {% for reward in rewards %}
-                <tr>
-                  <td>{{ reward.date_added }}</td>
-                  <td>{% if reward.order_id %} <a href="{{ reward.href }}">{{ reward.description }}</a> {% else %}
-                      {{ reward.description }}
-                    {% endif %}</td>
-                  <td class="text-end">{{ reward.points }}</td>
-                </tr>
-              {% endfor %}
-            {% else %}
-              <tr>
-                <td class="text-center" colspan="3">{{ text_no_results }}</td>
-              </tr>
-            {% endif %}
-          </tbody>
-        </table>
+
+      <!-- Total Points Card -->
+      <div class="card bg-gradient-primary text-white shadow-lg mb-4">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <div class="bg-white bg-opacity-25 rounded p-3">
+                <i class="fa-solid fa-star fa-3x"></i>
+              </div>
+            </div>
+            <div class="col">
+              <h6 class="text-white-50 mb-1">{{ text_total }}</h6>
+              <h2 class="mb-0 fw-bold">{{ total }} Points</h2>
+            </div>
+            <div class="col-auto">
+              <i class="fa-solid fa-trophy fa-4x opacity-25"></i>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="row mb-3">
-        <div class="col-sm-6 text-start">{{ pagination }}</div>
-        <div class="col-sm-6 text-end">{{ results }}</div>
-      </div>
+
+      {% if rewards %}
+        <!-- Reward Points Timeline -->
+        <div class="card shadow-sm mb-4">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th width="15%">{{ column_date_added }}</th>
+                    <th>{{ column_description }}</th>
+                    <th class="text-end" width="15%">{{ column_points }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for reward in rewards %}
+                    <tr>
+                      <td class="text-muted small">
+                        <i class="fa-regular fa-calendar me-1"></i>
+                        {{ reward.date_added }}
+                      </td>
+                      <td>
+                        {% if reward.order_id %}
+                          <a href="{{ reward.href }}" class="text-decoration-none">
+                            <i class="fa-solid fa-receipt me-2 text-primary"></i>{{ reward.description }}
+                          </a>
+                        {% else %}
+                          <i class="fa-solid fa-info-circle me-2 text-muted"></i>{{ reward.description }}
+                        {% endif %}
+                      </td>
+                      <td class="text-end">
+                        {% if reward.points > 0 %}
+                          <span class="badge bg-success bg-gradient">
+                            <i class="fa-solid fa-plus me-1"></i>{{ reward.points }}
+                          </span>
+                        {% else %}
+                          <span class="badge bg-danger bg-gradient">
+                            {{ reward.points }}
+                          </span>
+                        {% endif %}
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="card border-0 bg-light">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-sm-6 text-start">{{ pagination }}</div>
+              <div class="col-sm-6 text-end text-muted">{{ results }}</div>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <!-- Empty State -->
+        <div class="card border-0 bg-light">
+          <div class="card-body text-center py-5">
+            <i class="fa-solid fa-gift fa-4x text-muted mb-3"></i>
+            <h4 class="text-muted">{{ text_no_results }}</h4>
+            <p class="text-muted mb-4">Start earning reward points by making purchases</p>
+            <a href="{{ continue }}" class="btn btn-primary">
+              <i class="fa-solid fa-shopping-bag me-2"></i>Start Shopping
+            </a>
+          </div>
+        </div>
+      {% endif %}
       <div class="text-end"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
       {{ content_bottom }}</div>
     {{ column_right }}</div>

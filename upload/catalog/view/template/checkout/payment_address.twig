@@ -1,17 +1,21 @@
-<fieldset>
-  <legend>{{ heading_title }}</legend>
-  <div id="payment-addresses" style="display: {% if addresses %}block{% else %}none{% endif %};">
-    <div class="form-check">
-      <input type="radio" name="payment_existing" value="1" id="input-payment-existing" class="form-check-input"{% if addresses %} checked{% endif %}/>
-      <label for="input-payment-existing" class="form-check-label">{{ text_address_existing }}</label>
-    </div>
-    <div class="form-check">
-      <input type="radio" name="payment_existing" value="0" id="input-payment-new" class="form-check-input"{% if not addresses %} checked{% endif %}>
-      <label for="input-payment-new" class="form-check-label">{{ text_address_new }}</label>
+<div class="payment-address-form">
+  <div id="payment-addresses" class="mb-4" style="display: {% if addresses %}block{% else %}none{% endif %};">
+    <h6 class="mb-3">{{ heading_title }}</h6>
+    <div class="card bg-light border-0 p-3 mb-3">
+      <div class="form-check mb-2">
+        <input type="radio" name="payment_existing" value="1" id="input-payment-existing" class="form-check-input"{% if addresses %} checked{% endif %}/>
+        <label for="input-payment-existing" class="form-check-label fw-semibold">{{ text_address_existing }}</label>
+      </div>
+      <div class="form-check">
+        <input type="radio" name="payment_existing" value="0" id="input-payment-new" class="form-check-input"{% if not addresses %} checked{% endif %}>
+        <label for="input-payment-new" class="form-check-label fw-semibold">{{ text_address_new }}</label>
+      </div>
     </div>
   </div>
-  <div id="payment-existing" style="display: {% if addresses %}block{% else %}none{% endif %};">
-    <select name="address_id" id="input-payment-address" class="form-select">
+
+  <div id="payment-existing" class="mb-4" style="display: {% if addresses %}block{% else %}none{% endif %};">
+    <label for="input-payment-address" class="form-label fw-semibold">Select Address</label>
+    <select name="address_id" id="input-payment-address" class="form-select form-select-lg">
       <option value="">{{ text_select }}</option>
       {% for address in addresses %}
         <option value="{{ address.address_id }}"{% if address.address_id == address_id %} selected{% endif %}>{{ address.firstname }} {{ address.lastname }},{% if address.company %} {{ address.company }},{% endif %} {{ address.address_1 }}, {{ address.city }}, {{ address.zone }}, {{ address.country }}</option>
@@ -19,8 +23,9 @@
     </select>
     <div id="error-payment-address" class="invalid-feedback"></div>
   </div>
-  <br/>
+
   <div id="payment-new" style="display: {% if not addresses %}block{% else %}none{% endif %};">
+    <h6 class="mb-3">{% if addresses %}Add New Address{% else %}{{ heading_title }}{% endif %}</h6>
     <form id="form-payment-address">
       <div class="row row-cols-1 row-cols-md-2">
         <div class="col mb-3">
@@ -168,12 +173,14 @@
 
         {% endfor %}
       </div>
-      <div class="text-end mb-3">
-        <button type="submit" id="button-payment-address" class="btn btn-primary">{{ button_continue }}</button>
+      <div class="d-grid gap-2 mt-4">
+        <button type="submit" id="button-payment-address" class="btn btn-primary btn-lg">
+          {{ button_continue }} <i class="fa-solid fa-arrow-right ms-2"></i>
+        </button>
       </div>
     </form>
   </div>
-</fieldset>
+</div>
 <script type="text/javascript"><!--
 $('input[name=\'payment_existing\']').on('change', function() {
     if ($(this).val() == 1) {

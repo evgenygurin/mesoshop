@@ -1,7 +1,16 @@
 {{ header }}
+<!-- Enhanced Home Page Layout -->
 <div id="common-home" class="container">
-  <div class="row">{{ column_left }}
-    <div id="content" class="col">{{ content_top }}{{ content_bottom }}</div>
-    {{ column_right }}</div>
+  <div class="row g-4">
+    {{ column_left }}
+
+    <!-- Main Content Area -->
+    <div id="content" class="col">
+      {{ content_top }}
+      {{ content_bottom }}
+    </div>
+
+    {{ column_right }}
+  </div>
 </div>
 {{ footer }}

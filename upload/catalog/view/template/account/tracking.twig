@@ -5,37 +5,250 @@
       <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
     {% endfor %}
   </ul>
-  <div class="row">{{ column_left }}
-    <div id="content" class="col">{{ content_top }}
-      <h1>{{ heading_title }}</h1>
-      <p>{{ text_description }}</p>
-      <form>
-        <div class="row mb-3">
-          <label for="input-code" class="col-md-2 col-form-label">{{ entry_code }}</label>
-          <div class="col-md-10">
-            <textarea cols="40" rows="5" placeholder="{{ entry_code }}" id="input-code" class="form-control">{{ code }}</textarea>
+  <div class="row">
+    {{ column_left }}
+    <div id="content" class="col">
+      {{ content_top }}
+
+      <!-- Tracking Header -->
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="text-center mb-5">
+            <div class="icon-shape icon-xl bg-success bg-opacity-10 text-success rounded-circle mx-auto mb-3">
+              <i class="fa-solid fa-chart-line fa-3x"></i>
+            </div>
+            <h1 class="display-6 fw-bold mb-3">{{ heading_title }}</h1>
+            <p class="text-muted fs-5">{{ text_description }}</p>
+          </div>
+
+          <!-- Tracking Code Card -->
+          <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4 p-md-5">
+              <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                <div class="icon-shape bg-primary bg-opacity-10 text-primary rounded me-3">
+                  <i class="fa-solid fa-code"></i>
+                </div>
+                <h3 class="h5 mb-0 fw-semibold">{{ entry_code }}</h3>
+              </div>
+
+              <div class="mb-4">
+                <label for="input-code" class="form-label fw-semibold">{{ entry_code }}</label>
+                <div class="position-relative">
+                  <textarea cols="40"
+                            rows="6"
+                            placeholder="{{ entry_code }}"
+                            id="input-code"
+                            class="form-control form-control-lg font-monospace"
+                            readonly>{{ code }}</textarea>
+                  <button type="button"
+                          class="btn btn-sm btn-primary position-absolute top-0 end-0 m-2"
+                          onclick="copyTrackingCode()"
+                          title="Copy to clipboard">
+                    <i class="fa-solid fa-copy"></i> Copy
+                  </button>
+                </div>
+                <div class="form-text mt-2">
+                  <i class="fa-solid fa-info-circle me-1"></i>
+                  Copy and paste this tracking code into your website
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Link Generator Card -->
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 p-md-5">
+              <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                <div class="icon-shape bg-success bg-opacity-10 text-success rounded me-3">
+                  <i class="fa-solid fa-link"></i>
+                </div>
+                <h3 class="h5 mb-0 fw-semibold">{{ entry_generator }}</h3>
+              </div>
+
+              <form>
+                <div class="mb-4">
+                  <label for="input-generator" class="form-label fw-semibold">{{ entry_generator }}</label>
+                  <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-light border-end-0">
+                      <i class="fa-solid fa-search text-muted"></i>
+                    </span>
+                    <input type="text"
+                           name="product"
+                           value=""
+                           placeholder="{{ entry_generator }}"
+                           id="input-generator"
+                           data-oc-target="autocomplete-generator"
+                           class="form-control border-start-0 ps-0"
+                           autocomplete="off"/>
+                  </div>
+                  <ul id="autocomplete-generator" class="dropdown-menu" style="width: 100%;"></ul>
+                  <div class="form-text mt-2">
+                    <i class="fa-solid fa-info-circle me-1"></i>
+                    {{ help_generator }}
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label for="input-link" class="form-label fw-semibold">{{ entry_link }}</label>
+                  <div class="position-relative">
+                    <textarea name="link"
+                              cols="40"
+                              rows="4"
+                              placeholder="{{ entry_link }}"
+                              id="input-link"
+                              class="form-control form-control-lg font-monospace"
+                              readonly></textarea>
+                    <button type="button"
+                            class="btn btn-sm btn-primary position-absolute top-0 end-0 m-2"
+                            onclick="copyAffiliateLink()"
+                            style="display: none;"
+                            id="copy-link-btn"
+                            title="Copy to clipboard">
+                      <i class="fa-solid fa-copy"></i> Copy
+                    </button>
+                  </div>
+                  <div class="form-text mt-2">
+                    <i class="fa-solid fa-info-circle me-1"></i>
+                    Generated affiliate link will appear here
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="text-center mt-4">
+            <a href="{{ continue }}" class="btn btn-primary btn-lg px-5">
+              <i class="fa-solid fa-arrow-left me-2"></i>{{ button_continue }}
+            </a>
           </div>
         </div>
-        <div class="row mb-3">
-          <label for="input-generator" class="col-md-2 col-form-label">{{ entry_generator }}</label>
-          <div class="col-md-10">
-            <input type="text" name="product" value="" placeholder="{{ entry_generator }}" id="input-generator" data-oc-target="autocomplete-generator" class="form-control" autocomplete="off"/>
-            <ul id="autocomplete-generator" class="dropdown-menu"></ul>
-            <div class="text-muted">{{ help_generator }}</div>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <label for="input-link" class="col-md-2 col-form-label">{{ entry_link }}</label>
-          <div class="col-md-10">
-            <textarea name="link" cols="40" rows="5" placeholder="{{ entry_link }}" id="input-link" class="form-control"></textarea>
-          </div>
-        </div>
-      </form>
-      <div class="text-end"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
-      {{ content_bottom }}</div>
-    {{ column_right }}</div>
+      </div>
+      {{ content_bottom }}
+    </div>
+    {{ column_right }}
+  </div>
 </div>
+
+<style>
+/* Tracking Page Enhancements */
+#account-tracking .icon-shape {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+}
+
+#account-tracking .icon-shape.icon-xl {
+  width: 80px;
+  height: 80px;
+}
+
+#account-tracking .input-group-text {
+  border-right: 0;
+}
+
+#account-tracking .input-group .form-control:focus {
+  border-color: #dee2e6;
+  box-shadow: none;
+}
+
+#account-tracking .input-group:focus-within .input-group-text {
+  border-color: var(--bs-primary);
+  background-color: rgba(var(--bs-primary-rgb), 0.05);
+}
+
+#account-tracking .card {
+  border-radius: 12px;
+}
+
+#account-tracking .form-label.fw-semibold {
+  color: #344767;
+}
+
+#account-tracking .font-monospace {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.875rem;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+}
+
+#account-tracking textarea.font-monospace {
+  resize: vertical;
+}
+
+#account-tracking .position-relative .btn {
+  z-index: 5;
+}
+
+#account-tracking #autocomplete-generator {
+  max-height: 300px;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+#account-tracking #autocomplete-generator.show {
+  display: block;
+}
+
+#account-tracking #autocomplete-generator .dropdown-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+#account-tracking #autocomplete-generator .dropdown-item:hover {
+  background-color: rgba(var(--bs-primary-rgb), 0.1);
+}
+
+@media (max-width: 768px) {
+  #account-tracking .icon-shape {
+    width: 40px;
+    height: 40px;
+  }
+
+  #account-tracking .icon-shape.icon-xl {
+    width: 64px;
+    height: 64px;
+  }
+
+  #account-tracking .card-body {
+    padding: 1.5rem !important;
+  }
+}
+</style>
+
 <script type="text/javascript"><!--
+// Copy tracking code to clipboard
+function copyTrackingCode() {
+    const codeTextarea = document.getElementById('input-code');
+    codeTextarea.select();
+    codeTextarea.setSelectionRange(0, 99999); // For mobile devices
+
+    try {
+        document.execCommand('copy');
+        alert('Tracking code copied to clipboard!');
+    } catch (err) {
+        console.error('Failed to copy: ', err);
+    }
+}
+
+// Copy affiliate link to clipboard
+function copyAffiliateLink() {
+    const linkTextarea = document.getElementById('input-link');
+    linkTextarea.select();
+    linkTextarea.setSelectionRange(0, 99999);
+
+    try {
+        document.execCommand('copy');
+        alert('Affiliate link copied to clipboard!');
+    } catch (err) {
+        console.error('Failed to copy: ', err);
+    }
+}
+
+// Autocomplete functionality
 $('#input-generator').autocomplete({
     'source': function(request, response) {
         return $.ajax({
@@ -53,6 +266,16 @@ $('#input-generator').autocomplete({
     },
     'select': function(item) {
         $('#input-link').val(item['value']);
+        $('#copy-link-btn').show();
+    }
+});
+
+// Show/hide copy button based on link content
+$('#input-link').on('input', function() {
+    if ($(this).val().trim().length > 0) {
+        $('#copy-link-btn').show();
+    } else {
+        $('#copy-link-btn').hide();
     }
 });
 //--></script>

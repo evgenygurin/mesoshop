@@ -1,12 +1,114 @@
-{{ text_greeting }}<br/>
-<br/>
-{{ text_change }}<br/>
-<br/>
-{{ reset }}<br/>
-<br/>
-{{ text_ip }}<br/>
-<br/>
-{{ ip }}<br/>
-<br/>
-{{ store }}<br/>
-{{ store_url }}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Reset Request</title>
+  <!--[if mso]>
+  <style type="text/css">
+    body, table, td {font-family: Arial, Helvetica, sans-serif !important;}
+  </style>
+  <![endif]-->
+</head>
+<body style="margin: 0; padding: 0; background-color: #f7f7f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f7f7f7; padding: 40px 0;">
+    <tr>
+      <td align="center">
+        <!-- Main Container -->
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); max-width: 600px;">
+          <!-- Security Header -->
+          <tr>
+            <td style="padding: 40px 40px 30px; text-align: center; background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); border-radius: 8px 8px 0 0;">
+              <svg width="64" height="64" style="display: block; margin: 0 auto 15px;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 15v2m0 0v2m0-2h2m-2 0h-2m9-5a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #ffffff;">Password Reset Request</h1>
+            </td>
+          </tr>
+
+          <!-- Greeting -->
+          <tr>
+            <td style="padding: 40px 40px 30px;">
+              <p style="margin: 0 0 25px; font-size: 16px; line-height: 1.6; color: #1f2937;">{{ text_greeting }}</p>
+              <p style="margin: 0 0 25px; font-size: 15px; line-height: 1.6; color: #4b5563;">{{ text_change }}</p>
+            </td>
+          </tr>
+
+          <!-- Reset Button -->
+          <tr>
+            <td style="padding: 0 40px 30px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td align="center" style="padding: 20px 0;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td style="background-color: #6366f1; border-radius: 6px; text-align: center;">
+                          <a href="{{ reset }}" style="display: inline-block; padding: 14px 40px; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 6px;">Reset Your Password</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Or copy link -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td style="padding: 15px; background-color: #f9fafb; border-radius: 6px; border-left: 3px solid #6366f1;">
+                    <p style="margin: 0 0 8px; font-size: 13px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px;">Or copy this link:</p>
+                    <a href="{{ reset }}" style="color: #6366f1; text-decoration: none; word-break: break-all; font-size: 14px;">{{ reset }}</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Security Notice -->
+          <tr>
+            <td style="padding: 0 40px 40px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: 1px solid #fcd34d; border-radius: 6px; overflow: hidden; background-color: #fef3c7;">
+                <tr>
+                  <td style="padding: 20px;">
+                    <p style="margin: 0 0 15px; font-size: 14px; font-weight: 600; color: #92400e;">Security Information</p>
+                    <p style="margin: 0; font-size: 13px; line-height: 1.6; color: #92400e;">
+                      <strong>{{ text_ip }}</strong><br>
+                      {{ ip }}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Did not request notice -->
+          <tr>
+            <td style="padding: 0 40px 40px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;">
+                <tr>
+                  <td style="padding: 20px; background-color: #f9fafb;">
+                    <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #6b7280; text-align: center;">
+                      If you did not request a password reset, please ignore this email or contact support if you have concerns.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 30px 40px; background-color: #f9fafb; border-top: 1px solid #e5e7eb; text-align: center; border-radius: 0 0 8px 8px;">
+              <p style="margin: 0 0 10px; font-size: 14px; color: #6b7280;">
+                <strong style="color: #1f2937;">{{ store }}</strong>
+              </p>
+              <p style="margin: 0; font-size: 13px; color: #9ca3af;">
+                <a href="{{ store_url }}" style="color: #3b82f6; text-decoration: none;">{{ store_url }}</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

@@ -1,11 +1,18 @@
 <div id="modal-information" class="modal fade">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title"><i class="fa-solid fa-info-circle"></i> {{ title }}</h4>
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header border-0 pb-0">
+        <h4 class="modal-title fw-bold">
+          <i class="fa-solid fa-info-circle text-primary me-2"></i>{{ title }}
+        </h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body">{{ description }}</div>
+      <div class="modal-body pt-2" style="font-size: 1rem; line-height: 1.7;">
+        {{ description }}
+      </div>
+      <div class="modal-footer border-0 pt-0">
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
 </div>

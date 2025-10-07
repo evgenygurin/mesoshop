@@ -1,34 +1,110 @@
-<div style="width: 570px; border: 1px solid #e1e1e1; margin-left: auto; margin-right: auto; border-radius: 4px; padding-top: 5px; padding-bottom: 15px; padding-left: 25px; padding-right: 25px;">
-  <table style="width: 100%; font-size: 16px; border: 0;">
-    <thead>
-      <tr>
-        <td style="text-align: center; border-bottom: 1px solid #ddd; padding-top: 15px; padding-bottom: 15px;">
-          {% if logo %}
-            <a href="{{ store_url }}"><img src="{{ logo }}" alt="{{ store_name }}" title="{{ store_name }}" style="margin-left: auto; margin-right: auto;"/></a>
-          {% else %}
-            <a href="{{ store_url }}">{{ store_name }}</a>
-          {% endif %}</td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: center; border-bottom: 1px solid #ddd;"><h1>{{ text_request }}</h1></td>
-      </tr>
-      <tr>
-        <td style="line-height: 25px;">
-          <p style="margin-bottom: 40px;">
-            {{ text_gdpr }}
-          </p>
-          <p style="margin-bottom: 40px; text-align: center;"><a href="{{ confirm }}" style="border-radius: 4px; color: #fff; text-decoration: none; background-color: #01b3e8; padding-left: 18px; padding-right: 18px; padding-top: 10px; padding-bottom: 10px; font-size: 18px; font-weight: bold;">{{ button_confirm }}</a></p>
-          <p style="margin-bottom: 40px;">
-            {{ text_ignore }}
-          </p>
-          <p>
-            {{ text_thanks }}
-            <br/>
-            <strong>{{ store_name }}</strong>
-          </p></td>
-      </tr>
-    </tbody>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ text_request }}</title>
+  <!--[if mso]>
+  <style type="text/css">
+    body, table, td {font-family: Arial, Helvetica, sans-serif !important;}
+  </style>
+  <![endif]-->
+</head>
+<body style="margin: 0; padding: 0; background-color: #f7f7f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f7f7f7; padding: 40px 0;">
+    <tr>
+      <td align="center">
+        <!-- Main Container -->
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); max-width: 600px;">
+          <!-- Header with Logo -->
+          <tr>
+            <td style="padding: 40px 40px 30px; text-align: center; border-bottom: 1px solid #e5e7eb;">
+              {% if logo %}
+                <a href="{{ store_url }}" style="display: inline-block; text-decoration: none;">
+                  <img src="{{ logo }}" alt="{{ store_name }}" style="max-width: 200px; height: auto; border: none; display: block; margin: 0 auto;" />
+                </a>
+              {% else %}
+                <a href="{{ store_url }}" style="color: #1f2937; font-size: 24px; font-weight: 700; text-decoration: none; display: inline-block;">{{ store_name }}</a>
+              {% endif %}
+            </td>
+          </tr>
+
+          <!-- GDPR Icon and Title -->
+          <tr>
+            <td style="padding: 40px 40px 30px; text-align: center;">
+              <svg width="64" height="64" style="display: block; margin: 0 auto 20px;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <h1 style="margin: 0; font-size: 26px; font-weight: 700; color: #1f2937;">{{ text_request }}</h1>
+            </td>
+          </tr>
+
+          <!-- GDPR Request Content -->
+          <tr>
+            <td style="padding: 0 40px 30px;">
+              <p style="margin: 0 0 30px; font-size: 15px; line-height: 1.7; color: #4b5563;">{{ text_gdpr }}</p>
+
+              <!-- Confirm Button -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td align="center" style="padding: 20px 0;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td style="background-color: #3b82f6; border-radius: 6px; text-align: center; box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);">
+                          <a href="{{ confirm }}" style="display: inline-block; padding: 16px 48px; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 6px;">{{ button_confirm }}</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Or copy link -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td style="padding: 15px; background-color: #f9fafb; border-radius: 6px; border-left: 3px solid #3b82f6;">
+                    <p style="margin: 0 0 8px; font-size: 13px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px;">Or copy this link:</p>
+                    <a href="{{ confirm }}" style="color: #3b82f6; text-decoration: none; word-break: break-all; font-size: 14px;">{{ confirm }}</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Ignore Notice -->
+          <tr>
+            <td style="padding: 0 40px 40px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;">
+                <tr>
+                  <td style="padding: 20px; background-color: #f9fafb;">
+                    <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #6b7280; text-align: center;">{{ text_ignore }}</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Thank You -->
+          <tr>
+            <td style="padding: 30px 40px; border-top: 1px solid #e5e7eb;">
+              <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #4b5563; text-align: center;">
+                {{ text_thanks }}<br>
+                <strong style="color: #1f2937;">{{ store_name }}</strong>
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 30px 40px; background-color: #f9fafb; border-top: 1px solid #e5e7eb; text-align: center; border-radius: 0 0 8px 8px;">
+              <p style="margin: 0; font-size: 13px; color: #9ca3af;">
+                <a href="{{ store_url }}" style="color: #3b82f6; text-decoration: none;">{{ store_url }}</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
   </table>
-</div>
+</body>
+</html>

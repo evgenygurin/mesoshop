@@ -1,25 +1,174 @@
 {% if reviews %}
-  {% for review in reviews %}
-    <table class="table table-striped table-bordered">
-      <tr>
-        <td style="width: 50%;"><strong>{{ review.author }}</strong></td>
-        <td class="text-end">{{ review.date_added }}</td>
-      </tr>
-      <tr>
-        <td colspan="2"><p>{{ review.text }}</p>
-          <div class="rating">
-            {% for i in 1..5 %}
-              {% if review.rating < i %}
-                <span class="fa-stack"><i class="fa-regular fa-star fa-stack-1x"></i></span>
-              {% else %}
-                <span class="fa-stack"><i class="fa-solid fa-star fa-stack-1x"></i><i class="fa-regular fa-star fa-stack-1x"></i></span>
-              {% endif %}
-            {% endfor %}
-          </div></td>
-      </tr>
-    </table>
-  {% endfor %}
-  <div class="text-end">{{ pagination }}</div>
+  {# Reviews List with Modern Cards #}
+  <div class="reviews-list">
+    {% for review in reviews %}
+      <div class="review-card mb-4 p-4 bg-white rounded shadow-sm border">
+        {# Review Header: Author, Date, Rating #}
+        <div class="review-header d-flex justify-content-between align-items-start mb-3 pb-3 border-bottom">
+          <div class="author-info">
+            <div class="d-flex align-items-center mb-2">
+              <div class="avatar-placeholder bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px; font-size: 1.25rem; font-weight: bold;">
+                {{ review.author|slice(0, 1)|upper }}
+              </div>
+              <div>
+                <h5 class="mb-0 fw-bold">{{ review.author }}</h5>
+                <small class="text-muted">
+                  <i class="bi bi-calendar3 me-1"></i> {{ review.date_added }}
+                </small>
+              </div>
+            </div>
+          </div>
+
+          {# Star Rating #}
+          <div class="review-rating">
+            <div class="stars text-warning fs-5">
+              {% for i in 1..5 %}
+                {% if review.rating >= i %}
+                  <i class="bi bi-star-fill"></i>
+                {% else %}
+                  <i class="bi bi-star"></i>
+                {% endif %}
+              {% endfor %}
+            </div>
+            <small class="text-muted d-block text-end">{{ review.rating }}/5</small>
+          </div>
+        </div>
+
+        {# Review Text #}
+        <div class="review-content">
+          <p class="mb-0 text-dark" style="line-height: 1.7;">{{ review.text }}</p>
+        </div>
+
+        {# Optional: Helpful/Report Buttons (can be implemented later) #}
+        <div class="review-actions mt-3 pt-3 border-top d-none">
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-secondary" type="button">
+              <i class="bi bi-hand-thumbs-up me-1"></i> Helpful
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" type="button">
+              <i class="bi bi-flag me-1"></i> Report
+            </button>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+    {# Pagination #}
+    <div class="reviews-pagination text-end mt-4">
+      {{ pagination }}
+    </div>
+  </div>
 {% else %}
-  <p class="text-center">{{ text_no_results }}</p>
+  {# No Reviews Available #}
+  <div class="no-reviews-message text-center py-5">
+    <div class="mb-4">
+      <i class="bi bi-chat-left-text-fill text-muted" style="font-size: 4rem;"></i>
+    </div>
+    <h5 class="text-muted mb-3">{{ text_no_results }}</h5>
+    <p class="text-muted small mb-0">Be the first to share your experience with this product!</p>
+  </div>
 {% endif %}
+
+<style>
+/* Modern Review Cards Styles */
+.reviews-list {
+  margin-top: 2rem;
+}
+
+.review-card {
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.1) !important;
+}
+
+.review-card:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important;
+  transform: translateY(-2px);
+}
+
+.review-card .review-header {
+  border-bottom: 1px solid rgba(0,0,0,0.1) !important;
+}
+
+.review-card .review-content {
+  font-size: 0.95rem;
+}
+
+/* Avatar Placeholder */
+.avatar-placeholder {
+  flex-shrink: 0;
+}
+
+/* Star Rating in Reviews */
+.review-rating .stars i {
+  font-size: 1rem;
+}
+
+/* Review Actions (when enabled) */
+.review-actions button:hover {
+  background-color: var(--bs-primary);
+  color: white;
+  border-color: var(--bs-primary);
+}
+
+/* No Reviews Message */
+.no-reviews-message {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.02), transparent);
+  border-radius: 0.5rem;
+}
+
+/* Pagination Styling */
+.reviews-pagination .pagination {
+  justify-content: flex-end;
+  margin-bottom: 0;
+}
+
+.reviews-pagination .page-link {
+  border-radius: 0.375rem;
+  margin: 0 0.25rem;
+}
+
+/* Animation on load */
+.review-card {
+  animation: fadeInUp 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+.review-card:nth-child(1) { animation-delay: 0.1s; }
+.review-card:nth-child(2) { animation-delay: 0.2s; }
+.review-card:nth-child(3) { animation-delay: 0.3s; }
+.review-card:nth-child(4) { animation-delay: 0.4s; }
+.review-card:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .review-card {
+    padding: 1rem !important;
+  }
+
+  .review-header {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .review-rating {
+    margin-top: 0.75rem;
+  }
+
+  .avatar-placeholder {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 1rem !important;
+  }
+}
+</style>

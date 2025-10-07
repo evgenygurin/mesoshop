@@ -30,62 +30,107 @@
     {{ analytic }}
   {% endfor %}
 </head>
-<body class="w-100 h-100">
+<body class="w-100 h-100 bg-light">
   <div id="container" class="d-flex flex-column min-vh-100">
+    <!-- Alert Container - Positioned for modern UX -->
     <div id="alert"></div>
-    <nav id="top">
+
+    <!-- Top Bar - Enhanced with better spacing and visual hierarchy -->
+    <nav id="top" class="bg-white border-bottom py-2">
       <div class="container">
-        <div class="row">
-          <div class="col-4">
-            <ul class="list-inline">
-              <li class="list-inline-item me-3">{{ currency }}</li>
-              <li class="list-inline-item">{{ language }}</li>
+        <div class="row align-items-center">
+          <div class="col-md-4 col-lg-3">
+            <ul class="list-inline mb-0 d-flex align-items-center gap-3">
+              <li class="list-inline-item mb-0">{{ currency }}</li>
+              <li class="list-inline-item mb-0">{{ language }}</li>
             </ul>
           </div>
-          <div class="col text-end">
-            <ul class="list-inline">
-              <li class="list-inline-item"><a href="{{ contact }}"><i class="fa-solid fa-phone"></i> <span class="d-none d-lg-inline">{{ telephone }}</span></a></li>
-              <li class="list-inline-item">
+          <div class="col-md-8 col-lg-9 text-end">
+            <ul class="list-inline mb-0 d-flex align-items-center justify-content-end gap-3">
+              <li class="list-inline-item mb-0">
+                <a href="{{ contact }}" class="text-decoration-none text-secondary hover-primary">
+                  <i class="fa-solid fa-phone me-1"></i>
+                  <span class="d-none d-lg-inline">{{ telephone }}</span>
+                </a>
+              </li>
+              <li class="list-inline-item mb-0">
                 <div class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user"></i> <span class="d-none d-lg-inline">{{ text_account }}</span> <i class="fa-solid fa-caret-down"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-right">
+                  <a href="#" class="dropdown-toggle text-decoration-none text-secondary hover-primary" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-user me-1"></i>
+                    <span class="d-none d-lg-inline">{{ text_account }}</span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
                     {% if not logged %}
-                      <li><a href="{{ register }}" class="dropdown-item">{{ text_register }}</a></li>
-                      <li><a href="{{ login }}" class="dropdown-item">{{ text_login }}</a></li>
+                      <li><a href="{{ register }}" class="dropdown-item py-2"><i class="fa-solid fa-user-plus me-2 text-muted"></i>{{ text_register }}</a></li>
+                      <li><a href="{{ login }}" class="dropdown-item py-2"><i class="fa-solid fa-sign-in-alt me-2 text-muted"></i>{{ text_login }}</a></li>
                     {% else %}
-                      <li><a href="{{ account }}" class="dropdown-item">{{ text_account }}</a></li>
-                      <li><a href="{{ order }}" class="dropdown-item">{{ text_order }}</a></li>
-                      <li><a href="{{ transaction }}" class="dropdown-item">{{ text_transaction }}</a></li>
-                      <li><a href="{{ download }}" class="dropdown-item">{{ text_download }}</a></li>
-                      <li><a href="{{ logout }}" class="dropdown-item">{{ text_logout }}</a></li>
+                      <li><a href="{{ account }}" class="dropdown-item py-2"><i class="fa-solid fa-user-circle me-2 text-muted"></i>{{ text_account }}</a></li>
+                      <li><hr class="dropdown-divider my-1"></li>
+                      <li><a href="{{ order }}" class="dropdown-item py-2"><i class="fa-solid fa-shopping-bag me-2 text-muted"></i>{{ text_order }}</a></li>
+                      <li><a href="{{ transaction }}" class="dropdown-item py-2"><i class="fa-solid fa-exchange-alt me-2 text-muted"></i>{{ text_transaction }}</a></li>
+                      <li><a href="{{ download }}" class="dropdown-item py-2"><i class="fa-solid fa-download me-2 text-muted"></i>{{ text_download }}</a></li>
+                      <li><hr class="dropdown-divider my-1"></li>
+                      <li><a href="{{ logout }}" class="dropdown-item py-2 text-danger"><i class="fa-solid fa-sign-out-alt me-2"></i>{{ text_logout }}</a></li>
                     {% endif %}
                   </ul>
                 </div>
               </li>
-              <li class="list-inline-item"><a href="{{ wishlist }}" id="wishlist-total" title="{{ text_wishlist }}"><i class="fa-solid fa-heart"></i> <span class="d-none d-lg-inline">{{ text_wishlist }}</span></a></li>
-              <li class="list-inline-item"><a href="{{ shopping_cart }}" title="{{ text_shopping_cart }}"><i class="fa-solid fa-cart-shopping"></i> <span class="d-none d-lg-inline">{{ text_shopping_cart }}</span></a></li>
-              <li class="list-inline-item"><a href="{{ checkout }}" title="{{ text_checkout }}"><i class="fa-solid fa-share"></i> <span class="d-none d-lg-inline">{{ text_checkout }}</span></a></li>
+              <li class="list-inline-item mb-0">
+                <a href="{{ wishlist }}" id="wishlist-total" title="{{ text_wishlist }}" class="text-decoration-none text-secondary hover-primary">
+                  <i class="fa-solid fa-heart me-1"></i>
+                  <span class="d-none d-lg-inline">{{ text_wishlist }}</span>
+                </a>
+              </li>
+              <li class="list-inline-item mb-0">
+                <a href="{{ shopping_cart }}" title="{{ text_shopping_cart }}" class="text-decoration-none text-secondary hover-primary">
+                  <i class="fa-solid fa-cart-shopping me-1"></i>
+                  <span class="d-none d-lg-inline">{{ text_shopping_cart }}</span>
+                </a>
+              </li>
+              <li class="list-inline-item mb-0">
+                <a href="{{ checkout }}" title="{{ text_checkout }}" class="btn btn-sm btn-primary px-3">
+                  <i class="fa-solid fa-check me-1"></i>
+                  <span class="d-none d-lg-inline">{{ text_checkout }}</span>
+                </a>
+              </li>
             </ul>
           </div>
         </div>
       </div>
     </nav>
-    <header>
+
+    <!-- Main Header - Enhanced layout with better spacing -->
+    <header class="bg-white py-3 py-lg-4 shadow-sm">
       <div class="container">
-        <div class="row">
-          <div class="col-md-3 col-lg-4">
+        <div class="row align-items-center g-3">
+          <!-- Logo Section -->
+          <div class="col-6 col-md-3 col-lg-3">
             <div id="logo">
               {% if logo %}
-                <a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-fluid"/></a>
+                <a href="{{ home }}" class="d-inline-block">
+                  <img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-fluid" style="max-height: 50px;"/>
+                </a>
               {% else %}
-                <h1><a href="{{ home }}">{{ name }}</a></h1>
+                <h1 class="h4 mb-0">
+                  <a href="{{ home }}" class="text-decoration-none text-dark fw-bold">{{ name }}</a>
+                </h1>
               {% endif %}
             </div>
           </div>
-          <div class="col-md-5">{{ search }}</div>
-          <div id="cart" class="col-md-4 col-lg-3 mb-2">{{ cart }}</div>
+
+          <!-- Search Section -->
+          <div class="col-12 col-md-6 col-lg-6 order-3 order-md-2">
+            {{ search }}
+          </div>
+
+          <!-- Cart Section -->
+          <div id="cart" class="col-6 col-md-3 col-lg-3 order-2 order-md-3">
+            {{ cart }}
+          </div>
         </div>
       </div>
     </header>
-    <main class="flex-grow-1 mb-4">
+
+    <!-- Main Content Area -->
+    <main class="flex-grow-1 py-4">
       {{ menu }}

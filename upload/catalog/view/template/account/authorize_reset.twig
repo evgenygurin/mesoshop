@@ -1,35 +1,148 @@
 {{ header }}
-<div id="content">
+<div id="account-authorize-reset">
   <div class="container-fluid">
     <br/>
     <br/>
-    <div class="row justify-content-sm-center">
-      <div class="col-sm-10 col-md-8 col-lg-5">
-        <div class="card">
-          <div class="card-header"><i class="fa-solid fa-lock"></i> {{ text_locked }}</div>
-          <div class="card-body">
-            <p>{{ text_reset }}</p>
-            <div class="d-grid">
-              <button type="button" id="button-reset" class="btn btn-danger btn-lg"><i class="fa-solid fa-unlock"></i> {{ button_reset }}</button>
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5">
+        <!-- Reset Card -->
+        <div class="card border-0 shadow-lg">
+          <div class="card-header bg-danger text-white border-0 p-4">
+            <div class="d-flex align-items-center">
+              <div class="icon-shape icon-lg bg-white text-danger rounded-circle me-3">
+                <i class="fa-solid fa-lock fa-2x"></i>
+              </div>
+              <div>
+                <h4 class="mb-0 fw-bold">{{ text_locked }}</h4>
+                <p class="mb-0 small opacity-90">Two-Factor Authentication</p>
+              </div>
             </div>
           </div>
+          <div class="card-body p-4 p-md-5">
+            <div class="alert alert-warning border-0 mb-4">
+              <div class="d-flex">
+                <div class="flex-shrink-0">
+                  <i class="fa-solid fa-exclamation-triangle fa-2x"></i>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <h5 class="alert-heading fw-bold mb-2">Account Security Alert</h5>
+                  <p class="mb-0">{{ text_reset }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-grid">
+              <button type="button" id="button-reset" class="btn btn-danger btn-lg py-3 fw-semibold">
+                <i class="fa-solid fa-unlock me-2"></i>{{ button_reset }}
+              </button>
+            </div>
+
+            <div class="text-center mt-4">
+              <p class="text-muted small mb-0">
+                <i class="fa-solid fa-shield-halved me-1"></i>
+                This action will reset your two-factor authentication settings
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Help Information -->
+        <div class="text-center mt-4">
+          <p class="text-muted">
+            <i class="fa-solid fa-question-circle me-1"></i>
+            Need help? <a href="#" class="text-decoration-none">Contact Support</a>
+          </p>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+/* Authorize Reset Page Enhancements */
+#account-authorize-reset .icon-shape {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+}
+
+#account-authorize-reset .icon-shape.icon-lg {
+  width: 64px;
+  height: 64px;
+}
+
+#account-authorize-reset .card {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+#account-authorize-reset .card-header {
+  border-bottom: none;
+}
+
+#account-authorize-reset .alert {
+  border-radius: 12px;
+  background-color: #fff3cd;
+}
+
+#account-authorize-reset .alert .alert-heading {
+  color: #856404;
+}
+
+#account-authorize-reset .alert p {
+  color: #856404;
+}
+
+#account-authorize-reset .btn-danger {
+  transition: all 0.3s ease;
+}
+
+#account-authorize-reset .btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(220, 53, 69, 0.3);
+}
+
+@media (max-width: 768px) {
+  #account-authorize-reset .icon-shape {
+    width: 40px;
+    height: 40px;
+  }
+
+  #account-authorize-reset .icon-shape.icon-lg {
+    width: 56px;
+    height: 56px;
+  }
+
+  #account-authorize-reset .card-body {
+    padding: 2rem !important;
+  }
+
+  #account-authorize-reset .card-header {
+    padding: 1.5rem !important;
+  }
+}
+</style>
+
 <script type="text/javascript"><!--
 $('#button-reset').on('click', function(e) {
     e.preventDefault();
+
+    if (!confirm('Are you sure you want to reset two-factor authentication? This will remove your current security settings.')) {
+        return;
+    }
 
     $.ajax({
         url: 'index.php?route=account/authorize.confirm&language={{ language }}',
         dataType: 'json',
         beforeSend: function() {
-            $('#button-reset').button('loading');
+            $('#button-reset').prop('disabled', true);
+            $('#button-reset').html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...');
         },
         complete: function() {
-            $('#button-reset').button('reset');
+            $('#button-reset').prop('disabled', false);
+            $('#button-reset').html('<i class="fa-solid fa-unlock me-2"></i>{{ button_reset }}');
         },
         success: function(json) {
             console.log(json);
@@ -39,19 +152,27 @@ $('#button-reset').on('click', function(e) {
             }
 
             if (json['error']) {
-                $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+                $('#alert').prepend('<div class="alert alert-danger alert-dismissible shadow-sm"><i class="fa-solid fa-circle-exclamation me-2"></i>' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 'slow');
             }
 
             if (json['success']) {
-                $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+                $('#alert').prepend('<div class="alert alert-success alert-dismissible shadow-sm"><i class="fa-solid fa-check-circle me-2"></i>' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 'slow');
             }
         },
         error: function(xhr, ajaxOptions, thrownError) {
             console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+
+            $('#alert').prepend('<div class="alert alert-danger alert-dismissible shadow-sm"><i class="fa-solid fa-circle-exclamation me-2"></i>An error occurred. Please try again. <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
         }
     });
 });
 //--></script>
 {{ footer }}
-
-

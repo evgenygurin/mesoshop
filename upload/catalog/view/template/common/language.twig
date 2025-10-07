@@ -1,9 +1,31 @@
 {% if languages|length > 1 %}
+  <!-- Enhanced Language Selector -->
   <form id="form-language" action="{{ action }}" method="post" data-oc-toggle="ajax">
-    <div class="dropdown"><a href="#" data-bs-toggle="dropdown" class="dropdown-toggle"><img src="{{ image }}" alt="{{ name }}" title="{{ name }}"> <span class="d-none d-md-inline">{{ text_language }}</span> <i class="fa-solid fa-caret-down"></i></a>
-      <ul class="dropdown-menu">
+    <div class="dropdown">
+      <a href="#"
+         data-bs-toggle="dropdown"
+         class="dropdown-toggle text-decoration-none text-secondary hover-primary d-flex align-items-center"
+         aria-expanded="false">
+        <img src="{{ image }}"
+             alt="{{ name }}"
+             title="{{ name }}"
+             class="me-1"
+             style="width: 20px; height: 15px; object-fit: cover;"/>
+        <span class="d-none d-md-inline">{{ text_language }}</span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
         {% for language in languages %}
-          <li><a href="{{ language.code }}" class="dropdown-item"><img src="{{ language.image }}" alt="{{ language.name }}" title="{{ language.name }}"/> {{ language.name }}</a></li>
+          <li>
+            <a href="{{ language.code }}"
+               class="dropdown-item py-2 d-flex align-items-center">
+              <img src="{{ language.image }}"
+                   alt="{{ language.name }}"
+                   title="{{ language.name }}"
+                   class="me-2"
+                   style="width: 20px; height: 15px; object-fit: cover;"/>
+              <span>{{ language.name }}</span>
+            </a>
+          </li>
         {% endfor %}
       </ul>
     </div>

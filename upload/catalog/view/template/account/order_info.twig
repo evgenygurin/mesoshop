@@ -9,150 +9,235 @@
     {{ column_left }}
     <div id="content" class="col">
       {{ content_top }}
-      <div class="row">
-        <div class="col mb-3">
-          <div class="form-control" style="min-height: 64px;">
-            <strong class="lead">{{ text_invoice_no }}</strong>
-            <br/>
-            {% if invoice_no %}{{ invoice_no }}{% else %}{{ text_tbc }}{% endif %}
+
+      <!-- Order Summary Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-6">
+          <div class="card shadow-sm h-100">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-3">
+                <div class="bg-primary bg-gradient rounded-circle p-3 me-3">
+                  <i class="fa-solid fa-file-invoice text-white"></i>
+                </div>
+                <div>
+                  <h6 class="text-muted mb-1">{{ text_invoice_no }}</h6>
+                  <h4 class="mb-0">{% if invoice_no %}{{ invoice_no }}{% else %}{{ text_tbc }}{% endif %}</h4>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col mb-3">
-          <div class="form-control" style="min-height: 64px;">
-            <strong class="lead">{{ text_order_id }}</strong>
-            <br/>
-            {{ order_id }}
+        <div class="col-md-6">
+          <div class="card shadow-sm h-100">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-3">
+                <div class="bg-success bg-gradient rounded-circle p-3 me-3">
+                  <i class="fa-solid fa-hashtag text-white"></i>
+                </div>
+                <div>
+                  <h6 class="text-muted mb-1">{{ text_order_id }}</h6>
+                  <h4 class="mb-0">#{{ order_id }}</h4>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
       {% if payment_address or shipping_address %}
-        <div class="row">
+        <!-- Address Cards -->
+        <div class="row g-3 mb-4">
           {% if payment_address %}
-            <div class="col mb-3">
-              <div class="form-control" style="min-height: 128px;">
-                <strong class="lead">{{ text_payment_address }}</strong>
-                <br/>
-                {{ payment_address }}
+            <div class="col-md-6">
+              <div class="card shadow-sm h-100">
+                <div class="card-header bg-light">
+                  <h6 class="mb-0">
+                    <i class="fa-solid fa-credit-card me-2 text-primary"></i>{{ text_payment_address }}
+                  </h6>
+                </div>
+                <div class="card-body">
+                  <address class="mb-0">{{ payment_address }}</address>
+                </div>
               </div>
             </div>
           {% endif %}
           {% if shipping_address %}
-            <div class="col mb-3">
-              <div class="form-control" style="min-height: 128px;">
-                <strong class="lead">{{ text_shipping_address }}</strong>
-                <br/>
-                {{ shipping_address }}
+            <div class="col-md-6">
+              <div class="card shadow-sm h-100">
+                <div class="card-header bg-light">
+                  <h6 class="mb-0">
+                    <i class="fa-solid fa-truck me-2 text-success"></i>{{ text_shipping_address }}
+                  </h6>
+                </div>
+                <div class="card-body">
+                  <address class="mb-0">{{ shipping_address }}</address>
+                </div>
               </div>
             </div>
           {% endif %}
         </div>
       {% endif %}
-      <div class="row">
+
+      <!-- Shipping & Payment Method Cards -->
+      <div class="row g-3 mb-4">
         {% if shipping_method %}
-          <div class="col mb-3">
-            <div class="form-control" style="min-height: 64px;">
-              <strong class="lead">{{ text_shipping_method }}</strong>
-              <br/>
-              {{ shipping_method }}
+          <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+              <div class="card-header bg-light">
+                <h6 class="mb-0">
+                  <i class="fa-solid fa-shipping-fast me-2 text-info"></i>{{ text_shipping_method }}
+                </h6>
+              </div>
+              <div class="card-body">
+                <p class="mb-0">{{ shipping_method }}</p>
+              </div>
             </div>
           </div>
         {% endif %}
-        <div class="col mb-3">
-          <div class="form-control" style="min-height: 64px;">
-            <strong class="lead">{{ text_payment_method }}</strong>
-            <br/>
-            {{ payment_method }}
+        <div class="col-md-6">
+          <div class="card shadow-sm h-100">
+            <div class="card-header bg-light">
+              <h6 class="mb-0">
+                <i class="fa-solid fa-money-bill-wave me-2 text-warning"></i>{{ text_payment_method }}
+              </h6>
+            </div>
+            <div class="card-body">
+              <p class="mb-0">{{ payment_method }}</p>
+            </div>
           </div>
         </div>
       </div>
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th>{{ column_product }}</th>
-              <th class="text-end">{{ column_quantity }}</th>
-              <th class="text-end">{{ column_price }}</th>
-              <th class="text-end">{{ column_total }}</th>
-              <th class="text-end">{{ column_action }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% set product_row = 0 %}
-            {% for product in products %}
-              <tr id="product-row-{{ product_row }}">
-                <td><a href="{{ product.view }}">{{ product.name }}</a>
-                  <div id="error-{{ product_row }}-product" class="invalid-feedback mt-0"></div>
-                  <ul class="list-unstyled mb-0">
-                    <li>
-                      <small> - {{ text_model }}: {{ product.model }}</small>
-                    </li>
-                    {% for option in product.option %}
-                      <li>
-                        <small> - {{ option.name }}: {{ option.value }}</small>
-                        <div id="error-{{ product_row }}-option-{{ option.product_option_id }}" class="invalid-feedback mt-0"></div>
-                      </li>
-                    {% endfor %}
-                    {% if product.subscription %}
-                      <li>
-                        <small> - {{ text_subscription }}: {% if product.subscription %}<a href="{{ product.subscription }}" target="_blank">{{ product.subscription_plan }}</a>{% else %}{{ product.subscription_plan }}{% endif %}</small>
-                        <div id="error-{{ product_row }}-subscription" class="invalid-feedback mt-0"></div>
-                      </li>
-                    {% endif %}
-                    {% if product.reward %}
-                      <li>
-                        <small> - {{ text_points }}: {{ product.reward }}</small>
-                      </li>
-                    {% endif %}
-                  </ul>
-                  <form id="form-product-{{ product_row }}">
-                    <input type="hidden" name="product_id" value="{{ product.product_id }}"/> <input type="hidden" name="quantity" value="{{ product.quantity }}"/>
-                    {% for option in product.option %}
-                      {% if option.type == 'select' or option.type == 'radio' %}
-                        <input type="hidden" name="option[{{ option.product_option_id }}]" value="{{ option.product_option_value_id }}"/>
-                      {% endif %}
-                      {% if option.type == 'checkbox' %}
-                        <input type="hidden" name="option[{{ option.product_option_id }}][]" value="{{ option.product_option_value_id }}"/>
-                      {% endif %}
-                      {% if option.type == 'text' or option.type == 'textarea' or option.type == 'file' or option.type == 'date' or option.type == 'datetime' or option.type == 'time' %}
-                        <input type="hidden" name="option[{{ option.product_option_id }}]" value="{{ option.value }}"/>
-                      {% endif %}
-                    {% endfor %}
-                    <input type="hidden" name="subscription_plan_id" value="{{ product.subscription_plan_id }}"/>
-                  </form>
-                </td>
-                <td class="text-end">{{ product.quantity }}</td>
-                <td class="text-end"><x-currency code="{{ currency_code }}" amount="{{ product.price }}" value="{{ currency_value }}"></x-currency></td>
-                <td class="text-end"><x-currency code="{{ currency_code }}" amount="{{ product.total }}" value="{{ currency_value }}"></x-currency></td>
-                <td class="text-end text-nowrap" style="width: 1px;">
-                  <div class="d-grid">
-                    <button type="submit" form="form-product-{{ product_row }}" class="btn btn-primary mb-1">{{ button_reorder }}</button>
-                    <a href="{{ product.return }}" class="btn btn-danger">{{ button_return }}</a>
-                  </div>
-                </td>
-              </tr>
-              {% set product_row = product_row + 1 %}
-            {% endfor %}
-            {% for total in totals %}
-              <tr>
-                <td colspan="2"></td>
-                <td class="text-end"><strong>{{ total.title }}</strong></td>
-                <td class="text-end"><x-currency code="{{ currency_code }}" amount="{{ total.value }}" value="{{ currency_value }}"></x-currency></td>
-                <td></td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+      <!-- Products Table -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">
+            <i class="fa-solid fa-shopping-cart me-2 text-primary"></i>Order Items
+          </h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="bg-light">
+                <tr>
+                  <th class="px-4 py-3">{{ column_product }}</th>
+                  <th class="px-4 py-3 text-end">{{ column_quantity }}</th>
+                  <th class="px-4 py-3 text-end">{{ column_price }}</th>
+                  <th class="px-4 py-3 text-end">{{ column_total }}</th>
+                  <th class="px-4 py-3 text-center" style="width: 150px;">{{ column_action }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% set product_row = 0 %}
+                {% for product in products %}
+                  <tr id="product-row-{{ product_row }}" class="border-bottom">
+                    <td class="px-4 py-3">
+                      <a href="{{ product.view }}" class="text-decoration-none fw-bold">{{ product.name }}</a>
+                      <div id="error-{{ product_row }}-product" class="invalid-feedback mt-0"></div>
+                      <ul class="list-unstyled mb-0 mt-2">
+                        <li class="text-muted small">
+                          <i class="fa-solid fa-tag me-1"></i>{{ text_model }}: {{ product.model }}
+                        </li>
+                        {% for option in product.option %}
+                          <li class="text-muted small">
+                            <i class="fa-solid fa-cog me-1"></i>{{ option.name }}: <strong>{{ option.value }}</strong>
+                            <div id="error-{{ product_row }}-option-{{ option.product_option_id }}" class="invalid-feedback mt-0"></div>
+                          </li>
+                        {% endfor %}
+                        {% if product.subscription %}
+                          <li class="text-muted small">
+                            <i class="fa-solid fa-rotate me-1"></i>{{ text_subscription }}: {% if product.subscription %}<a href="{{ product.subscription }}" target="_blank">{{ product.subscription_plan }}</a>{% else %}{{ product.subscription_plan }}{% endif %}
+                            <div id="error-{{ product_row }}-subscription" class="invalid-feedback mt-0"></div>
+                          </li>
+                        {% endif %}
+                        {% if product.reward %}
+                          <li class="text-muted small">
+                            <i class="fa-solid fa-gift me-1"></i>{{ text_points }}: <span class="badge bg-warning text-dark">{{ product.reward }}</span>
+                          </li>
+                        {% endif %}
+                      </ul>
+                      <form id="form-product-{{ product_row }}">
+                        <input type="hidden" name="product_id" value="{{ product.product_id }}"/>
+                        <input type="hidden" name="quantity" value="{{ product.quantity }}"/>
+                        {% for option in product.option %}
+                          {% if option.type == 'select' or option.type == 'radio' %}
+                            <input type="hidden" name="option[{{ option.product_option_id }}]" value="{{ option.product_option_value_id }}"/>
+                          {% endif %}
+                          {% if option.type == 'checkbox' %}
+                            <input type="hidden" name="option[{{ option.product_option_id }}][]" value="{{ option.product_option_value_id }}"/>
+                          {% endif %}
+                          {% if option.type == 'text' or option.type == 'textarea' or option.type == 'file' or option.type == 'date' or option.type == 'datetime' or option.type == 'time' %}
+                            <input type="hidden" name="option[{{ option.product_option_id }}]" value="{{ option.value }}"/>
+                          {% endif %}
+                        {% endfor %}
+                        <input type="hidden" name="subscription_plan_id" value="{{ product.subscription_plan_id }}"/>
+                      </form>
+                    </td>
+                    <td class="px-4 py-3 text-end">
+                      <span class="badge bg-light text-dark fs-6">x{{ product.quantity }}</span>
+                    </td>
+                    <td class="px-4 py-3 text-end">
+                      <x-currency code="{{ currency_code }}" amount="{{ product.price }}" value="{{ currency_value }}"></x-currency>
+                    </td>
+                    <td class="px-4 py-3 text-end">
+                      <strong class="fs-6"><x-currency code="{{ currency_code }}" amount="{{ product.total }}" value="{{ currency_value }}"></x-currency></strong>
+                    </td>
+                    <td class="px-4 py-3 text-center text-nowrap">
+                      <div class="d-grid gap-1">
+                        <button type="submit" form="form-product-{{ product_row }}" class="btn btn-outline-primary btn-sm">
+                          <i class="fa-solid fa-repeat me-1"></i>{{ button_reorder }}
+                        </button>
+                        <a href="{{ product.return }}" class="btn btn-outline-danger btn-sm">
+                          <i class="fa-solid fa-undo me-1"></i>{{ button_return }}
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  {% set product_row = product_row + 1 %}
+                {% endfor %}
+              </tbody>
+              <tfoot class="bg-light">
+                {% for total in totals %}
+                  <tr>
+                    <td colspan="3" class="px-4 py-2"></td>
+                    <td class="px-4 py-2 text-end"><strong>{{ total.title }}</strong></td>
+                    <td class="px-4 py-2 text-center">
+                      <strong class="fs-6"><x-currency code="{{ currency_code }}" amount="{{ total.value }}" value="{{ currency_value }}"></x-currency></strong>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tfoot>
+            </table>
+          </div>
+        </div>
       </div>
+
       {% if comment %}
-        <div class="form-control mb-3" style="min-height: 64px;">
-          <strong class="lead">{{ text_comment }}</strong>
-          <br/>
-          {{ comment }}
+        <!-- Order Comments -->
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-light">
+            <h6 class="mb-0">
+              <i class="fa-solid fa-comment-dots me-2 text-info"></i>{{ text_comment }}
+            </h6>
+          </div>
+          <div class="card-body">
+            <p class="mb-0">{{ comment }}</p>
+          </div>
         </div>
       {% endif %}
-      <h2>{{ text_history }}</h2>
-      <div id="history">{{ history }}</div>
-      <div class="text-end mt-3"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+
+      <!-- Order History Section -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">
+            <i class="fa-solid fa-history me-2 text-secondary"></i>{{ text_history }}
+          </h5>
+        </div>
+        <div class="card-body" id="history">{{ history }}</div>
+      </div>
+
+      <div class="text-end mt-3"><a href="{{ continue }}" class="btn btn-primary">
+        <i class="fa-solid fa-arrow-left me-2"></i>{{ button_continue }}
+      </a></div>
       {{ content_bottom }}
     </div>
     {{ column_right }}

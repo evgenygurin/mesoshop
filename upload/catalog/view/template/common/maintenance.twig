@@ -1,7 +1,23 @@
 {{ header }}
+<!-- Enhanced Maintenance Mode Page -->
 <div id="common-maintenance" class="container">
-  <div class="row">
-    <div class="col-12">{{ message }}</div>
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <!-- Maintenance Card -->
+      <div class="card border-0 shadow-sm text-center my-5 py-5">
+        <div class="card-body">
+          <!-- Maintenance Icon -->
+          <div class="mb-4">
+            <i class="fa-solid fa-tools fa-5x text-warning"></i>
+          </div>
+
+          <!-- Maintenance Message -->
+          <div class="maintenance-message">
+            {{ message }}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 {{ footer }}

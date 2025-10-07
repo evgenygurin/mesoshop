@@ -1,60 +1,255 @@
 {{ header }}
-<div id="product-special" class="container">
-  <ul class="breadcrumb">
-    {% for breadcrumb in breadcrumbs %}
-      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
-    {% endfor %}
-  </ul>
-  <div class="row">{{ column_left }}
-    <div id="content" class="col">{{ content_top }}
-      <h1>{{ heading_title }}</h1>
+<div id="product-special" class="container py-4">
+  {# Breadcrumb Navigation #}
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item{% if loop.last %} active{% endif %}">
+          {% if loop.last %}
+            {{ breadcrumb.text }}
+          {% else %}
+            <a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
+
+  <div class="row">
+    {{ column_left }}
+
+    <div id="content" class="col">
+      {{ content_top }}
+
+      {# Special Offers Header #}
+      <div class="special-header mb-4">
+        <div class="d-flex align-items-center justify-content-between">
+          <h1 class="display-5 fw-bold mb-0">
+            <i class="bi bi-tag-fill text-danger me-2"></i> {{ heading_title }}
+          </h1>
+          <span class="badge bg-danger fs-5 px-3 py-2">
+            <i class="bi bi-fire"></i> Special Offers
+          </span>
+        </div>
+        <p class="text-muted mt-3 mb-0">
+          <i class="bi bi-clock-history me-1"></i> Limited time deals - Grab them before they're gone!
+        </p>
+      </div>
+
       {% if products %}
-        <div id="display-control" class="row">
-          <div class="col-md-3">
-            <div class="mb-3">
-              <a href="{{ compare }}" id="compare-total" class="btn btn-primary d-block"><i class="fa-solid fa-arrow-right-arrow-left"></i> <span class="d-inline d-md-none d-lg-inline">{{ text_compare }}</span></a>
+        {# Toolbar: Compare, View Toggle, Sort, Limit #}
+        <div class="products-toolbar bg-light rounded p-3 mb-4">
+          <div class="row g-3 align-items-center">
+            {# Compare Button #}
+            <div class="col-lg-2 col-md-3 col-6">
+              <a href="{{ compare }}" id="compare-total" class="btn btn-outline-primary w-100 btn-sm">
+                <i class="bi bi-arrow-left-right"></i> {{ text_compare }}
+              </a>
             </div>
-          </div>
-          <div class="col-md-1 d-none d-md-block">
-            <div class="btn-group">
-              <button type="button" id="button-list" class="btn btn-light" data-bs-toggle="tooltip" title="{{ button_list }}"><i class="fa-solid fa-table-list"></i></button>
-              <button type="button" id="button-grid" class="btn btn-light" data-bs-toggle="tooltip" title="{{ button_grid }}"><i class="fa-solid fa-table-cells"></i></button>
+
+            {# View Toggle #}
+            <div class="col-lg-2 col-md-3 col-6 d-none d-md-block">
+              <div class="btn-group w-100" role="group">
+                <button type="button" id="button-grid" class="btn btn-outline-secondary btn-sm active" data-bs-toggle="tooltip" title="{{ button_grid }}">
+                  <i class="bi bi-grid-3x3-gap"></i>
+                </button>
+                <button type="button" id="button-list" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" title="{{ button_list }}">
+                  <i class="bi bi-list-ul"></i>
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="col-md-4 offset-md-1 col-6">
-            <div class="input-group mb-3">
-              <label for="input-sort" class="input-group-text">{{ text_sort }}</label> <select id="input-sort" class="form-select" onchange="location = this.value;">
-                {% for sorts in sorts %}
-                  <option value="{{ sorts.href }}"{% if sorts.value == '%s-%s'|format(sort, order) %} selected{% endif %}>{{ sorts.text }}</option>
-                {% endfor %}
-              </select>
+
+            {# Sort Dropdown #}
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="input-group input-group-sm">
+                <label for="input-sort" class="input-group-text">
+                  <i class="bi bi-sort-down me-1"></i> {{ text_sort }}
+                </label>
+                <select id="input-sort" class="form-select form-select-sm" onchange="location = this.value;">
+                  {% for sorts in sorts %}
+                    <option value="{{ sorts.href }}"{% if sorts.value == '%s-%s'|format(sort, order) %} selected{% endif %}>
+                      {{ sorts.text }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
             </div>
-          </div>
-          <div class="col-md-3 col-6">
-            <div class="input-group mb-3">
-              <label for="input-limit" class="input-group-text">{{ text_limit }}</label>
-              <select id="input-limit" class="form-select" onchange="location = this.value;">
-                {% for limits in limits %}
-                  <option value="{{ limits.href }}"{% if limits.value == limit %} selected{% endif %}>{{ limits.text }}</option>
-                {% endfor %}
-              </select>
+
+            {# Limit Dropdown #}
+            <div class="col-lg-4 col-md-12 col-12">
+              <div class="input-group input-group-sm">
+                <label for="input-limit" class="input-group-text">
+                  <i class="bi bi-eye me-1"></i> {{ text_limit }}
+                </label>
+                <select id="input-limit" class="form-select form-select-sm" onchange="location = this.value;">
+                  {% for limits in limits %}
+                    <option value="{{ limits.href }}"{% if limits.value == limit %} selected{% endif %}>
+                      {{ limits.text }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
             </div>
           </div>
         </div>
-        <div id="product-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4">
+
+        {# Products Grid #}
+        <div id="product-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mb-4">
           {% for product in products %}
-            <div class="col mb-3">{{ product }}</div>
+            <div class="col">{{ product }}</div>
           {% endfor %}
         </div>
-        <div class="row">
-          <div class="col-sm-6 text-start">{{ pagination }}</div>
-          <div class="col-sm-6 text-end">{{ results }}</div>
+
+        {# Pagination and Results #}
+        <div class="products-footer d-flex justify-content-between align-items-center flex-wrap gap-3 p-3 bg-light rounded">
+          <div class="pagination-wrapper">{{ pagination }}</div>
+          <div class="results-info text-muted small">{{ results }}</div>
         </div>
       {% else %}
-        <p>{{ text_no_results }}</p>
-        <div class="text-end"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+        {# No Special Offers Found #}
+        <div class="alert alert-info d-flex align-items-center" role="alert">
+          <i class="bi bi-info-circle-fill me-3 fs-4"></i>
+          <div>
+            <h5 class="alert-heading mb-1">{{ text_no_results }}</h5>
+            <p class="mb-0 small">No special offers available at the moment. Check back soon for great deals!</p>
+          </div>
+        </div>
+        <div class="text-center mt-4">
+          <a href="{{ continue }}" class="btn btn-primary">
+            <i class="bi bi-arrow-left"></i> {{ button_continue }}
+          </a>
+        </div>
       {% endif %}
-      {{ content_bottom }}</div>
-    {{ column_right }}</div>
+
+      {{ content_bottom }}
+    </div>
+
+    {{ column_right }}
+  </div>
 </div>
+
+<style>
+/* Modern Special Offers Page Styles */
+.special-header {
+  position: relative;
+  padding: 1.5rem 0;
+  border-bottom: 2px solid rgba(220, 53, 69, 0.2);
+}
+
+.special-header h1 {
+  line-height: 1.2;
+}
+
+.special-header .badge {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Toolbar Styling */
+.products-toolbar {
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* View Toggle Buttons */
+#button-grid.active,
+#button-list.active {
+  background-color: var(--bs-primary);
+  color: white;
+  border-color: var(--bs-primary);
+}
+
+/* List View Styles */
+#product-list.list-view {
+  display: block;
+}
+
+#product-list.list-view .col {
+  width: 100%;
+  max-width: 100%;
+}
+
+#product-list.list-view .product-thumb .card {
+  flex-direction: row;
+}
+
+#product-list.list-view .product-thumb .card img {
+  width: 250px;
+  height: 200px;
+  object-fit: cover;
+}
+
+#product-list.list-view .product-thumb .card-body {
+  flex: 1;
+}
+
+/* Enhance special offer cards with subtle animation */
+#product-list .card-product {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .special-header {
+    padding: 1rem 0;
+  }
+
+  .special-header .d-flex {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 1rem;
+  }
+}
+</style>
+
+<script>
+// View Toggle Script
+document.addEventListener('DOMContentLoaded', function() {
+  const btnGrid = document.getElementById('button-grid');
+  const btnList = document.getElementById('button-list');
+  const productList = document.getElementById('product-list');
+
+  if (btnGrid && btnList && productList) {
+    btnGrid.addEventListener('click', function() {
+      productList.classList.remove('list-view');
+      productList.className = 'row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mb-4';
+      btnGrid.classList.add('active');
+      btnList.classList.remove('active');
+      localStorage.setItem('productView', 'grid');
+    });
+
+    btnList.addEventListener('click', function() {
+      productList.classList.add('list-view');
+      btnList.classList.add('active');
+      btnGrid.classList.remove('active');
+      localStorage.setItem('productView', 'list');
+    });
+
+    // Restore saved view preference
+    const savedView = localStorage.getItem('productView');
+    if (savedView === 'list') {
+      btnList.click();
+    }
+  }
+});
+</script>
+
 {{ footer }}

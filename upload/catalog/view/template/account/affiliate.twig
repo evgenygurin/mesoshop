@@ -5,234 +5,644 @@
       <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
     {% endfor %}
   </ul>
-  <div class="row">{{ column_left }}
-    <div id="content" class="col">{{ content_top }}
-      <h1>{{ heading_title }}</h1>
-      <form id="form-affiliate" action="{{ save }}" method="post" data-oc-toggle="ajax">
+  <div class="row">
+    {{ column_left }}
+    <div id="content" class="col">
+      {{ content_top }}
 
-        <fieldset>
-          <legend>{{ text_my_affiliate }}</legend>
-          <div class="row mb-3">
-            <label for="input-company" class="col-sm-2 col-form-label">{{ entry_company }}</label>
-            <div class="col-sm-10">
-              <input type="text" name="company" value="{{ company }}" placeholder="{{ entry_company }}" id="input-company" class="form-control"/>
+      <!-- Affiliate Program Header -->
+      <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-9">
+          <div class="text-center mb-5">
+            <div class="icon-shape icon-xl bg-info bg-opacity-10 text-info rounded-circle mx-auto mb-3">
+              <i class="fa-solid fa-users fa-3x"></i>
             </div>
+            <h1 class="display-6 fw-bold mb-3">{{ heading_title }}</h1>
+            <p class="text-muted fs-5">Join our affiliate program and start earning commissions</p>
           </div>
-          <div class="row mb-3">
-            <label for="input-website" class="col-sm-2 col-form-label">{{ entry_website }}</label>
-            <div class="col-sm-10">
-              <input type="text" name="website" value="{{ website }}" placeholder="{{ entry_website }}" id="input-website" class="form-control"/>
-            </div>
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend>{{ text_payment }}</legend>
-          <div class="row mb-3">
-            <label for="input-tax" class="col-sm-2 col-form-label">{{ entry_tax }}</label>
-            <div class="col-sm-10">
-              <input type="text" name="tax" value="{{ tax }}" placeholder="{{ entry_tax }}" id="input-tax" class="form-control"/>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">{{ entry_payment_method }}</label>
-            <div class="col-sm-10">
-              <div class="form-check">
-                <input type="radio" name="payment_method" value="cheque" id="input-payment-cheque" class="form-check-input"{% if payment_method == 'cheque' %} checked{% endif %}/>
-                <label for="input-payment-cheque" class="form-check-label">{{ text_cheque }}</label>
-              </div>
-              <div class="form-check">
-                <input type="radio" name="payment_method" value="paypal" id="input-payment-paypal" class="form-check-input"{% if payment_method == 'paypal' %} checked{% endif %}/>
-                <label for="input-payment-paypal" class="form-check-label">{{ text_paypal }}</label>
-              </div>
-              <div class="form-check">
-                <input type="radio" name="payment_method" value="bank" id="input-payment-bank" class="form-check-input"{% if payment_method == 'bank' %} checked{% endif %}/>
-                <label for="input-payment-bank" class="form-check-label">{{ text_bank }}</label>
-              </div>
-              <div id="error-payment-method" class="invalid-feedback"></div>
-            </div>
-          </div>
-          <div class="row mb-3 required payment" id="payment-cheque">
-            <label for="input-cheque" class="col-sm-2 col-form-label">{{ entry_cheque }}</label>
-            <div class="col-sm-10">
-              <input type="text" name="cheque" value="{{ cheque }}" placeholder="{{ entry_cheque }}" id="input-cheque" class="form-control"/>
-              <div id="error-cheque" class="invalid-feedback"></div>
-            </div>
-          </div>
-          <div class="row mb-3 required payment" id="payment-paypal">
-            <label for="input-paypal" class="col-sm-2 col-form-label">{{ entry_paypal }}</label>
-            <div class="col-sm-10">
-              <input type="text" name="paypal" value="{{ paypal }}" placeholder="{{ entry_paypal }}" id="input-paypal" class="form-control"/>
-              <div id="error-paypal" class="invalid-feedback"></div>
-            </div>
-          </div>
-          <div id="payment-bank" class="payment">
-            <div class="row mb-3">
-              <label for="input-bank-name" class="col-sm-2 col-form-label">{{ entry_bank_name }}</label>
-              <div class="col-sm-10">
-                <input type="text" name="bank_name" value="{{ bank_name }}" placeholder="{{ entry_bank_name }}" id="input-bank-name" class="form-control"/>
-              </div>
-            </div>
-            <div class="row mb-3">
-              <label for="input-bank-branch-number" class="col-sm-2 col-form-label">{{ entry_bank_branch_number }}</label>
-              <div class="col-sm-10">
-                <input type="text" name="bank_branch_number" value="{{ bank_branch_number }}" placeholder="{{ entry_bank_branch_number }}" id="input-bank-branch-number" class="form-control"/>
-              </div>
-            </div>
-            <div class="row mb-3">
-              <label for="input-bank-swift-code" class="col-sm-2 col-form-label">{{ entry_bank_swift_code }}</label>
-              <div class="col-sm-10">
-                <input type="text" name="bank_swift_code" value="{{ bank_swift_code }}" placeholder="{{ entry_bank_swift_code }}" id="input-bank-swift-code" class="form-control"/>
-              </div>
-            </div>
-            <div class="row mb-3 required row">
-              <label for="input-bank-account-name" class="col-sm-2 col-form-label">{{ entry_bank_account_name }}</label>
-              <div class="col-sm-10">
-                <input type="text" name="bank_account_name" value="{{ bank_account_name }}" placeholder="{{ entry_bank_account_name }}" id="input-bank-account-name" class="form-control"/>
-                <div id="error-bank-account-name" class="invalid-feedback"></div>
-              </div>
-            </div>
-            <div class="row mb-3 required row">
-              <label for="input-bank-account-number" class="col-sm-2 col-form-label">{{ entry_bank_account_number }}</label>
-              <div class="col-sm-10">
-                <input type="text" name="bank_account_number" value="{{ bank_account_number }}" placeholder="{{ entry_bank_account_number }}" id="input-bank-account-number" class="form-control"/>
-                <div id="error-bank-account-number" class="invalid-feedback"></div>
-              </div>
-            </div>
-          </div>
-          {% for custom_field in custom_fields %}
-            {% if custom_field.location == 'affiliate' %}
 
-              {% if custom_field.type == 'select' %}
-                <div class="row mb-3{% if custom_field.required %} required{% endif %} custom-field">
-                  <label for="input-custom-field-{{ custom_field.custom_field_id }}" class="col-sm-2 col-form-label">{{ custom_field.name }}</label>
-                  <div class="col-sm-10">
-                    <select name="custom_field[{{ custom_field.custom_field_id }}]" id="input-custom-field-{{ custom_field.custom_field_id }}" class="form-select">
-                      <option value="">{{ text_select }}</option>
-                      {% for custom_field_value in custom_field.custom_field_value %}
-                        <option value="{{ custom_field_value.custom_field_value_id }}"{% if affiliate_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id == affiliate_custom_field[custom_field.custom_field_id] %} selected{% endif %}>{{ custom_field_value.name }}</option>
-                      {% endfor %}
-                    </select>
-                    <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback"></div>
+          <!-- Affiliate Form Card -->
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 p-md-5">
+              <form id="form-affiliate" action="{{ save }}" method="post" data-oc-toggle="ajax">
+
+                <!-- Affiliate Information Section -->
+                <fieldset class="mb-5">
+                  <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                    <div class="icon-shape bg-info bg-opacity-10 text-info rounded me-3">
+                      <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <h3 class="h5 mb-0 fw-semibold">{{ text_my_affiliate }}</h3>
                   </div>
-                </div>
-              {% endif %}
 
-              {% if custom_field.type == 'radio' %}
-                <div class="row mb-3{% if custom_field.required %} required{% endif %} custom-field">
-                  <label class="col-sm-2 col-form-label">{{ custom_field.name }}</label>
-                  <div class="col-sm-10">
-                    <div id="input-custom-field-{{ custom_field.custom_field_id }}">
-                      {% for custom_field_value in custom_field.custom_field_value %}
-                        <div class="form-check">
-                          <input type="radio" name="custom_field[{{ custom_field.custom_field_id }}]" value="{{ custom_field_value.custom_field_value_id }}" id="input-custom-value-{{ custom_field_value.custom_field_value_id }}" class="form-check-input"{% if affiliate_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id == affiliate_custom_field[custom_field.custom_field_id] %} checked{% endif %}/> <label for="input-custom-value-{{ custom_field_value.custom_field_value_id }}" class="form-check-label">{{ custom_field_value.name }}</label>
+                  <div class="mb-4">
+                    <label for="input-company" class="form-label fw-semibold">{{ entry_company }}</label>
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-text bg-light border-end-0">
+                        <i class="fa-solid fa-building text-muted"></i>
+                      </span>
+                      <input type="text"
+                             name="company"
+                             value="{{ company }}"
+                             placeholder="{{ entry_company }}"
+                             id="input-company"
+                             class="form-control border-start-0 ps-0"/>
+                    </div>
+                    <div id="error-company" class="invalid-feedback d-block"></div>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="input-website" class="form-label fw-semibold">{{ entry_website }}</label>
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-text bg-light border-end-0">
+                        <i class="fa-solid fa-globe text-muted"></i>
+                      </span>
+                      <input type="text"
+                             name="website"
+                             value="{{ website }}"
+                             placeholder="{{ entry_website }}"
+                             id="input-website"
+                             class="form-control border-start-0 ps-0"/>
+                    </div>
+                    <div id="error-website" class="invalid-feedback d-block"></div>
+                  </div>
+                </fieldset>
+
+                <!-- Payment Information Section -->
+                <fieldset class="mb-5">
+                  <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                    <div class="icon-shape bg-success bg-opacity-10 text-success rounded me-3">
+                      <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                    <h3 class="h5 mb-0 fw-semibold">{{ text_payment }}</h3>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="input-tax" class="form-label fw-semibold">{{ entry_tax }}</label>
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-text bg-light border-end-0">
+                        <i class="fa-solid fa-file-invoice text-muted"></i>
+                      </span>
+                      <input type="text"
+                             name="tax"
+                             value="{{ tax }}"
+                             placeholder="{{ entry_tax }}"
+                             id="input-tax"
+                             class="form-control border-start-0 ps-0"/>
+                    </div>
+                    <div id="error-tax" class="invalid-feedback d-block"></div>
+                    <div class="form-text mt-2">
+                      <i class="fa-solid fa-info-circle me-1"></i>
+                      Tax ID or VAT number (if applicable)
+                    </div>
+                  </div>
+
+                  <!-- Payment Method Selection -->
+                  <div class="mb-4">
+                    <label class="form-label fw-semibold d-block mb-3">{{ entry_payment_method }} <span class="text-danger">*</span></label>
+                    <div class="row g-3">
+                      <div class="col-md-4">
+                        <div class="card border h-100 payment-method-card">
+                          <div class="card-body text-center">
+                            <div class="form-check">
+                              <input type="radio"
+                                     name="payment_method"
+                                     value="cheque"
+                                     id="input-payment-cheque"
+                                     class="form-check-input"{% if payment_method == 'cheque' %} checked{% endif %}/>
+                              <label for="input-payment-cheque" class="form-check-label w-100">
+                                <i class="fa-solid fa-money-check fa-2x text-primary d-block mb-2"></i>
+                                <strong>{{ text_cheque }}</strong>
+                              </label>
+                            </div>
+                          </div>
                         </div>
-                      {% endfor %}
-                    </div>
-                    <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback"></div>
-                  </div>
-                </div>
-              {% endif %}
-
-              {% if custom_field.type == 'checkbox' %}
-                <div class="row mb-3{% if custom_field.required %} required{% endif %} custom-field">
-                  <label class="col-sm-2 col-form-label">{{ custom_field.name }}</label>
-                  <div class="col-sm-10">
-                    <div id="input-custom-field-{{ custom_field.custom_field_id }}">
-                      {% for custom_field_value in custom_field.custom_field_value %}
-                        <div class="form-check">
-                          <input type="checkbox" name="custom_field[{{ custom_field.custom_field_id }}]" value="{{ custom_field_value.custom_field_value_id }}" id="input-custom-value-{{ custom_field_value.custom_field_value_id }}" class="form-check-input"{% if affiliate_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id in affiliate_custom_field[custom_field.custom_field_id] %} checked{% endif %}/> <label for="input-custom-value-{{ custom_field_value.custom_field_value_id }}" class="form-check-label">{{ custom_field_value.name }}</label>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="card border h-100 payment-method-card">
+                          <div class="card-body text-center">
+                            <div class="form-check">
+                              <input type="radio"
+                                     name="payment_method"
+                                     value="paypal"
+                                     id="input-payment-paypal"
+                                     class="form-check-input"{% if payment_method == 'paypal' %} checked{% endif %}/>
+                              <label for="input-payment-paypal" class="form-check-label w-100">
+                                <i class="fa-brands fa-paypal fa-2x text-primary d-block mb-2"></i>
+                                <strong>{{ text_paypal }}</strong>
+                              </label>
+                            </div>
+                          </div>
                         </div>
-                      {% endfor %}
+                      </div>
+                      <div class="col-md-4">
+                        <div class="card border h-100 payment-method-card">
+                          <div class="card-body text-center">
+                            <div class="form-check">
+                              <input type="radio"
+                                     name="payment_method"
+                                     value="bank"
+                                     id="input-payment-bank"
+                                     class="form-check-input"{% if payment_method == 'bank' %} checked{% endif %}/>
+                              <label for="input-payment-bank" class="form-check-label w-100">
+                                <i class="fa-solid fa-building-columns fa-2x text-primary d-block mb-2"></i>
+                                <strong>{{ text_bank }}</strong>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback"></div>
+                    <div id="error-payment-method" class="invalid-feedback d-block"></div>
                   </div>
-                </div>
-              {% endif %}
 
-              {% if custom_field.type == 'text' %}
-                <div class="row mb-3{% if custom_field.required %} required{% endif %} custom-field">
-                  <label for="input-custom-field-{{ custom_field.custom_field_id }}" class="col-sm-2 col-form-label">{{ custom_field.name }}</label>
-                  <div class="col-sm-10">
-                    <input type="text" name="custom_field[{{ custom_field.custom_field_id }}]" value="{% if affiliate_custom_field[custom_field.custom_field_id] %}{{ affiliate_custom_field[custom_field.custom_field_id] }}{% else %}{{ custom_field.value }}{% endif %}" placeholder="{{ custom_field.name }}" id="input-custom-field-{{ custom_field.custom_field_id }}" class="form-control"/>
-                    <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback"></div>
-                  </div>
-                </div>
-              {% endif %}
-
-              {% if custom_field.type == 'textarea' %}
-                <div class="row mb-3{% if custom_field.required %} required{% endif %} custom-field">
-                  <label for="input-custom-field-{{ custom_field.custom_field_id }}" class="col-sm-2 col-form-label">{{ custom_field.name }}</label>
-                  <div class="col-sm-10">
-                    <textarea name="custom_field[{{ custom_field.custom_field_id }}]" rows="5" placeholder="{{ custom_field.name }}" id="input-custom-field-{{ custom_field.custom_field_id }}" class="form-control">{% if affiliate_custom_field[custom_field.custom_field_id] %}{{ affiliate_custom_field[custom_field.custom_field_id] }}{% else %}{{ custom_field.value }}{% endif %}</textarea>
-                    <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback"></div>
-                  </div>
-                </div>
-              {% endif %}
-
-              {% if custom_field.type == 'file' %}
-                <div class="row mb-3{% if custom_field.required %} required{% endif %} custom-field">
-                  <label class="col-sm-2 col-form-label">{{ custom_field.name }}</label>
-                  <div class="col-sm-10">
-                    <div>
-                      <button type="button" data-oc-toggle="upload" data-oc-url="{{ upload }}" data-oc-size-max="{{ config_file_max_size }}" data-oc-size-error="{{ error_upload_size }}" data-oc-target="#input-custom-field-{{ custom_field.custom_field_id }}" class="btn btn-light"><i class="fa-solid fa-upload"></i> {{ button_upload }}</button>
-                      <input type="hidden" name="custom_field[{{ custom_field.custom_field_id }}]" value="{% if affiliate_custom_field[custom_field.custom_field_id] %}{{ affiliate_custom_field[custom_field.custom_field_id] }}{% endif %}" id="input-custom-field-{{ custom_field.custom_field_id }}"/>
+                  <!-- Cheque Payment Fields -->
+                  <div class="payment-details mb-4" id="payment-cheque" style="display: none;">
+                    <div class="alert alert-info border-0">
+                      <i class="fa-solid fa-info-circle me-2"></i>
+                      <strong>Cheque Payment Details</strong>
                     </div>
-                    <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback"></div>
+                    <div class="mb-3">
+                      <label for="input-cheque" class="form-label fw-semibold">
+                        {{ entry_cheque }} <span class="text-danger">*</span>
+                      </label>
+                      <div class="input-group input-group-lg">
+                        <span class="input-group-text bg-light border-end-0">
+                          <i class="fa-solid fa-signature text-muted"></i>
+                        </span>
+                        <input type="text"
+                               name="cheque"
+                               value="{{ cheque }}"
+                               placeholder="{{ entry_cheque }}"
+                               id="input-cheque"
+                               class="form-control border-start-0 ps-0"/>
+                      </div>
+                      <div id="error-cheque" class="invalid-feedback d-block"></div>
+                      <div class="form-text mt-2">
+                        <i class="fa-solid fa-info-circle me-1"></i>
+                        Full name as it appears on the cheque
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- PayPal Payment Fields -->
+                  <div class="payment-details mb-4" id="payment-paypal" style="display: none;">
+                    <div class="alert alert-info border-0">
+                      <i class="fa-brands fa-paypal me-2"></i>
+                      <strong>PayPal Payment Details</strong>
+                    </div>
+                    <div class="mb-3">
+                      <label for="input-paypal" class="form-label fw-semibold">
+                        {{ entry_paypal }} <span class="text-danger">*</span>
+                      </label>
+                      <div class="input-group input-group-lg">
+                        <span class="input-group-text bg-light border-end-0">
+                          <i class="fa-solid fa-envelope text-muted"></i>
+                        </span>
+                        <input type="email"
+                               name="paypal"
+                               value="{{ paypal }}"
+                               placeholder="{{ entry_paypal }}"
+                               id="input-paypal"
+                               class="form-control border-start-0 ps-0"/>
+                      </div>
+                      <div id="error-paypal" class="invalid-feedback d-block"></div>
+                      <div class="form-text mt-2">
+                        <i class="fa-solid fa-info-circle me-1"></i>
+                        Your PayPal email address
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Bank Transfer Payment Fields -->
+                  <div class="payment-details" id="payment-bank" style="display: none;">
+                    <div class="alert alert-info border-0 mb-4">
+                      <i class="fa-solid fa-building-columns me-2"></i>
+                      <strong>Bank Transfer Details</strong>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                      <div class="col-md-6">
+                        <label for="input-bank-name" class="form-label fw-semibold">{{ entry_bank_name }}</label>
+                        <div class="input-group input-group-lg">
+                          <span class="input-group-text bg-light border-end-0">
+                            <i class="fa-solid fa-landmark text-muted"></i>
+                          </span>
+                          <input type="text"
+                                 name="bank_name"
+                                 value="{{ bank_name }}"
+                                 placeholder="{{ entry_bank_name }}"
+                                 id="input-bank-name"
+                                 class="form-control border-start-0 ps-0"/>
+                        </div>
+                        <div id="error-bank-name" class="invalid-feedback d-block"></div>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="input-bank-branch-number" class="form-label fw-semibold">{{ entry_bank_branch_number }}</label>
+                        <div class="input-group input-group-lg">
+                          <span class="input-group-text bg-light border-end-0">
+                            <i class="fa-solid fa-code-branch text-muted"></i>
+                          </span>
+                          <input type="text"
+                                 name="bank_branch_number"
+                                 value="{{ bank_branch_number }}"
+                                 placeholder="{{ entry_bank_branch_number }}"
+                                 id="input-bank-branch-number"
+                                 class="form-control border-start-0 ps-0"/>
+                        </div>
+                        <div id="error-bank-branch-number" class="invalid-feedback d-block"></div>
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="input-bank-swift-code" class="form-label fw-semibold">{{ entry_bank_swift_code }}</label>
+                      <div class="input-group input-group-lg">
+                        <span class="input-group-text bg-light border-end-0">
+                          <i class="fa-solid fa-hashtag text-muted"></i>
+                        </span>
+                        <input type="text"
+                               name="bank_swift_code"
+                               value="{{ bank_swift_code }}"
+                               placeholder="{{ entry_bank_swift_code }}"
+                               id="input-bank-swift-code"
+                               class="form-control border-start-0 ps-0"/>
+                      </div>
+                      <div id="error-bank-swift-code" class="invalid-feedback d-block"></div>
+                      <div class="form-text mt-2">
+                        <i class="fa-solid fa-info-circle me-1"></i>
+                        SWIFT/BIC code for international transfers
+                      </div>
+                    </div>
+
+                    <div class="row g-3">
+                      <div class="col-md-6">
+                        <label for="input-bank-account-name" class="form-label fw-semibold">
+                          {{ entry_bank_account_name }} <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group input-group-lg">
+                          <span class="input-group-text bg-light border-end-0">
+                            <i class="fa-solid fa-user text-muted"></i>
+                          </span>
+                          <input type="text"
+                                 name="bank_account_name"
+                                 value="{{ bank_account_name }}"
+                                 placeholder="{{ entry_bank_account_name }}"
+                                 id="input-bank-account-name"
+                                 class="form-control border-start-0 ps-0"/>
+                        </div>
+                        <div id="error-bank-account-name" class="invalid-feedback d-block"></div>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="input-bank-account-number" class="form-label fw-semibold">
+                          {{ entry_bank_account_number }} <span class="text-danger">*</span>
+                        </label>
+                        <div class="input-group input-group-lg">
+                          <span class="input-group-text bg-light border-end-0">
+                            <i class="fa-solid fa-wallet text-muted"></i>
+                          </span>
+                          <input type="text"
+                                 name="bank_account_number"
+                                 value="{{ bank_account_number }}"
+                                 placeholder="{{ entry_bank_account_number }}"
+                                 id="input-bank-account-number"
+                                 class="form-control border-start-0 ps-0"/>
+                        </div>
+                        <div id="error-bank-account-number" class="invalid-feedback d-block"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Custom Fields for Affiliate -->
+                  {% for custom_field in custom_fields %}
+                    {% if custom_field.location == 'affiliate' %}
+
+                      {% if custom_field.type == 'select' %}
+                        <div class="mb-4{% if custom_field.required %} required{% endif %} custom-field custom-field-{{ custom_field.custom_field_id }}">
+                          <label for="input-custom-field-{{ custom_field.custom_field_id }}" class="form-label fw-semibold">
+                            {{ custom_field.name }}{% if custom_field.required %} <span class="text-danger">*</span>{% endif %}
+                          </label>
+                          <select name="custom_field[{{ custom_field.custom_field_id }}]"
+                                  id="input-custom-field-{{ custom_field.custom_field_id }}"
+                                  class="form-select form-select-lg">
+                            <option value="">{{ text_select }}</option>
+                            {% for custom_field_value in custom_field.custom_field_value %}
+                              <option value="{{ custom_field_value.custom_field_value_id }}"{% if affiliate_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id == affiliate_custom_field[custom_field.custom_field_id] %} selected{% endif %}>{{ custom_field_value.name }}</option>
+                            {% endfor %}
+                          </select>
+                          <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback d-block"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if custom_field.type == 'radio' %}
+                        <div class="mb-4{% if custom_field.required %} required{% endif %} custom-field custom-field-{{ custom_field.custom_field_id }}">
+                          <label class="form-label fw-semibold d-block">
+                            {{ custom_field.name }}{% if custom_field.required %} <span class="text-danger">*</span>{% endif %}
+                          </label>
+                          <div id="input-custom-field-{{ custom_field.custom_field_id }}">
+                            {% for custom_field_value in custom_field.custom_field_value %}
+                              <div class="form-check">
+                                <input type="radio"
+                                       name="custom_field[{{ custom_field.custom_field_id }}]"
+                                       value="{{ custom_field_value.custom_field_value_id }}"
+                                       id="input-custom-value-{{ custom_field_value.custom_field_value_id }}"
+                                       class="form-check-input"{% if affiliate_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id == affiliate_custom_field[custom_field.custom_field_id] %} checked{% endif %}/>
+                                <label for="input-custom-value-{{ custom_field_value.custom_field_value_id }}" class="form-check-label">
+                                  {{ custom_field_value.name }}
+                                </label>
+                              </div>
+                            {% endfor %}
+                          </div>
+                          <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback d-block"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if custom_field.type == 'checkbox' %}
+                        <div class="mb-4{% if custom_field.required %} required{% endif %} custom-field custom-field-{{ custom_field.custom_field_id }}">
+                          <label class="form-label fw-semibold d-block">
+                            {{ custom_field.name }}{% if custom_field.required %} <span class="text-danger">*</span>{% endif %}
+                          </label>
+                          <div id="input-custom-field-{{ custom_field.custom_field_id }}">
+                            {% for custom_field_value in custom_field.custom_field_value %}
+                              <div class="form-check">
+                                <input type="checkbox"
+                                       name="custom_field[{{ custom_field.custom_field_id }}]"
+                                       value="{{ custom_field_value.custom_field_value_id }}"
+                                       id="input-custom-value-{{ custom_field_value.custom_field_value_id }}"
+                                       class="form-check-input"{% if affiliate_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id in affiliate_custom_field[custom_field.custom_field_id] %} checked{% endif %}/>
+                                <label for="input-custom-value-{{ custom_field_value.custom_field_value_id }}" class="form-check-label">
+                                  {{ custom_field_value.name }}
+                                </label>
+                              </div>
+                            {% endfor %}
+                          </div>
+                          <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback d-block"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if custom_field.type == 'text' %}
+                        <div class="mb-4{% if custom_field.required %} required{% endif %} custom-field custom-field-{{ custom_field.custom_field_id }}">
+                          <label for="input-custom-field-{{ custom_field.custom_field_id }}" class="form-label fw-semibold">
+                            {{ custom_field.name }}{% if custom_field.required %} <span class="text-danger">*</span>{% endif %}
+                          </label>
+                          <input type="text"
+                                 name="custom_field[{{ custom_field.custom_field_id }}]"
+                                 value="{% if affiliate_custom_field[custom_field.custom_field_id] %}{{ affiliate_custom_field[custom_field.custom_field_id] }}{% else %}{{ custom_field.value }}{% endif %}"
+                                 placeholder="{{ custom_field.name }}"
+                                 id="input-custom-field-{{ custom_field.custom_field_id }}"
+                                 class="form-control form-control-lg"/>
+                          <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback d-block"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if custom_field.type == 'textarea' %}
+                        <div class="mb-4{% if custom_field.required %} required{% endif %} custom-field custom-field-{{ custom_field.custom_field_id }}">
+                          <label for="input-custom-field-{{ custom_field.custom_field_id }}" class="form-label fw-semibold">
+                            {{ custom_field.name }}{% if custom_field.required %} <span class="text-danger">*</span>{% endif %}
+                          </label>
+                          <textarea name="custom_field[{{ custom_field.custom_field_id }}]"
+                                    rows="5"
+                                    placeholder="{{ custom_field.name }}"
+                                    id="input-custom-field-{{ custom_field.custom_field_id }}"
+                                    class="form-control form-control-lg">{% if affiliate_custom_field[custom_field.custom_field_id] %}{{ affiliate_custom_field[custom_field.custom_field_id] }}{% else %}{{ custom_field.value }}{% endif %}</textarea>
+                          <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback d-block"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if custom_field.type == 'file' %}
+                        <div class="mb-4{% if custom_field.required %} required{% endif %} custom-field custom-field-{{ custom_field.custom_field_id }}">
+                          <label class="form-label fw-semibold">
+                            {{ custom_field.name }}{% if custom_field.required %} <span class="text-danger">*</span>{% endif %}
+                          </label>
+                          <div>
+                            <button type="button"
+                                    data-oc-toggle="upload"
+                                    data-oc-url="{{ upload }}"
+                                    data-oc-size-max="{{ config_file_max_size }}"
+                                    data-oc-size-error="{{ error_upload_size }}"
+                                    data-oc-target="#input-custom-field-{{ custom_field.custom_field_id }}"
+                                    class="btn btn-light btn-lg">
+                              <i class="fa-solid fa-upload"></i> {{ button_upload }}
+                            </button>
+                            <input type="hidden"
+                                   name="custom_field[{{ custom_field.custom_field_id }}]"
+                                   value="{% if affiliate_custom_field[custom_field.custom_field_id] %}{{ affiliate_custom_field[custom_field.custom_field_id] }}{% endif %}"
+                                   id="input-custom-field-{{ custom_field.custom_field_id }}"/>
+                          </div>
+                          <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback d-block"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if custom_field.type == 'date' %}
+                        <div class="mb-4{% if custom_field.required %} required{% endif %} custom-field custom-field-{{ custom_field.custom_field_id }}">
+                          <label for="input-custom-field-{{ custom_field.custom_field_id }}" class="form-label fw-semibold">
+                            {{ custom_field.name }}{% if custom_field.required %} <span class="text-danger">*</span>{% endif %}
+                          </label>
+                          <input type="date"
+                                 name="custom_field[{{ custom_field.custom_field_id }}]"
+                                 value="{% if affiliate_custom_field[custom_field.custom_field_id] %}{{ affiliate_custom_field[custom_field.custom_field_id] }}{% else %}{{ custom_field.value }}{% endif %}"
+                                 placeholder="{{ custom_field.name }}"
+                                 id="input-custom-field-{{ custom_field.custom_field_id }}"
+                                 class="form-control form-control-lg"/>
+                          <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback d-block"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if custom_field.type == 'time' %}
+                        <div class="mb-4{% if custom_field.required %} required{% endif %} custom-field custom-field-{{ custom_field.custom_field_id }}">
+                          <label for="input-custom-field-{{ custom_field.custom_field_id }}" class="form-label fw-semibold">
+                            {{ custom_field.name }}{% if custom_field.required %} <span class="text-danger">*</span>{% endif %}
+                          </label>
+                          <input type="time"
+                                 name="custom_field[{{ custom_field.custom_field_id }}]"
+                                 value="{% if affiliate_custom_field[custom_field.custom_field_id] %}{{ affiliate_custom_field[custom_field.custom_field_id] }}{% else %}{{ custom_field.value }}{% endif %}"
+                                 placeholder="{{ custom_field.name }}"
+                                 id="input-custom-field-{{ custom_field.custom_field_id }}"
+                                 class="form-control form-control-lg"/>
+                          <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback d-block"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if custom_field.type == 'datetime' %}
+                        <div class="mb-4{% if custom_field.required %} required{% endif %} custom-field custom-field-{{ custom_field.custom_field_id }}">
+                          <label for="input-custom-field-{{ custom_field.custom_field_id }}" class="form-label fw-semibold">
+                            {{ custom_field.name }}{% if custom_field.required %} <span class="text-danger">*</span>{% endif %}
+                          </label>
+                          <input type="datetime-local"
+                                 name="custom_field[{{ custom_field.custom_field_id }}]"
+                                 value="{% if affiliate_custom_field[custom_field.custom_field_id] %}{{ affiliate_custom_field[custom_field.custom_field_id] }}{% else %}{{ custom_field.value }}{% endif %}"
+                                 placeholder="{{ custom_field.name }}"
+                                 id="input-custom-field-{{ custom_field.custom_field_id }}"
+                                 class="form-control form-control-lg"/>
+                          <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback d-block"></div>
+                        </div>
+                      {% endif %}
+
+                    {% endif %}
+                  {% endfor %}
+                </fieldset>
+
+                <!-- Terms and Submit -->
+                <div class="border-top pt-4 mt-4">
+                  {% if text_agree %}
+                    <div class="d-flex align-items-start p-3 bg-light rounded mb-4">
+                      <div class="flex-shrink-0 me-3 mt-1">
+                        <x-switch name="agree" value="1" input-id="input-agree" input-class="form-switch form-switch-lg"></x-switch>
+                      </div>
+                      <div class="flex-grow-1">
+                        <label for="input-agree" class="form-check-label text-muted small">
+                          {{ text_agree }}
+                        </label>
+                      </div>
+                    </div>
+                  {% endif %}
+
+                  <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg py-3 fw-semibold">
+                      <i class="fa-solid fa-check-circle me-2"></i>{{ button_continue }}
+                    </button>
                   </div>
                 </div>
-              {% endif %}
-
-              {% if custom_field.type == 'date' %}
-                <div class="row mb-3{% if custom_field.required %} required{% endif %} custom-field">
-                  <label for="input-custom-field-{{ custom_field.custom_field_id }}" class="col-sm-2 col-form-label">{{ custom_field.name }}</label>
-                  <div class="col-sm-10">
-                    <input type="date" name="custom_field[{{ custom_field.custom_field_id }}]" value="{% if affiliate_custom_field[custom_field.custom_field_id] %}{{ affiliate_custom_field[custom_field.custom_field_id] }}{% else %}{{ custom_field.value }}{% endif %}" placeholder="{{ custom_field.name }}" id="input-custom-field-{{ custom_field.custom_field_id }}" class="form-control"/>
-                    <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback"></div>
-                  </div>
-                </div>
-              {% endif %}
-
-              {% if custom_field.type == 'time' %}
-                <div class="row mb-3{% if custom_field.required %} required{% endif %} custom-field">
-                  <label for="input-custom-field-{{ custom_field.custom_field_id }}" class="col-sm-2 col-form-label">{{ custom_field.name }}</label>
-                  <div class="col-sm-10">
-                    <input type="time" name="custom_field[{{ custom_field.custom_field_id }}]" value="{% if affiliate_custom_field[custom_field.custom_field_id] %}{{ affiliate_custom_field[custom_field.custom_field_id] }}{% else %}{{ custom_field.value }}{% endif %}" placeholder="{{ custom_field.name }}" id="input-custom-field-{{ custom_field.custom_field_id }}" class="form-control"/>
-                    <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback"></div>
-                  </div>
-                </div>
-              {% endif %}
-
-              {% if custom_field.type == 'datetime' %}
-                <div class="row mb-3{% if custom_field.required %} required{% endif %} custom-field">
-                  <label for="input-custom-field-{{ custom_field.custom_field_id }}" class="col-sm-2 col-form-label">{{ custom_field.name }}</label>
-                  <div class="col-sm-10">
-                    <input type="datetime-local" name="custom_field[{{ custom_field.custom_field_id }}]" value="{% if affiliate_custom_field[custom_field.custom_field_id] %}{{ affiliate_custom_field[custom_field.custom_field_id] }}{% else %}{{ custom_field.value }}{% endif %}" placeholder="{{ custom_field.name }}" id="input-custom-field-{{ custom_field.custom_field_id }}" class="form-control"/>
-                    <div id="error-custom-field-{{ custom_field.custom_field_id }}" class="invalid-feedback"></div>
-                  </div>
-                </div>
-              {% endif %}
-
-            {% endif %}
-          {% endfor %}
-        </fieldset>
-        <div class="text-end">
-          {% if text_agree %}
-            <label for="input-agree" class="form-check-label">{{ text_agree }}</label>
-            <x-switch name="agree" value="1" input-id="input-agree" input-class="form-switch form-switch-lg form-check-reverse form-check-inline align-top"></x-switch>
-          {% endif %}
-          <button type="submit" class="btn btn-primary">{{ button_continue }}</button>
+              </form>
+            </div>
+          </div>
         </div>
-      </form>
-      {{ content_bottom }}</div>
-    {{ column_right }}</div>
+      </div>
+      {{ content_bottom }}
+    </div>
+    {{ column_right }}
+  </div>
 </div>
-<script type="text/javascript"><!--
-$('input[name=\'payment_method\']').on('change', function() {
-    $('.payment').hide();
 
+<style>
+/* Affiliate Form Enhancements */
+#account-affiliate .icon-shape {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+}
+
+#account-affiliate .icon-shape.icon-xl {
+  width: 80px;
+  height: 80px;
+}
+
+#account-affiliate .input-group-text {
+  border-right: 0;
+}
+
+#account-affiliate .input-group .form-control:focus {
+  border-color: #dee2e6;
+  box-shadow: none;
+}
+
+#account-affiliate .input-group:focus-within .input-group-text {
+  border-color: var(--bs-primary);
+  background-color: rgba(var(--bs-primary-rgb), 0.05);
+}
+
+#account-affiliate .card {
+  border-radius: 12px;
+}
+
+#account-affiliate fieldset {
+  border: none;
+}
+
+#account-affiliate .form-label.fw-semibold {
+  color: #344767;
+}
+
+#account-affiliate .bg-light {
+  background-color: #f8f9fa !important;
+}
+
+/* Payment Method Cards */
+#account-affiliate .payment-method-card {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+}
+
+#account-affiliate .payment-method-card:hover {
+  border-color: var(--bs-primary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#account-affiliate .payment-method-card .form-check {
+  margin: 0;
+}
+
+#account-affiliate .payment-method-card .form-check-input {
+  position: absolute;
+  opacity: 0;
+}
+
+#account-affiliate .payment-method-card .form-check-input:checked ~ .form-check-label {
+  color: var(--bs-primary);
+}
+
+#account-affiliate .payment-method-card .form-check-input:checked ~ .form-check-label i {
+  color: var(--bs-primary) !important;
+}
+
+#account-affiliate .payment-method-card .form-check-label {
+  cursor: pointer;
+  padding: 1rem 0.5rem;
+}
+
+/* Payment Details Sections */
+#account-affiliate .payment-details {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* Custom Fields Styling */
+#account-affiliate .custom-field {
+  transition: all 0.3s ease;
+}
+
+#account-affiliate .custom-field.required .form-label::after {
+  content: " *";
+  color: var(--bs-danger);
+}
+
+/* Alert Boxes */
+#account-affiliate .alert {
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  #account-affiliate .payment-method-card .card-body {
+    padding: 0.75rem !important;
+  }
+
+  #account-affiliate .payment-method-card .form-check-label i {
+    font-size: 1.5rem !important;
+  }
+
+  #account-affiliate .payment-details {
+    padding: 1rem;
+  }
+}
+</style>
+
+<script type="text/javascript"><!--
+// Payment method visibility toggle
+$('input[name=\'payment_method\']').on('change', function() {
+    $('.payment-details').hide();
     $('#payment-' + this.value).show();
 });
 
+// Trigger initial payment method visibility
 $('input[name=\'payment_method\']:checked').trigger('change');
+
+// Payment method card click handling
+$('.payment-method-card').on('click', function() {
+    $(this).find('input[type="radio"]').prop('checked', true).trigger('change');
+});
 //--></script>
 {{ footer }}

@@ -9,36 +9,70 @@
     <div id="content" class="col">{{ content_top }}
       <h1>{{ heading_title }}</h1>
       {% if downloads %}
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover">
-            <thead>
-              <tr>
-                <th class="text-end"><strong>{{ column_order_id }}</strong></th>
-                <th><strong>{{ column_name }}</strong></th>
-                <th><strong>{{ column_size }}</strong></th>
-                <th><strong>{{ column_date_added }}</strong></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for download in downloads %}
-                <tr>
-                  <td class="text-end">{{ download.order_id }}</td>
-                  <td>{{ download.name }}</td>
-                  <td>{{ download.size }}</td>
-                  <td>{{ download.date_added }}</td>
-                  <td class="text-end"><a href="{{ download.href }}" data-bs-toggle="tooltip" title="{{ button_download }}" class="btn btn-primary"><i class="fa-solid fa-cloud-arrow-down"></i></a></td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+        <!-- Download Cards -->
+        <div class="row g-4 mb-4">
+          {% for download in downloads %}
+            <div class="col-12 col-lg-6">
+              <div class="card h-100 shadow-sm hover-shadow-lg transition-all">
+                <div class="card-body">
+                  <div class="d-flex align-items-start mb-3">
+                    <div class="flex-shrink-0 me-3">
+                      <div class="bg-primary bg-gradient text-white rounded p-3">
+                        <i class="fa-solid fa-file-arrow-down fa-2x"></i>
+                      </div>
+                    </div>
+                    <div class="flex-grow-1">
+                      <h5 class="card-title mb-2">{{ download.name }}</h5>
+                      <div class="d-flex gap-3 text-muted small flex-wrap">
+                        <span>
+                          <i class="fa-solid fa-receipt me-1"></i>
+                          Order #{{ download.order_id }}
+                        </span>
+                        <span>
+                          <i class="fa-solid fa-hard-drive me-1"></i>
+                          {{ download.size }}
+                        </span>
+                        <span>
+                          <i class="fa-regular fa-calendar me-1"></i>
+                          {{ download.date_added }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Download Button -->
+                  <div class="d-grid">
+                    <a href="{{ download.href }}" class="btn btn-primary">
+                      <i class="fa-solid fa-cloud-arrow-down me-2"></i>{{ button_download }}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
         </div>
-        <div class="row mb-3">
-          <div class="col-sm-6 text-start">{{ pagination }}</div>
-          <div class="col-sm-6 text-end">{{ results }}</div>
+
+        <!-- Pagination -->
+        <div class="card border-0 bg-light">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-sm-6 text-start">{{ pagination }}</div>
+              <div class="col-sm-6 text-end text-muted">{{ results }}</div>
+            </div>
+          </div>
         </div>
       {% else %}
-        <p>{{ text_no_results }}</p>
+        <!-- Empty State -->
+        <div class="card border-0 bg-light">
+          <div class="card-body text-center py-5">
+            <i class="fa-solid fa-download fa-4x text-muted mb-3"></i>
+            <h4 class="text-muted">{{ text_no_results }}</h4>
+            <p class="text-muted mb-4">You don't have any downloads available</p>
+            <a href="{{ continue }}" class="btn btn-primary">
+              <i class="fa-solid fa-shopping-bag me-2"></i>Continue Shopping
+            </a>
+          </div>
+        </div>
       {% endif %}
       <div class="text-end">
         <a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a>

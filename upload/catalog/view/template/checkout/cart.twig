@@ -1,15 +1,24 @@
 {{ header }}
-<div id="checkout-cart" class="container">
-  <ul class="breadcrumb">
-    {% for breadcrumb in breadcrumbs %}
-      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
-    {% endfor %}
-  </ul>
+<div id="checkout-cart" class="container my-4">
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb bg-light rounded-3 p-3 shadow-sm">
+      {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item{% if loop.last %} active{% endif %}"{% if loop.last %} aria-current="page"{% endif %}>
+          {% if not loop.last %}
+            <a href="{{ breadcrumb.href }}" class="text-decoration-none">{{ breadcrumb.text }}</a>
+          {% else %}
+            {{ breadcrumb.text }}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
+
   <div class="row">
     {{ column_left }}
     <div id="content" class="col">
       {{ content_top }}
-      <div id="shopping-cart">{{ list }}</div>
+      <div id="shopping-cart" class="mb-4">{{ list }}</div>
       {{ content_bottom }}
     </div>
     {{ column_right }}

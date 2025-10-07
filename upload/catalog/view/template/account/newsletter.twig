@@ -8,24 +8,94 @@
   <div class="row">{{ column_left }}
     <div id="content" class="col">{{ content_top }}
       <h1>{{ heading_title }}</h1>
-      <form id="form-newsletter" action="{{ save }}" method="post" data-oc-toggle="ajax">
-        <fieldset>
-          <div class="row mb-3 mb-0">
-            <label class="col-md-3 col-form-label">{{ entry_newsletter }}</label>
-            <div class="col-md-9">
-              <x-switch name="newsletter" value="1" checked="{{ newsletter }}" input-id="input-newsletter" input-class="form-switch form-switch-lg"></x-switch>
+
+      <!-- Newsletter Subscription Card -->
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="row align-items-center mb-4">
+            <div class="col-auto">
+              <div class="bg-primary bg-gradient text-white rounded p-3">
+                <i class="fa-solid fa-envelope fa-3x"></i>
+              </div>
+            </div>
+            <div class="col">
+              <h5 class="mb-1">Newsletter Subscription</h5>
+              <p class="text-muted mb-0">Stay updated with our latest offers, products, and news</p>
             </div>
           </div>
-        </fieldset>
-        <div class="row">
-          <div class="col">
-            <a href="{{ back }}" class="btn btn-light">{{ button_back }}</a>
-          </div>
-          <div class="col text-end">
-            <button type="submit" class="btn btn-primary">{{ button_continue }}</button>
-          </div>
+
+          <form id="form-newsletter" action="{{ save }}" method="post" data-oc-toggle="ajax">
+            <fieldset>
+              <!-- Newsletter Toggle -->
+              <div class="card border mb-4">
+                <div class="card-body">
+                  <div class="row align-items-center">
+                    <div class="col-md-8">
+                      <label for="input-newsletter" class="form-label mb-2">
+                        <strong>{{ entry_newsletter }}</strong>
+                      </label>
+                      <p class="text-muted small mb-0">
+                        <i class="fa-solid fa-info-circle me-1"></i>
+                        You can unsubscribe at any time. We respect your privacy and will never share your email.
+                      </p>
+                    </div>
+                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                      <x-switch
+                        name="newsletter"
+                        value="1"
+                        checked="{{ newsletter }}"
+                        input-id="input-newsletter"
+                        input-class="form-switch form-switch-lg">
+                      </x-switch>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Benefits Section -->
+              <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                  <div class="d-flex align-items-start">
+                    <i class="fa-solid fa-tag text-primary me-2 mt-1"></i>
+                    <div>
+                      <h6 class="mb-1">Exclusive Deals</h6>
+                      <small class="text-muted">Get first access to special offers</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="d-flex align-items-start">
+                    <i class="fa-solid fa-bell text-primary me-2 mt-1"></i>
+                    <div>
+                      <h6 class="mb-1">New Arrivals</h6>
+                      <small class="text-muted">Be the first to know about new products</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="d-flex align-items-start">
+                    <i class="fa-solid fa-gift text-primary me-2 mt-1"></i>
+                    <div>
+                      <h6 class="mb-1">Special Rewards</h6>
+                      <small class="text-muted">Earn points and exclusive bonuses</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- Action Buttons -->
+            <div class="d-flex gap-2 justify-content-between">
+              <a href="{{ back }}" class="btn btn-outline-secondary">
+                <i class="fa-solid fa-arrow-left me-2"></i>{{ button_back }}
+              </a>
+              <button type="submit" class="btn btn-primary px-4">
+                <i class="fa-solid fa-check me-2"></i>{{ button_continue }}
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
       {{ content_bottom }}
     </div>
     {{ column_right }}</div>

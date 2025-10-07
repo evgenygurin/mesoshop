@@ -1,13 +1,35 @@
 {% if currencies|length > 1 %}
+  <!-- Enhanced Currency Selector -->
   <form id="form-currency" action="{{ action }}" method="post" data-oc-toggle="ajax">
-    <div class="dropdown"><a href="#" data-bs-toggle="dropdown" class="dropdown-toggle">{% if symbol_left %}<strong>{{ symbol_left }}</strong>{% elseif symbol_right %}<strong>{{ symbol_right }}</strong>{% endif %} <span class="d-none d-md-inline">{{ text_currency }}</span> <i class="fa-solid fa-caret-down"></i></a>
-      <ul class="dropdown-menu">
+    <div class="dropdown">
+      <a href="#"
+         data-bs-toggle="dropdown"
+         class="dropdown-toggle text-decoration-none text-secondary hover-primary d-flex align-items-center"
+         aria-expanded="false">
+        {% if symbol_left %}
+          <strong class="me-1">{{ symbol_left }}</strong>
+        {% elseif symbol_right %}
+          <strong class="me-1">{{ symbol_right }}</strong>
+        {% endif %}
+        <span class="d-none d-md-inline">{{ text_currency }}</span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
         {% for currency in currencies %}
-          {% if currency.symbol_left %}
-            <li><a href="{{ currency.code }}" class="dropdown-item">{{ currency.symbol_left }} {{ currency.title }}</a></li>
-          {% else %}
-            <li><a href="{{ currency.code }}" class="dropdown-item">{{ currency.symbol_right }} {{ currency.title }}</a></li>
-          {% endif %}
+          <li>
+            {% if currency.symbol_left %}
+              <a href="{{ currency.code }}"
+                 class="dropdown-item py-2 d-flex align-items-center justify-content-between">
+                <span>{{ currency.title }}</span>
+                <strong class="ms-3 text-muted">{{ currency.symbol_left }}</strong>
+              </a>
+            {% else %}
+              <a href="{{ currency.code }}"
+                 class="dropdown-item py-2 d-flex align-items-center justify-content-between">
+                <span>{{ currency.title }}</span>
+                <strong class="ms-3 text-muted">{{ currency.symbol_right }}</strong>
+              </a>
+            {% endif %}
+          </li>
         {% endfor %}
       </ul>
     </div>

@@ -5,45 +5,146 @@
       <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
     {% endfor %}
   </ul>
-  <div class="row">{{ column_left }}
-    <div id="content" class="col">{{ content_top }}
+  <div class="row">
+    {{ column_left }}
+    <div id="content" class="col">
+      {{ content_top }}
       <h1>{{ heading_title }}</h1>
       {% if orders %}
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover">
-            <thead>
-              <tr>
-                <th class="text-end">{{ column_order_id }}</th>
-                <th class="text-end">{{ column_product_total }}</th>
-                <th>{{ column_status }}</th>
-                <th class="text-end">{{ column_total }}</th>
-                <th>{{ column_date_added }}</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for order in orders %}
-                <tr>
-                  <td class="text-end">#{{ order.order_id }}</td>
-                  <td class="text-end">{{ order.product_total }}</td>
-                  <td>{{ order.status }}</td>
-                  <td class="text-end"><x-currency code="{{ order.currency_code }}" amount="{{ order.total }}" value="{{ order.currency_value }}"></x-currency></td>
-                  <td>{{ order.date_added }}</td>
-                  <td class="text-end"><a href="{{ order.view }}" data-bs-toggle="tooltip" title="{{ button_view }}" class="btn btn-info"><i class="fa-solid fa-eye"></i></a></td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+        <!-- Desktop Table View -->
+        <div class="card shadow-sm mb-4 d-none d-lg-block">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                  <tr>
+                    <th class="px-4 py-3 text-end">{{ column_order_id }}</th>
+                    <th class="px-4 py-3 text-end">{{ column_product_total }}</th>
+                    <th class="px-4 py-3">{{ column_status }}</th>
+                    <th class="px-4 py-3 text-end">{{ column_total }}</th>
+                    <th class="px-4 py-3">{{ column_date_added }}</th>
+                    <th class="px-4 py-3 text-center" style="width: 120px;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for order in orders %}
+                    <tr class="border-bottom">
+                      <td class="px-4 py-3 text-end">
+                        <span class="badge bg-primary bg-gradient fs-6">#{{ order.order_id }}</span>
+                      </td>
+                      <td class="px-4 py-3 text-end">
+                        <span class="badge bg-light text-dark">{{ order.product_total }} items</span>
+                      </td>
+                      <td class="px-4 py-3">
+                        {% set status_class = 'secondary' %}
+                        {% if order.status matches '/Complete|Shipped|Delivered/' %}
+                          {% set status_class = 'success' %}
+                        {% elseif order.status matches '/Pending|Processing/' %}
+                          {% set status_class = 'warning' %}
+                        {% elseif order.status matches '/Cancelled|Denied|Failed|Refunded/' %}
+                          {% set status_class = 'danger' %}
+                        {% elseif order.status matches '/Shipped/' %}
+                          {% set status_class = 'info' %}
+                        {% endif %}
+                        <span class="badge bg-{{ status_class }} bg-gradient">
+                          <i class="fa-solid fa-circle-dot me-1"></i>{{ order.status }}
+                        </span>
+                      </td>
+                      <td class="px-4 py-3 text-end">
+                        <strong class="fs-6"><x-currency code="{{ order.currency_code }}" amount="{{ order.total }}" value="{{ order.currency_value }}"></x-currency></strong>
+                      </td>
+                      <td class="px-4 py-3">
+                        <small class="text-muted">
+                          <i class="fa-regular fa-calendar me-1"></i>{{ order.date_added }}
+                        </small>
+                      </td>
+                      <td class="px-4 py-3 text-center">
+                        <a href="{{ order.view }}" data-bs-toggle="tooltip" title="{{ button_view }}" class="btn btn-outline-primary btn-sm">
+                          <i class="fa-solid fa-eye me-1"></i>View
+                        </a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-        <div class="row mb-3">
-          <div class="col-sm-6 text-start">{{ pagination }}</div>
-          <div class="col-sm-6 text-end">{{ results }}</div>
+
+        <!-- Mobile Card View -->
+        <div class="d-lg-none mb-4">
+          {% for order in orders %}
+            <div class="card shadow-sm mb-3 hover-shadow-lg transition-all">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div>
+                    <div class="badge bg-primary bg-gradient fs-6 mb-2">#{{ order.order_id }}</div>
+                    <p class="text-muted small mb-0">
+                      <i class="fa-regular fa-calendar me-1"></i>{{ order.date_added }}
+                    </p>
+                  </div>
+                  <div class="text-end">
+                    {% set status_class = 'secondary' %}
+                    {% if order.status matches '/Complete|Shipped|Delivered/' %}
+                      {% set status_class = 'success' %}
+                    {% elseif order.status matches '/Pending|Processing/' %}
+                      {% set status_class = 'warning' %}
+                    {% elseif order.status matches '/Cancelled|Denied|Failed|Refunded/' %}
+                      {% set status_class = 'danger' %}
+                    {% elseif order.status matches '/Shipped/' %}
+                      {% set status_class = 'info' %}
+                    {% endif %}
+                    <span class="badge bg-{{ status_class }} bg-gradient">
+                      {{ order.status }}
+                    </span>
+                  </div>
+                </div>
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <small class="text-muted d-block">Items</small>
+                    <strong>{{ order.product_total }} products</strong>
+                  </div>
+                  <div class="col-6 text-end">
+                    <small class="text-muted d-block">Total</small>
+                    <strong class="fs-5"><x-currency code="{{ order.currency_code }}" amount="{{ order.total }}" value="{{ order.currency_value }}"></x-currency></strong>
+                  </div>
+                </div>
+                <div class="d-grid">
+                  <a href="{{ order.view }}" class="btn btn-outline-primary">
+                    <i class="fa-solid fa-eye me-2"></i>{{ button_view }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <div class="card border-0 bg-light">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-sm-6 text-start">{{ pagination }}</div>
+              <div class="col-sm-6 text-end text-muted">{{ results }}</div>
+            </div>
+          </div>
         </div>
       {% else %}
-        <p>{{ text_no_results }}</p>
+        <!-- Empty State -->
+        <div class="card border-0 bg-light">
+          <div class="card-body text-center py-5">
+            <i class="fa-solid fa-shopping-bag fa-4x text-muted mb-3"></i>
+            <h4 class="text-muted">{{ text_no_results }}</h4>
+            <p class="text-muted mb-4">You haven't placed any orders yet</p>
+            <a href="{{ continue }}" class="btn btn-primary">
+              <i class="fa-solid fa-arrow-right me-2"></i>{{ button_continue }}
+            </a>
+          </div>
+        </div>
       {% endif %}
-      <div class="text-end"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
-      {{ content_bottom }}</div>
-    {{ column_right }}</div>
+      <div class="text-end mt-3"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+      {{ content_bottom }}
+    </div>
+    {{ column_right }}
+  </div>
 </div>
 {{ footer }}

@@ -7,82 +7,83 @@
   </ul>
   <div class="row">{{ column_left }}
     <div id="content" class="col">{{ content_top }}
-      <h1>{{ heading_title }}</h1>
-      <h3>{{ text_location }}</h3>
-      <div class="card mb-3">
-        <div class="card-body">
-          <div class="row">
+      <h1 class="mb-4">{{ heading_title }}</h1>
+
+      <h3 class="mb-3">{{ text_location }}</h3>
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+          <div class="row g-4">
             {% if image %}
-              <div class="col-sm-3"><img src="{{ image }}" alt="{{ store }}" title="{{ store }}" class="img-thumbnail" style="width: 268px"/></div>
-            {% endif %}
-            <div class="col-sm-3"><strong>{{ store }}</strong>
-              <br/>
-              <address>
-                {{ address }}
-              </address>
-              <a href="{{ map }}" target="_blank" class="btn btn-outline-secondary"><i class="fa-solid fa-location-dot"></i> {{ button_map }}</a>
-            </div>
-            {% if telephone %}
-              <div class="col-sm-3"><strong>{{ text_telephone }}</strong>
-                <br/>
-                {{ telephone }}
-                <br/>
-                <br/>
+              <div class="col-md-3">
+                <img src="{{ image }}" alt="{{ store }}" title="{{ store }}" class="img-fluid rounded" />
               </div>
             {% endif %}
-            <div class="col-sm-3">
+            <div class="col-md-3">
+              <h5 class="fw-bold text-dark mb-3">{{ store }}</h5>
+              <address class="text-muted mb-3">
+                {{ address }}
+              </address>
+              <a href="{{ map }}" target="_blank" class="btn btn-outline-dark btn-sm">
+                <i class="fa-solid fa-location-dot me-2"></i>{{ button_map }}
+              </a>
+            </div>
+            {% if telephone %}
+              <div class="col-md-3">
+                <h6 class="fw-bold text-dark mb-2">{{ text_telephone }}</h6>
+                <p class="text-muted mb-0">{{ telephone }}</p>
+              </div>
+            {% endif %}
+            <div class="col-md-3">
               {% if open %}
-                <strong>{{ text_open }}</strong>
-                <br/>
-                {{ open }}
-                <br/>
-                <br/>
+                <h6 class="fw-bold text-dark mb-2">{{ text_open }}</h6>
+                <p class="text-muted mb-3">{{ open }}</p>
               {% endif %}
               {% if comment %}
-                <strong>{{ text_comment }}</strong>
-                <br/>
-                {{ comment }}
+                <h6 class="fw-bold text-dark mb-2">{{ text_comment }}</h6>
+                <p class="text-muted mb-0">{{ comment }}</p>
               {% endif %}
             </div>
           </div>
         </div>
       </div>
       {% if locations %}
-        <h3>{{ text_store }}</h3>
-        <div id="accordion" class="accordion mb-3">
+        <h3 class="mb-3">{{ text_store }}</h3>
+        <div id="accordion" class="accordion accordion-flush mb-4">
           {% for location in locations %}
-            <div class="accordion-item">
+            <div class="accordion-item border rounded mb-2 shadow-sm">
               <h2 class="accordion-header">
-                <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapse-location-{{ location.location_id }}">{{ location.name }}</button>
+                <button type="button" class="accordion-button collapsed fw-semibold" data-bs-toggle="collapse" data-bs-target="#collapse-location-{{ location.location_id }}">
+                  <i class="fa-solid fa-store me-2"></i>{{ location.name }}
+                </button>
               </h2>
               <div id="collapse-location-{{ location.location_id }}" class="accordion-collapse collapse" data-bs-parent="#accordion">
-                <div class="accordion-body">
-                  <div class="row">
+                <div class="accordion-body bg-light">
+                  <div class="row g-4">
                     {% if location.image %}
-                      <div class="col-sm-3"><img src="{{ location.image }}" alt="{{ location.name }}" title="{{ location.name }}" class="img-thumbnail" style="width: 268px"/></div>
+                      <div class="col-md-3">
+                        <img src="{{ location.image }}" alt="{{ location.name }}" title="{{ location.name }}" class="img-fluid rounded" />
+                      </div>
                     {% endif %}
-                    <div class="col-sm-3"><strong>{{ location.name }}</strong>
-                      <br/>
-                      <address>
+                    <div class="col-md-3">
+                      <h6 class="fw-bold text-dark mb-2">{{ location.name }}</h6>
+                      <address class="text-muted mb-3">
                         {{ location.address }}
                       </address>
-                      <a href="{{ location.map }}" target="_blank" class="btn btn-outline-secondary"><i class="fa-solid fa-location-dot"></i> {{ button_map }}</a>
+                      <a href="{{ location.map }}" target="_blank" class="btn btn-outline-dark btn-sm">
+                        <i class="fa-solid fa-location-dot me-2"></i>{{ button_map }}
+                      </a>
                     </div>
-                    <div class="col-sm-3"><strong>{{ text_telephone }}</strong>
-                      <br/>
-                      {{ location.telephone }}
-                      <br/>
-                      <br/>
+                    <div class="col-md-3">
+                      <h6 class="fw-bold text-dark mb-2">{{ text_telephone }}</h6>
+                      <p class="text-muted mb-0">{{ location.telephone }}</p>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-md-3">
                       {% if location.open %}
-                        <strong>{{ text_open }}</strong>
-                        <br/>
-                        {{ location.open }}
-                        <br/>
+                        <h6 class="fw-bold text-dark mb-2">{{ text_open }}</h6>
+                        <p class="text-muted mb-2">{{ location.open }}</p>
                       {% endif %}
                       {% if location.comment %}
-                        {{ location.comment }}
+                        <p class="text-muted mb-0">{{ location.comment }}</p>
                       {% endif %}
                     </div>
                   </div>
@@ -92,36 +93,37 @@
           {% endfor %}
         </div>
       {% endif %}
-      <form id="form-contact" action="{{ send }}" method="post" data-oc-toggle="ajax">
-        <fieldset>
-          <legend>{{ text_contact }}</legend>
-          <div class="row mb-3">
-            <label for="input-name" class="col-sm-2 col-form-label">{{ entry_name }}</label>
-            <div class="col-sm-10">
-              <input type="text" name="name" value="{{ name }}" id="input-name" class="form-control" required/>
-              <div id="error-name" class="invalid-feedback"></div>
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-4 p-md-5">
+          <h3 class="mb-4">{{ text_contact }}</h3>
+          <form id="form-contact" action="{{ send }}" method="post" data-oc-toggle="ajax">
+            <fieldset>
+              <div class="mb-4">
+                <label for="input-name" class="form-label fw-semibold">{{ entry_name }} <span class="text-danger">*</span></label>
+                <input type="text" name="name" value="{{ name }}" id="input-name" class="form-control form-control-lg" placeholder="John Doe" required/>
+                <div id="error-name" class="invalid-feedback"></div>
+              </div>
+              <div class="mb-4">
+                <label for="input-email" class="form-label fw-semibold">{{ entry_email }} <span class="text-danger">*</span></label>
+                <input type="email" name="email" value="{{ email }}" id="input-email" class="form-control form-control-lg" placeholder="you@example.com" required/>
+                <div id="error-email" class="invalid-feedback"></div>
+              </div>
+              <div class="mb-4">
+                <label for="input-enquiry" class="form-label fw-semibold">{{ entry_enquiry }} <span class="text-danger">*</span></label>
+                <textarea name="enquiry" rows="8" id="input-enquiry" class="form-control" placeholder="How can we help you?" required></textarea>
+                <div id="error-enquiry" class="invalid-feedback"></div>
+                <div class="form-text text-muted">Please provide as much detail as possible so we can better assist you.</div>
+              </div>
+              {{ captcha }}
+            </fieldset>
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-dark btn-lg">
+                <i class="fa-solid fa-paper-plane me-2"></i>{{ button_submit }}
+              </button>
             </div>
-          </div>
-          <div class="row mb-3">
-            <label for="input-email" class="col-sm-2 col-form-label">{{ entry_email }}</label>
-            <div class="col-sm-10">
-              <input type="text" name="email" value="{{ email }}" id="input-email" class="form-control" required/>
-              <div id="error-email" class="invalid-feedback"></div>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="input-enquiry" class="col-sm-2 col-form-label">{{ entry_enquiry }}</label>
-            <div class="col-sm-10">
-              <textarea name="enquiry" rows="10" id="input-enquiry" class="form-control" required></textarea>
-              <div id="error-enquiry" class="invalid-feedback"></div>
-            </div>
-          </div>
-          {{ captcha }}
-        </fieldset>
-        <div class="text-end">
-          <button type="submit" class="btn btn-primary">{{ button_submit }}</button>
+          </form>
         </div>
-      </form>
+      </div>
       {{ content_bottom }}</div>
     {{ column_right }}</div>
 </div>

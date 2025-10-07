@@ -3,48 +3,355 @@
   <ul class="breadcrumb">
     {% for breadcrumb in breadcrumbs %}
       <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
-       {% endfor %}
+    {% endfor %}
   </ul>
   {% if success %}
-    <div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> {{ success }}</div>
+    <div class="alert alert-success alert-dismissible shadow-sm">
+      <i class="fa-solid fa-circle-check"></i> {{ success }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
   {% endif %}
-  <div class="row">{{ column_left }}
-    <div id="content" class="col">{{ content_top }}
-      <h1>{{ text_my_account }}</h1>
-      <ul class="list-unstyled">
-        <li><a href="{{ edit }}">{{ text_edit }}</a></li>
-        <li><a href="{{ password }}">{{ text_password }}</a></li>
-        <li><a href="{{ payment_method }}">{{ text_payment_method }}</a></li>
-        <li><a href="{{ address }}">{{ text_address }}</a></li>
-        <li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
-      </ul>
-      <h2>{{ text_my_orders }}</h2>
-      <ul class="list-unstyled">
-        <li><a href="{{ order }}">{{ text_order }}</a></li>
-        <li><a href="{{ subscription }}">{{ text_subscription }}</a></li>
-        <li><a href="{{ download }}">{{ text_download }}</a></li>
-        {% if reward %}
-          <li><a href="{{ reward }}">{{ text_reward }}</a></li>
-        {% endif %}
-        <li><a href="{{ return }}">{{ text_return }}</a></li>
-        <li><a href="{{ transaction }}">{{ text_transaction }}</a></li>
-      </ul>
-      {% if affiliate %}
-        <h2>{{ text_my_affiliate }}</h2>
-        <ul class="list-unstyled">
-          {% if not tracking %}
-            <li><a href="{{ affiliate }}">{{ text_affiliate_add }}</a></li>
-          {% else %}
-            <li><a href="{{ affiliate }}">{{ text_affiliate_edit }}</a></li>
-            <li><a href="{{ tracking }}">{{ text_tracking }}</a></li>
+  <div class="row">
+    {{ column_left }}
+    <div id="content" class="col">
+      {{ content_top }}
+
+      <!-- Dashboard Header -->
+      <div class="mb-5">
+        <div class="d-flex align-items-center mb-3">
+          <div class="icon-shape icon-lg bg-primary bg-opacity-10 text-primary rounded-circle me-3">
+            <i class="fa-solid fa-user-circle fa-2x"></i>
+          </div>
+          <div>
+            <h1 class="mb-1">{{ text_my_account }}</h1>
+            <p class="text-muted mb-0">Manage your account settings and preferences</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account Information Section -->
+      <div class="mb-5">
+        <h2 class="h4 mb-4 d-flex align-items-center">
+          <span class="bg-primary bg-opacity-10 text-primary rounded px-2 py-1 me-2">
+            <i class="fa-solid fa-user-gear"></i>
+          </span>
+          Account Information
+        </h2>
+        <div class="row g-3">
+          <div class="col-md-6 col-lg-4">
+            <a href="{{ edit }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm h-100 hover-lift">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="icon-shape bg-primary bg-opacity-10 text-primary rounded me-3">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                    <h5 class="card-title mb-0 text-dark">{{ text_edit }}</h5>
+                  </div>
+                  <p class="card-text text-muted small mb-0">Update your personal information</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <a href="{{ password }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm h-100 hover-lift">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="icon-shape bg-success bg-opacity-10 text-success rounded me-3">
+                      <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h5 class="card-title mb-0 text-dark">{{ text_password }}</h5>
+                  </div>
+                  <p class="card-text text-muted small mb-0">Change your password securely</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <a href="{{ payment_method }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm h-100 hover-lift">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="icon-shape bg-info bg-opacity-10 text-info rounded me-3">
+                      <i class="fa-solid fa-credit-card"></i>
+                    </div>
+                    <h5 class="card-title mb-0 text-dark">{{ text_payment_method }}</h5>
+                  </div>
+                  <p class="card-text text-muted small mb-0">Manage payment methods</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <a href="{{ address }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm h-100 hover-lift">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="icon-shape bg-warning bg-opacity-10 text-warning rounded me-3">
+                      <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <h5 class="card-title mb-0 text-dark">{{ text_address }}</h5>
+                  </div>
+                  <p class="card-text text-muted small mb-0">Manage shipping addresses</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <a href="{{ wishlist }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm h-100 hover-lift">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="icon-shape bg-danger bg-opacity-10 text-danger rounded me-3">
+                      <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <h5 class="card-title mb-0 text-dark">{{ text_wishlist }}</h5>
+                  </div>
+                  <p class="card-text text-muted small mb-0">View your saved items</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orders Section -->
+      <div class="mb-5">
+        <h2 class="h4 mb-4 d-flex align-items-center">
+          <span class="bg-success bg-opacity-10 text-success rounded px-2 py-1 me-2">
+            <i class="fa-solid fa-shopping-bag"></i>
+          </span>
+          {{ text_my_orders }}
+        </h2>
+        <div class="row g-3">
+          <div class="col-md-6 col-lg-4">
+            <a href="{{ order }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm h-100 hover-lift">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="icon-shape bg-primary bg-opacity-10 text-primary rounded me-3">
+                      <i class="fa-solid fa-receipt"></i>
+                    </div>
+                    <h5 class="card-title mb-0 text-dark">{{ text_order }}</h5>
+                  </div>
+                  <p class="card-text text-muted small mb-0">View your order history</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <a href="{{ subscription }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm h-100 hover-lift">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="icon-shape bg-info bg-opacity-10 text-info rounded me-3">
+                      <i class="fa-solid fa-arrows-rotate"></i>
+                    </div>
+                    <h5 class="card-title mb-0 text-dark">{{ text_subscription }}</h5>
+                  </div>
+                  <p class="card-text text-muted small mb-0">Manage subscriptions</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <a href="{{ download }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm h-100 hover-lift">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="icon-shape bg-success bg-opacity-10 text-success rounded me-3">
+                      <i class="fa-solid fa-download"></i>
+                    </div>
+                    <h5 class="card-title mb-0 text-dark">{{ text_download }}</h5>
+                  </div>
+                  <p class="card-text text-muted small mb-0">Access digital products</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          {% if reward %}
+          <div class="col-md-6 col-lg-4">
+            <a href="{{ reward }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm h-100 hover-lift">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="icon-shape bg-warning bg-opacity-10 text-warning rounded me-3">
+                      <i class="fa-solid fa-gift"></i>
+                    </div>
+                    <h5 class="card-title mb-0 text-dark">{{ text_reward }}</h5>
+                  </div>
+                  <p class="card-text text-muted small mb-0">View reward points</p>
+                </div>
+              </div>
+            </a>
+          </div>
           {% endif %}
-        </ul>
+          <div class="col-md-6 col-lg-4">
+            <a href="{{ return }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm h-100 hover-lift">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="icon-shape bg-danger bg-opacity-10 text-danger rounded me-3">
+                      <i class="fa-solid fa-arrow-rotate-left"></i>
+                    </div>
+                    <h5 class="card-title mb-0 text-dark">{{ text_return }}</h5>
+                  </div>
+                  <p class="card-text text-muted small mb-0">Product returns</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <a href="{{ transaction }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm h-100 hover-lift">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="icon-shape bg-secondary bg-opacity-10 text-secondary rounded me-3">
+                      <i class="fa-solid fa-money-bill-transfer"></i>
+                    </div>
+                    <h5 class="card-title mb-0 text-dark">{{ text_transaction }}</h5>
+                  </div>
+                  <p class="card-text text-muted small mb-0">Transaction history</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Affiliate Section -->
+      {% if affiliate %}
+      <div class="mb-5">
+        <h2 class="h4 mb-4 d-flex align-items-center">
+          <span class="bg-info bg-opacity-10 text-info rounded px-2 py-1 me-2">
+            <i class="fa-solid fa-users"></i>
+          </span>
+          {{ text_my_affiliate }}
+        </h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <a href="{{ affiliate }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm h-100 hover-lift">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="icon-shape bg-info bg-opacity-10 text-info rounded me-3">
+                      <i class="fa-solid fa-user-plus"></i>
+                    </div>
+                    <h5 class="card-title mb-0 text-dark">{% if not tracking %}{{ text_affiliate_add }}{% else %}{{ text_affiliate_edit }}{% endif %}</h5>
+                  </div>
+                  <p class="card-text text-muted small mb-0">{% if not tracking %}Join affiliate program{% else %}Edit affiliate information{% endif %}</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          {% if tracking %}
+          <div class="col-md-6">
+            <a href="{{ tracking }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm h-100 hover-lift">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="icon-shape bg-success bg-opacity-10 text-success rounded me-3">
+                      <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h5 class="card-title mb-0 text-dark">{{ text_tracking }}</h5>
+                  </div>
+                  <p class="card-text text-muted small mb-0">Track affiliate performance</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
       {% endif %}
-      <h2>{{ text_my_newsletter }}</h2>
-      <ul class="list-unstyled">
-          <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
-      </ul>
-      {{ content_bottom }}</div>
-    {{ column_right }}</div>
+
+      <!-- Newsletter Section -->
+      <div class="mb-4">
+        <h2 class="h4 mb-4 d-flex align-items-center">
+          <span class="bg-warning bg-opacity-10 text-warning rounded px-2 py-1 me-2">
+            <i class="fa-solid fa-envelope"></i>
+          </span>
+          {{ text_my_newsletter }}
+        </h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <a href="{{ newsletter }}" class="text-decoration-none">
+              <div class="card border-0 shadow-sm h-100 hover-lift">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center mb-3">
+                    <div class="icon-shape bg-warning bg-opacity-10 text-warning rounded me-3">
+                      <i class="fa-solid fa-envelope-open-text"></i>
+                    </div>
+                    <h5 class="card-title mb-0 text-dark">{{ text_newsletter }}</h5>
+                  </div>
+                  <p class="card-text text-muted small mb-0">Manage newsletter preferences</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {{ content_bottom }}
+    </div>
+    {{ column_right }}
+  </div>
 </div>
+
+<style>
+/* Account Dashboard Enhancements */
+#account-account .icon-shape {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+}
+
+#account-account .icon-shape.icon-lg {
+  width: 64px;
+  height: 64px;
+}
+
+#account-account .card {
+  transition: all 0.2s ease-in-out;
+  border-radius: 12px;
+}
+
+#account-account .hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.15) !important;
+}
+
+#account-account .hover-lift:hover .icon-shape {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+#account-account .card-title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+#account-account .card-text {
+  line-height: 1.5;
+}
+
+#account-account h2 span {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  #account-account .icon-shape {
+    width: 40px;
+    height: 40px;
+  }
+
+  #account-account .card-body {
+    padding: 1rem !important;
+  }
+}
+</style>
+
 {{ footer }}

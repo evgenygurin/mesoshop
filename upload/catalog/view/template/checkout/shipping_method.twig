@@ -1,12 +1,19 @@
-<fieldset>
-  <legend>{{ heading_title }}</legend>
-  <div class="input-group">
-    <span class="input-group-text"><i class="fa fa-truck"></i></span><input type="text" name="shipping_method" value="{{ shipping_method }}" placeholder="{{ entry_shipping_method }}" id="input-shipping-method" class="form-control" readonly/>
-    <button type="button" id="button-shipping-methods" class="btn btn-primary">{{ button_choose }}</button>
+<div class="shipping-method-form">
+  <div class="mb-4">
+    <h6 class="mb-3">{{ heading_title }}</h6>
+    <div class="input-group input-group-lg">
+      <span class="input-group-text bg-light">
+        <i class="fa fa-truck text-primary"></i>
+      </span>
+      <input type="text" name="shipping_method" value="{{ shipping_method }}" placeholder="{{ entry_shipping_method }}" id="input-shipping-method" class="form-control" readonly/>
+      <button type="button" id="button-shipping-methods" class="btn btn-primary px-4">
+        <i class="fa-solid fa-hand-pointer me-2"></i>{{ button_choose }}
+      </button>
+    </div>
+    <input type="hidden" name="code" value="{{ code }}" id="input-shipping-code"/>
+    <div id="error-shipping-method" class="invalid-feedback"></div>
   </div>
-  <input type="hidden" name="code" value="{{ code }}" id="input-shipping-code"/>
-  <div id="error-shipping-method" class="invalid-feedback"></div>
-</fieldset>
+</div>
 <script type="text/javascript"><!--
 $('#button-shipping-methods').on('click', function() {
     var element = this;

@@ -1,57 +1,52 @@
-<div class="table-responsive">
-  <table class="table table-bordered table-hover">
-    <thead>
-      <tr>
-        <th>{{ column_product }}</th>
-        <th class="text-end">{{ column_total }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for product in products %}
-        <tr>
-          <td>{{ product.quantity }}x <a href="{{ product.href }}">{{ product.name }}</a>
+<div class="order-summary">
+  <div class="mb-3">
+    {% for product in products %}
+      <div class="d-flex justify-content-between align-items-start py-3 {% if not loop.last %}border-bottom{% endif %}">
+        <div class="flex-grow-1">
+          <div class="d-flex align-items-center mb-2">
+            <span class="badge bg-primary me-2">{{ product.quantity }}x</span>
+            <a href="{{ product.href }}" class="text-decoration-none fw-semibold text-dark">{{ product.name }}</a>
+          </div>
+          <ul class="list-unstyled small text-muted mb-0 ms-4">
+            <li><strong>Model:</strong> {{ product.model }}</li>
+            {% for option in product.option %}
+              <li><strong>{{ option.name }}:</strong> {{ option.value }}</li>
+            {% endfor %}
+            {% if product.subscription %}
+              <li><strong>{{ text_subscription }}:</strong> {{ product.subscription }}</li>
+            {% endif %}
+            {% if product.reward %}
+              <li class="text-success"><i class="fa-solid fa-gift"></i> <strong>{{ text_points }}:</strong> {{ product.reward }}</li>
+            {% endif %}
+          </ul>
+        </div>
+        <div class="text-end ms-3">
+          <strong class="text-dark"><x-currency code="{{ currency }}" amount="{{ product.total }}"></x-currency></strong>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 
-            <ul class="list-unstyled mb-0">
-              <li>
-                <small> - {{ text_model }}: {{ product.model }}</small>
-              </li>
-              {% for option in product.option %}
-                <li>
-                  <small> - {{ option.name }}: {{ option.value }}</small>
-                </li>
-              {% endfor %}
-
-              {% if product.subscription %}
-                <li>
-                  <small> - {{ text_subscription }}: {{ product.subscription }}</small>
-                </li>
-              {% endif %}
-
-              {% if product.reward %}
-                <li>
-                  <small> - {{ text_points }}: {{ product.reward }}</small>
-                </li>
-              {% endif %}
-            </ul>
-          </td>
-          <td class="text-end"><x-currency code="{{ currency }}" amount="{{ product.total }}"></x-currency></td>
-        </tr>
-      {% endfor %}
-    </tbody>
-    <tfoot>
-      {% for total in totals %}
-        <tr>
-          <td class="text-end"><strong>{{ total.title }}</strong></td>
-          <td class="text-end"><x-currency code="{{ currency }}" amount="{{ total.value }}"></x-currency></td>
-        </tr>
-      {% endfor %}
-    </tfoot>
-  </table>
+  <div class="border-top pt-3">
+    {% for total in totals %}
+      <div class="d-flex justify-content-between mb-2 {% if total.title == 'Total' %}pt-3 mt-3 border-top{% endif %}">
+        <span class="{% if total.title == 'Total' %}fw-bold fs-5{% endif %}">{{ total.title }}</span>
+        <span class="{% if total.title == 'Total' %}fw-bold fs-5 text-primary{% else %}text-muted{% endif %}">
+          <x-currency code="{{ currency }}" amount="{{ total.value }}"></x-currency>
+        </span>
+      </div>
+    {% endfor %}
+  </div>
 </div>
-<div id="checkout-payment">
+
+<div id="checkout-payment" class="mt-4">
   {% if payment %}
     {{ payment }}
   {% else %}
-    <div class="text-end"><button type="button" class="btn btn-primary" disabled>{{ button_confirm }}</button></div>
+    <div class="d-grid gap-2">
+      <button type="button" class="btn btn-primary btn-lg" disabled>
+        <i class="fa-solid fa-lock me-2"></i>{{ button_confirm }}
+      </button>
+    </div>
   {% endif %}
 </div>

@@ -1,20 +1,40 @@
 {% if replies %}
   <div id="reply-{{ parent_id }}-{{ page }}">
     {% for reply in replies %}
-      <div class="p-2 ps-5 border-top">
-        <p>{{ text_by }} {{ reply.author }} - {{ reply.date_added }}</p>
-        <p>{{ reply.comment }}</p>
+      <div class="d-flex align-items-start p-3 border-top bg-white">
+        <div class="flex-shrink-0 ms-4">
+          <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+            <i class="fa-solid fa-reply" style="font-size: 0.875rem;"></i>
+          </div>
+        </div>
+        <div class="flex-grow-1 ms-3">
+          <div class="mb-1">
+            <strong class="text-dark">{{ reply.author }}</strong>
+            <small class="text-muted ms-2">
+              <i class="fa-solid fa-clock me-1"></i>{{ reply.date_added }}
+            </small>
+          </div>
+          <p class="mb-0 text-muted">{{ reply.comment }}</p>
+        </div>
       </div>
     {% endfor %}
   </div>
 {% endif %}
-<div class="text-center p-2 border-top">
-  <button type="button" value="{{ refresh }}" id="button-refresh-{{ parent_id }}" data-oc-toggle="refresh" data-oc-target="#reply-{{ parent_id }}-{{ page }}" class="btn btn-secondary d-none"><i class="fa fa-sync"></i></button>
+<div class="text-center p-3 border-top bg-light">
+  <button type="button" value="{{ refresh }}" id="button-refresh-{{ parent_id }}" data-oc-toggle="refresh" data-oc-target="#reply-{{ parent_id }}-{{ page }}" class="btn btn-sm btn-outline-secondary d-none">
+    <i class="fa fa-sync me-1"></i>Refresh
+  </button>
   {% if not replies %}
-    <button type="button" class="btn btn-secondary" disabled>{{ button_replies }}</button>
+    <button type="button" class="btn btn-sm btn-outline-secondary" disabled>
+      <i class="fa fa-comments me-1"></i>{{ button_replies }}
+    </button>
   {% elseif next %}
-    <button type="button" value="{{ next }}" data-oc-toggle="next" class="btn btn-secondary">{{ button_more }}</button>
+    <button type="button" value="{{ next }}" data-oc-toggle="next" class="btn btn-sm btn-outline-dark">
+      <i class="fa fa-chevron-down me-1"></i>{{ button_more }}
+    </button>
   {% else %}
-    <button type="button" class="btn btn-secondary" disabled>{{ button_more }}</button>
+    <button type="button" class="btn btn-sm btn-outline-secondary" disabled>
+      <i class="fa fa-check me-1"></i>{{ button_more }}
+    </button>
   {% endif %}
 </div>

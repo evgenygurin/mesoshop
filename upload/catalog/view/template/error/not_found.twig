@@ -7,9 +7,33 @@
   </ul>
   <div class="row">{{ column_left }}
     <div id="content" class="col">{{ content_top }}
-      <h1>{{ heading_title }}</h1>
-      <p>{{ text_error }}</p>
-      <div class="text-end"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+      <div class="text-center py-5 my-5">
+        <div class="mb-4">
+          <i class="fa-solid fa-triangle-exclamation text-warning" style="font-size: 6rem;"></i>
+        </div>
+        <h1 class="display-1 fw-bold text-dark mb-3">404</h1>
+        <h2 class="h3 fw-semibold mb-3">{{ heading_title }}</h2>
+        <p class="lead text-muted mb-4" style="max-width: 600px; margin: 0 auto;">{{ text_error }}</p>
+
+        <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center align-items-center mt-4">
+          <a href="{{ continue }}" class="btn btn-dark btn-lg px-5">
+            <i class="fa-solid fa-house me-2"></i>{{ button_continue }}
+          </a>
+          <a href="javascript:history.back()" class="btn btn-outline-dark btn-lg px-5">
+            <i class="fa-solid fa-arrow-left me-2"></i>Go Back
+          </a>
+        </div>
+
+        <div class="mt-5 pt-5">
+          <h5 class="mb-3 text-muted">Popular Categories</h5>
+          <div class="d-flex flex-wrap gap-2 justify-content-center">
+            <a href="{{ continue }}" class="btn btn-sm btn-outline-secondary">Home</a>
+            <a href="#" class="btn btn-sm btn-outline-secondary">Shop</a>
+            <a href="#" class="btn btn-sm btn-outline-secondary">Special Offers</a>
+            <a href="#" class="btn btn-sm btn-outline-secondary">Contact Us</a>
+          </div>
+        </div>
+      </div>
       {{ content_bottom }}</div>
     {{ column_right }}</div>
 </div>

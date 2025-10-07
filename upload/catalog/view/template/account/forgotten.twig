@@ -9,31 +9,207 @@
     {{ column_left }}
     <div id="content" class="col">
       {{ content_top }}
-      <h1>{{ heading_title }}</h1>
-      <p>{{ text_email }}</p>
-      <form id="form-forgotten" action="{{ confirm }}" method="post" data-oc-toggle="ajax">
-        <fieldset>
-          <legend>{{ text_your_email }}</legend>
-          <div class="row mb-3">
-            <label for="input-email" class="col-sm-2 col-form-label">{{ entry_email }}</label>
-            <div class="col-sm-10">
-              <input type="text" name="email" value="" placeholder="{{ entry_email }}" id="input-email" class="form-control" required/>
-              <div id="error-email" class="invalid-feedback"></div>
+
+      <!-- Header Section -->
+      <div class="row justify-content-center">
+        <div class="col-lg-7 col-xl-6">
+          <div class="text-center mb-5">
+            <div class="icon-shape icon-xl bg-warning bg-opacity-10 text-warning rounded-circle mx-auto mb-3">
+              <i class="fa-solid fa-unlock-keyhole fa-3x"></i>
+            </div>
+            <h1 class="display-6 fw-bold mb-3">{{ heading_title }}</h1>
+            <p class="text-muted fs-5">{{ text_email }}</p>
+          </div>
+
+          <!-- Password Reset Request Card -->
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 p-md-5">
+              <form id="form-forgotten" action="{{ confirm }}" method="post" data-oc-toggle="ajax">
+                <!-- Email Section -->
+                <fieldset class="mb-5">
+                  <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                    <div class="icon-shape bg-warning bg-opacity-10 text-warning rounded me-3">
+                      <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <h3 class="h5 mb-0 fw-semibold">{{ text_your_email }}</h3>
+                  </div>
+
+                  <!-- Info Alert -->
+                  <div class="alert alert-info border-0 d-flex align-items-start mb-4">
+                    <div class="flex-shrink-0 me-3">
+                      <i class="fa-solid fa-info-circle fa-lg"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                      <h6 class="alert-heading mb-1">Password Reset Instructions</h6>
+                      <p class="mb-0 small">Enter your email address and we'll send you a link to reset your password. Please check your spam folder if you don't receive the email within a few minutes.</p>
+                    </div>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="input-email" class="form-label fw-semibold">
+                      {{ entry_email }} <span class="text-danger">*</span>
+                    </label>
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-text bg-light border-end-0">
+                        <i class="fa-solid fa-envelope text-muted"></i>
+                      </span>
+                      <input type="email"
+                             name="email"
+                             value=""
+                             placeholder="{{ entry_email }}"
+                             id="input-email"
+                             class="form-control border-start-0 ps-0"
+                             required
+                             autocomplete="email"/>
+                    </div>
+                    <div id="error-email" class="invalid-feedback d-block"></div>
+                    <div class="form-text mt-2">
+                      <i class="fa-solid fa-info-circle me-1"></i>
+                      Enter the email address associated with your account
+                    </div>
+                  </div>
+                </fieldset>
+
+                <!-- Action Buttons -->
+                <div class="border-top pt-4 mt-4">
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <a href="{{ back }}" class="btn btn-light btn-lg w-100 py-2">
+                        <i class="fa-solid fa-arrow-left me-2"></i>{{ button_back }}
+                      </a>
+                    </div>
+                    <div class="col-md-6">
+                      <button type="submit" class="btn btn-warning btn-lg w-100 py-3 fw-semibold">
+                        <i class="fa-solid fa-paper-plane me-2"></i>{{ button_continue }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Additional Help -->
+                <div class="mt-4 text-center">
+                  <hr class="my-4">
+                  <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap">
+                    <a href="{{ login }}" class="text-decoration-none text-muted small">
+                      <i class="fa-solid fa-arrow-left me-1"></i>Back to Login
+                    </a>
+                    <span class="text-muted small">•</span>
+                    <a href="{{ register }}" class="text-decoration-none text-muted small">
+                      <i class="fa-solid fa-user-plus me-1"></i>Create Account
+                    </a>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
-        </fieldset>
-        <div class="row">
-          <div class="col">
-            <a href="{{ back }}" class="btn btn-light">{{ button_back }}</a>
-          </div>
-          <div class="col text-end">
-            <button type="submit" class="btn btn-primary">{{ button_continue }}</button>
+
+          <!-- Security Notice -->
+          <div class="mt-4 p-4 bg-light rounded-3">
+            <div class="d-flex align-items-start">
+              <div class="flex-shrink-0 me-3">
+                <i class="fa-solid fa-shield-halved fa-2x text-muted"></i>
+              </div>
+              <div class="flex-grow-1">
+                <h6 class="fw-semibold mb-2">Security Notice</h6>
+                <p class="text-muted small mb-0">For your security, password reset links expire after 1 hour. If you didn't request a password reset, please ignore this or contact our support team if you have concerns about your account security.</p>
+              </div>
+            </div>
           </div>
         </div>
-      </form>
+      </div>
       {{ content_bottom }}
     </div>
     {{ column_right }}
   </div>
 </div>
+
+<style>
+/* Forgotten Password Form Enhancements */
+#account-forgotten .icon-shape {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+}
+
+#account-forgotten .icon-shape.icon-xl {
+  width: 80px;
+  height: 80px;
+}
+
+#account-forgotten .input-group-text {
+  border-right: 0;
+}
+
+#account-forgotten .input-group .form-control:focus {
+  border-color: #dee2e6;
+  box-shadow: none;
+}
+
+#account-forgotten .input-group:focus-within .input-group-text {
+  border-color: var(--bs-warning);
+  background-color: rgba(var(--bs-warning-rgb), 0.05);
+}
+
+#account-forgotten .card {
+  border-radius: 12px;
+}
+
+#account-forgotten fieldset {
+  border: none;
+}
+
+#account-forgotten .form-label.fw-semibold {
+  color: #344767;
+}
+
+#account-forgotten .bg-light {
+  background-color: #f8f9fa !important;
+}
+
+#account-forgotten .alert-info {
+  background-color: rgba(var(--bs-info-rgb), 0.1);
+  color: var(--bs-info);
+}
+
+#account-forgotten .btn-warning {
+  color: #fff;
+}
+
+#account-forgotten .btn-warning:hover {
+  color: #fff;
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+
+#account-forgotten hr {
+  opacity: 0.1;
+}
+
+#account-forgotten .gap-3 a:hover {
+  color: var(--bs-warning) !important;
+}
+
+@media (max-width: 768px) {
+  #account-forgotten .icon-shape.icon-xl {
+    width: 64px;
+    height: 64px;
+  }
+
+  #account-forgotten .card-body {
+    padding: 1.5rem !important;
+  }
+
+  #account-forgotten .gap-3 {
+    flex-direction: column;
+    gap: 0.5rem !important;
+  }
+
+  #account-forgotten .gap-3 span {
+    display: none;
+  }
+}
+</style>
+
 {{ footer }}

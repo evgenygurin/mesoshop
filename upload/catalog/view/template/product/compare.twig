@@ -1,139 +1,360 @@
 {{ header }}
-<div id="product-compare" class="container">
-  <ul class="breadcrumb">
-    {% for breadcrumb in breadcrumbs %}
-      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
-    {% endfor %}
-  </ul>
+<div id="product-compare" class="container py-4">
+  {# Breadcrumb Navigation #}
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item{% if loop.last %} active{% endif %}">
+          {% if loop.last %}
+            {{ breadcrumb.text }}
+          {% else %}
+            <a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
+
+  {# Success Message #}
   {% if success %}
-    <div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> {{ success }}
+    <div class="alert alert-success alert-dismissible d-flex align-items-center" role="alert">
+      <i class="bi bi-check-circle-fill me-3 fs-4"></i>
+      <div>{{ success }}</div>
       <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
   {% endif %}
-  <div class="row">{{ column_left }}
-    <div id="content" class="col">{{ content_top }}
-      <h1>{{ heading_title }}</h1>
+
+  <div class="row">
+    {{ column_left }}
+
+    <div id="content" class="col">
+      {{ content_top }}
+
+      {# Compare Page Header #}
+      <div class="compare-header mb-4">
+        <div class="d-flex align-items-center justify-content-between">
+          <h1 class="display-5 fw-bold mb-0">
+            <i class="bi bi-arrow-left-right text-primary me-2"></i> {{ heading_title }}
+          </h1>
+          {% if products %}
+            <span class="badge bg-primary-soft text-primary fs-6 px-3 py-2">
+              {{ products|length }} Products
+            </span>
+          {% endif %}
+        </div>
+        <p class="text-muted mt-3 mb-0">
+          <i class="bi bi-info-circle me-1"></i> Compare product features and specifications side-by-side
+        </p>
+      </div>
+
       {% if products %}
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <td colspan="{{ products|length + 1 }}"><strong>{{ text_product }}</strong></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{{ text_name }}</td>
-              {% for product in products %}
-                <td><a href="{{ product.href }}"><strong>{{ product.name }}</strong></a></td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td>{{ text_image }}</td>
-              {% for product in products %}
-                <td class="text-center">{% if product.thumb %} <img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail"/>{% endif %}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td>{{ text_price }}</td>
-              {% for product in products %}
-                <td>{% if not product.special %}
-                    <x-currency code="{{ currency }}" amount="{{ product.price }}"></x-currency>
-                  {% else %}
-                    <span class="price-new"><x-currency code="{{ currency }}" amount="{{ product.special }}"></x-currency></span>
-                    <span class="price-old"><x-currency code="{{ currency }}" amount="{{ product.price }}"></x-currency></span>
-                  {% endif %}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td>{{ text_model }}</td>
-              {% for product in products %}
-                <td>{{ product.model }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td>{{ text_manufacturer }}</td>
-              {% for product in products %}
-                <td>{{ product.manufacturer }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td>{{ text_availability }}</td>
-              {% for product in products %}
-                <td>{{ product.availability }}</td>
-              {% endfor %}
-            </tr>
-            {% if review_status %}
+        {# Responsive Comparison Table #}
+        <div class="table-responsive shadow-sm rounded">
+          <table class="table table-bordered table-hover comparison-table mb-0">
+            {# Product Details Section #}
+            <thead class="table-dark">
               <tr>
-                <td>{{ text_rating }}</td>
+                <th class="align-middle" style="width: 20%;">
+                  <i class="bi bi-box-seam me-2"></i> {{ text_product }}
+                </th>
                 {% for product in products %}
-                  <td class="rating">
-                    {% for i in 1..5 %}
-                      {% if product.rating < i %}
-                        <span class="fa-stack"><i class="fa-regular fa-star fa-stack-1x"></i></span>
-                      {% else %}
-                        <span class="fa-stack"><i class="fa-solid fa-star fa-stack-1x"></i><i class="fa-regular fa-star fa-stack-1x"></i></span>
-                      {% endif %}
-                    {% endfor %}
-                    <br/>
-                    {{ product.reviews }}
+                  <th class="text-center align-middle">
+                    <div class="product-compare-header">
+                      <span class="badge bg-light text-dark">#{{ loop.index }}</span>
+                    </div>
+                  </th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {# Product Name #}
+              <tr>
+                <td class="fw-semibold bg-light">
+                  <i class="bi bi-tag me-2"></i> {{ text_name }}
+                </td>
+                {% for product in products %}
+                  <td class="text-center">
+                    <a href="{{ product.href }}" class="text-decoration-none fw-bold text-primary">
+                      {{ product.name }}
+                    </a>
                   </td>
                 {% endfor %}
               </tr>
-            {% endif %}
-            <tr>
-              <td>{{ text_summary }}</td>
-              {% for product in products %}
-                <td class="description">{{ product.description }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td>{{ text_weight }}</td>
-              {% for product in products %}
-                <td>{{ product.weight }}</td>
-              {% endfor %}
-            </tr>
-            <tr>
-              <td>{{ text_dimension }}</td>
-              {% for product in products %}
-                <td>{{ product.length }} x {{ product.width }} x {{ product.height }}</td>
-              {% endfor %} </tr>
-          </tbody>
-          {% for attribute_group in attribute_groups %}
-            <thead>
+
+              {# Product Image #}
               <tr>
-                <td colspan="{{ products|length + 1 }}"><strong>{{ attribute_group.name }}</strong></td>
+                <td class="fw-semibold bg-light">
+                  <i class="bi bi-image me-2"></i> {{ text_image }}
+                </td>
+                {% for product in products %}
+                  <td class="text-center">
+                    {% if product.thumb %}
+                      <a href="{{ product.href }}">
+                        <img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" style="max-width: 200px; height: auto;"/>
+                      </a>
+                    {% endif %}
+                  </td>
+                {% endfor %}
               </tr>
-            </thead>
-            {% for key, attribute in attribute_group.attribute %}
-              <tbody>
+
+              {# Price #}
+              <tr>
+                <td class="fw-semibold bg-light">
+                  <i class="bi bi-currency-dollar me-2"></i> {{ text_price }}
+                </td>
+                {% for product in products %}
+                  <td class="text-center">
+                    {% if not product.special %}
+                      <span class="h5 text-dark fw-bold mb-0">
+                        <x-currency code="{{ currency }}" amount="{{ product.price }}"></x-currency>
+                      </span>
+                    {% else %}
+                      <div class="d-flex flex-column align-items-center">
+                        <span class="h5 text-danger fw-bold mb-1">
+                          <x-currency code="{{ currency }}" amount="{{ product.special }}"></x-currency>
+                        </span>
+                        <span class="text-muted text-decoration-line-through small">
+                          <x-currency code="{{ currency }}" amount="{{ product.price }}"></x-currency>
+                        </span>
+                        <span class="badge bg-danger mt-1">Sale</span>
+                      </div>
+                    {% endif %}
+                  </td>
+                {% endfor %}
+              </tr>
+
+              {# Model #}
+              <tr>
+                <td class="fw-semibold bg-light">
+                  <i class="bi bi-hash me-2"></i> {{ text_model }}
+                </td>
+                {% for product in products %}
+                  <td class="text-center">{{ product.model }}</td>
+                {% endfor %}
+              </tr>
+
+              {# Manufacturer #}
+              <tr>
+                <td class="fw-semibold bg-light">
+                  <i class="bi bi-building me-2"></i> {{ text_manufacturer }}
+                </td>
+                {% for product in products %}
+                  <td class="text-center">{{ product.manufacturer }}</td>
+                {% endfor %}
+              </tr>
+
+              {# Availability #}
+              <tr>
+                <td class="fw-semibold bg-light">
+                  <i class="bi bi-check-circle me-2"></i> {{ text_availability }}
+                </td>
+                {% for product in products %}
+                  <td class="text-center">
+                    <span class="badge bg-{% if product.availability %}success{% else %}danger{% endif %}">
+                      {{ product.availability }}
+                    </span>
+                  </td>
+                {% endfor %}
+              </tr>
+
+              {# Rating (if enabled) #}
+              {% if review_status %}
                 <tr>
-                  <td>{{ attribute.name }}</td>
+                  <td class="fw-semibold bg-light">
+                    <i class="bi bi-star me-2"></i> {{ text_rating }}
+                  </td>
                   {% for product in products %}
-                    <td>{% if product.attribute[key] %}{{ product.attribute[key] }}{% endif %}</td>
+                    <td class="text-center">
+                      <div class="text-warning mb-1">
+                        {% for i in 1..5 %}
+                          {% if product.rating >= i %}
+                            <i class="bi bi-star-fill"></i>
+                          {% else %}
+                            <i class="bi bi-star"></i>
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                      <small class="text-muted">{{ product.reviews }}</small>
+                    </td>
                   {% endfor %}
                 </tr>
+              {% endif %}
+
+              {# Summary/Description #}
+              <tr>
+                <td class="fw-semibold bg-light">
+                  <i class="bi bi-file-text me-2"></i> {{ text_summary }}
+                </td>
+                {% for product in products %}
+                  <td>
+                    <div class="description-text" style="max-height: 150px; overflow-y: auto;">
+                      {{ product.description }}
+                    </div>
+                  </td>
+                {% endfor %}
+              </tr>
+
+              {# Weight #}
+              <tr>
+                <td class="fw-semibold bg-light">
+                  <i class="bi bi-speedometer me-2"></i> {{ text_weight }}
+                </td>
+                {% for product in products %}
+                  <td class="text-center">{{ product.weight }}</td>
+                {% endfor %}
+              </tr>
+
+              {# Dimensions #}
+              <tr>
+                <td class="fw-semibold bg-light">
+                  <i class="bi bi-rulers me-2"></i> {{ text_dimension }}
+                </td>
+                {% for product in products %}
+                  <td class="text-center">{{ product.length }} x {{ product.width }} x {{ product.height }}</td>
+                {% endfor %}
+              </tr>
+            </tbody>
+
+            {# Attribute Groups #}
+            {% for attribute_group in attribute_groups %}
+              <thead class="table-secondary">
+                <tr>
+                  <th colspan="{{ products|length + 1 }}">
+                    <i class="bi bi-list-ul me-2"></i> {{ attribute_group.name }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for key, attribute in attribute_group.attribute %}
+                  <tr>
+                    <td class="fw-semibold bg-light">{{ attribute.name }}</td>
+                    {% for product in products %}
+                      <td class="text-center">
+                        {% if product.attribute[key] %}{{ product.attribute[key] }}{% endif %}
+                      </td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
               </tbody>
             {% endfor %}
-          {% endfor %}
-          <tr>
-            <td></td>
-            {% for product in products %}
-              <td class="text-center">
-                <form action="{{ cart_add }}" method="post" data-oc-toggle="ajax" data-oc-load="{{ cart }}" data-oc-target="#cart">
-                  <button type="submit" id="button-confirm" class="btn btn-primary btn-block">{{ button_cart }}</button>
-                  <input type="hidden" name="product_id" value="{{ product.product_id }}"/>
-                  <input type="hidden" name="quantity" value="{{ product.minimum }}"/>
-                  <a href="{{ product.remove }}" class="btn btn-danger btn-block">{{ button_remove }}</a>
-                </form>
-              </td>
-            {% endfor %}
-          </tr>
-        </table>
+
+            {# Action Buttons #}
+            <tbody>
+              <tr class="table-light">
+                <td class="fw-semibold">
+                  <i class="bi bi-lightning me-2"></i> Actions
+                </td>
+                {% for product in products %}
+                  <td class="text-center p-3">
+                    <form action="{{ cart_add }}" method="post" data-oc-toggle="ajax" data-oc-load="{{ cart }}" data-oc-target="#cart" class="d-flex flex-column gap-2">
+                      <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-cart-plus me-1"></i> {{ button_cart }}
+                      </button>
+                      <input type="hidden" name="product_id" value="{{ product.product_id }}"/>
+                      <input type="hidden" name="quantity" value="{{ product.minimum }}"/>
+                      <a href="{{ product.remove }}" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash me-1"></i> {{ button_remove }}
+                      </a>
+                    </form>
+                  </td>
+                {% endfor %}
+              </tr>
+            </tbody>
+          </table>
+        </div>
       {% else %}
-        <p>{{ text_no_results }}</p>
-        <div class="text-end"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+        {# No Products to Compare #}
+        <div class="alert alert-info d-flex align-items-center" role="alert">
+          <i class="bi bi-info-circle-fill me-3 fs-4"></i>
+          <div>
+            <h5 class="alert-heading mb-1">{{ text_no_results }}</h5>
+            <p class="mb-0 small">Add products to your comparison list to see them here.</p>
+          </div>
+        </div>
+        <div class="text-center mt-4">
+          <a href="{{ continue }}" class="btn btn-primary">
+            <i class="bi bi-arrow-left"></i> {{ button_continue }}
+          </a>
+        </div>
       {% endif %}
-      {{ content_bottom }}</div>
-    {{ column_right }}</div>
+
+      {{ content_bottom }}
+    </div>
+
+    {{ column_right }}
+  </div>
 </div>
-{{ footer }} 
+
+<style>
+/* Modern Comparison Table Styles */
+.compare-header {
+  position: relative;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(0,0,0,0.1);
+}
+
+.bg-primary-soft {
+  background-color: rgba(var(--bs-primary-rgb), 0.1);
+}
+
+.comparison-table {
+  background: white;
+}
+
+.comparison-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.comparison-table tbody td {
+  vertical-align: middle;
+  padding: 1rem;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.comparison-table tbody td.bg-light {
+  background-color: rgba(0,0,0,0.03);
+}
+
+.comparison-table tbody tr:hover {
+  background-color: rgba(var(--bs-primary-rgb), 0.02);
+}
+
+.description-text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.description-text::-webkit-scrollbar {
+  width: 6px;
+}
+
+.description-text::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+/* Product Compare Header */
+.product-compare-header {
+  padding: 0.5rem 0;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+  .comparison-table {
+    font-size: 0.875rem;
+  }
+
+  .comparison-table tbody td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .comparison-table img.img-thumbnail {
+    max-width: 120px !important;
+  }
+}
+</style>
+
+{{ footer }}

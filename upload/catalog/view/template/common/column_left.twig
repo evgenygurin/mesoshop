@@ -1,7 +1,10 @@
 {% if modules %}
-<aside id="column-left" class="col-3 d-none d-md-block">
-  {% for module in modules %}
-  {{ module }}
-  {% endfor %}
+<!-- Left Sidebar Column with Enhanced Spacing -->
+<aside id="column-left" class="col-lg-3 col-md-4 d-none d-md-block">
+  <div class="d-flex flex-column gap-3">
+    {% for module in modules %}
+      {{ module }}
+    {% endfor %}
+  </div>
 </aside>
 {% endif %}

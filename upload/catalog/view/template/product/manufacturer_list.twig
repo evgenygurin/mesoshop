@@ -1,36 +1,261 @@
 {{ header }}
-<div id="product-manufacturer" class="container">
-  <ul class="breadcrumb">
-    {% for breadcrumb in breadcrumbs %}
-      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
-    {% endfor %}
-  </ul>
-  <div class="row">{{ column_left }}
-    <div id="content" class="col">{{ content_top }}
-      <h1>{{ heading_title }}</h1>
+<div id="product-manufacturer" class="container py-4">
+  {# Breadcrumb Navigation #}
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item{% if loop.last %} active{% endif %}">
+          {% if loop.last %}
+            {{ breadcrumb.text }}
+          {% else %}
+            <a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
+
+  <div class="row">
+    {{ column_left }}
+
+    <div id="content" class="col">
+      {{ content_top }}
+
+      {# Manufacturers Directory Header #}
+      <div class="manufacturers-header mb-4">
+        <div class="d-flex align-items-center">
+          <i class="bi bi-building text-primary fs-1 me-3"></i>
+          <div>
+            <h1 class="display-5 fw-bold mb-1">{{ heading_title }}</h1>
+            <p class="text-muted mb-0">Browse products by brand and manufacturer</p>
+          </div>
+        </div>
+      </div>
+
       {% if categories %}
-        <p><strong>{{ text_index }}</strong>
-          {% for category in categories %}
-            &nbsp;&nbsp;&nbsp;<a href="{{ category.href }}#{{ category.name }}">{{ category.name }}</a>
-          {% endfor %}
-        </p>
+        {# Alphabetical Index Navigation #}
+        <div class="index-navigation bg-light rounded p-3 mb-4 shadow-sm">
+          <div class="d-flex align-items-center flex-wrap gap-2">
+            <strong class="me-2">
+              <i class="bi bi-funnel me-1"></i> {{ text_index }}:
+            </strong>
+            {% for category in categories %}
+              <a href="#{{ category.name }}" class="btn btn-sm btn-outline-primary">
+                {{ category.name }}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+
+        {# Manufacturers by Category (Alphabetical) #}
         {% for category in categories %}
-          <h2 id="{{ category.name }}">{{ category.name }}</h2>
-          {% if category.manufacturer %}
-            {% for manufacturers in category.manufacturer|batch(4) %}
-              <div class="row mb-3">
-                {% for manufacturer in manufacturers %}
-                  <div class="col-sm-3"><a href="{{ manufacturer.href }}">{{ manufacturer.name }}</a></div>
+          <div class="manufacturer-category mb-5" id="{{ category.name }}">
+            {# Category Header #}
+            <div class="category-header d-flex align-items-center mb-3 pb-2 border-bottom border-primary border-2">
+              <div class="category-letter bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px; font-size: 2rem; font-weight: bold;">
+                {{ category.name }}
+              </div>
+              <h2 class="h3 mb-0 fw-bold">{{ category.name }}</h2>
+            </div>
+
+            {# Manufacturers Grid #}
+            {% if category.manufacturer %}
+              <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+                {% for manufacturer in category.manufacturer %}
+                  <div class="col">
+                    <a href="{{ manufacturer.href }}" class="manufacturer-card text-decoration-none">
+                      <div class="card h-100 border-0 shadow-sm hover-lift">
+                        <div class="card-body d-flex align-items-center p-3">
+                          <i class="bi bi-building text-primary fs-3 me-3"></i>
+                          <span class="text-dark fw-semibold">{{ manufacturer.name }}</span>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
                 {% endfor %}
               </div>
-            {% endfor %}
-          {% endif %}
+            {% endif %}
+          </div>
         {% endfor %}
+
+        {# Back to Top Button #}
+        <div class="text-center mt-5">
+          <a href="#top" class="btn btn-outline-primary">
+            <i class="bi bi-arrow-up-circle me-1"></i> Back to Top
+          </a>
+        </div>
       {% else %}
-        <p>{{ text_no_results }}</p>
-        <div class="text-end"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+        {# No Manufacturers Found #}
+        <div class="alert alert-info d-flex align-items-center" role="alert">
+          <i class="bi bi-info-circle-fill me-3 fs-4"></i>
+          <div>
+            <h5 class="alert-heading mb-1">{{ text_no_results }}</h5>
+            <p class="mb-0 small">No manufacturers available at the moment.</p>
+          </div>
+        </div>
+        <div class="text-center mt-4">
+          <a href="{{ continue }}" class="btn btn-primary">
+            <i class="bi bi-arrow-left"></i> {{ button_continue }}
+          </a>
+        </div>
       {% endif %}
-      {{ content_bottom }}</div>
-    {{ column_right }}</div>
+
+      {{ content_bottom }}
+    </div>
+
+    {{ column_right }}
+  </div>
 </div>
+
+<style>
+/* Modern Manufacturers Directory Styles */
+.manufacturers-header {
+  position: relative;
+  padding: 1.5rem 0;
+  border-bottom: 2px solid rgba(0,0,0,0.1);
+}
+
+/* Index Navigation */
+.index-navigation {
+  border: 1px solid rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: white !important;
+}
+
+.index-navigation .btn-outline-primary {
+  transition: all 0.3s ease;
+}
+
+.index-navigation .btn-outline-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(var(--bs-primary-rgb), 0.2);
+}
+
+/* Manufacturer Category */
+.manufacturer-category {
+  scroll-margin-top: 100px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Category Letter Badge */
+.category-letter {
+  flex-shrink: 0;
+  box-shadow: 0 4px 8px rgba(var(--bs-primary-rgb), 0.3);
+}
+
+/* Manufacturer Card Hover Effect */
+.manufacturer-card .card {
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.manufacturer-card:hover .card {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
+  border-color: var(--bs-primary);
+}
+
+.manufacturer-card:hover .bi-building {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .manufacturers-header {
+    padding: 1rem 0;
+  }
+
+  .manufacturers-header .d-flex {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .manufacturers-header .bi-building {
+    margin-bottom: 1rem;
+  }
+
+  .category-letter {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 1.5rem !important;
+  }
+
+  .index-navigation {
+    position: static;
+  }
+
+  .index-navigation .d-flex {
+    justify-content: center;
+  }
+}
+</style>
+
+<script>
+// Smooth scroll for anchor links
+document.addEventListener('DOMContentLoaded', function() {
+  const anchorLinks = document.querySelectorAll('a[href^="#"]');
+
+  anchorLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#top' || targetId === '#') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          e.preventDefault();
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  });
+
+  // Highlight active category in navigation
+  const observerOptions = {
+    root: null,
+    rootMargin: '-100px 0px 0px 0px',
+    threshold: 0.5
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const categoryId = entry.target.getAttribute('id');
+        document.querySelectorAll('.index-navigation .btn').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        const activeBtn = document.querySelector(`.index-navigation a[href="#${categoryId}"]`);
+        if (activeBtn) {
+          activeBtn.classList.add('active');
+        }
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.manufacturer-category').forEach(category => {
+    observer.observe(category);
+  });
+});
+</script>
+
 {{ footer }}

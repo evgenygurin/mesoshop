@@ -1,33 +1,118 @@
 {{ header }}
-<div id="checkout-checkout" class="container">
-  <ul class="breadcrumb">
-    {% for breadcrumb in breadcrumbs %}
-      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
-    {% endfor %}
-  </ul>
+<div id="checkout-checkout" class="container my-4">
+  <!-- Breadcrumb Navigation -->
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb bg-light rounded-3 p-3 shadow-sm">
+      {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item{% if loop.last %} active{% endif %}"{% if loop.last %} aria-current="page"{% endif %}>
+          {% if not loop.last %}
+            <a href="{{ breadcrumb.href }}" class="text-decoration-none">{{ breadcrumb.text }}</a>
+          {% else %}
+            {{ breadcrumb.text }}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
+
   <div class="row">{{ column_left }}
     <div id="content" class="col">{{ content_top }}
-      <h1>{{ heading_title }}</h1>
+
+      <!-- Checkout Header -->
+      <div class="mb-4">
+        <h1 class="h2 mb-3">{{ heading_title }}</h1>
+
+        <!-- Multi-Step Progress Indicator -->
+        <div class="card shadow-sm mb-4">
+          <div class="card-body p-4">
+            <div class="row text-center">
+              <div class="col checkout-step" data-step="address">
+                <div class="step-icon mb-2 {% if register or payment_address or shipping_address %}active{% endif %}">
+                  <i class="fa-solid fa-map-marker-alt fa-2x"></i>
+                </div>
+                <h6 class="step-title mb-0">Address</h6>
+                <small class="text-muted d-none d-md-block">Delivery details</small>
+              </div>
+              <div class="col checkout-step" data-step="shipping">
+                <div class="step-icon mb-2 {% if shipping_method %}active{% endif %}">
+                  <i class="fa-solid fa-truck fa-2x"></i>
+                </div>
+                <h6 class="step-title mb-0">Shipping</h6>
+                <small class="text-muted d-none d-md-block">Delivery method</small>
+              </div>
+              <div class="col checkout-step" data-step="payment">
+                <div class="step-icon mb-2 {% if payment_method %}active{% endif %}">
+                  <i class="fa-solid fa-credit-card fa-2x"></i>
+                </div>
+                <h6 class="step-title mb-0">Payment</h6>
+                <small class="text-muted d-none d-md-block">Payment method</small>
+              </div>
+              <div class="col checkout-step" data-step="confirm">
+                <div class="step-icon mb-2 {% if confirm %}active{% endif %}">
+                  <i class="fa-solid fa-check-circle fa-2x"></i>
+                </div>
+                <h6 class="step-title mb-0">Confirm</h6>
+                <small class="text-muted d-none d-md-block">Review order</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checkout Content -->
       <div class="row">
         {% if register or payment_address or shipping_address %}
-          <div class="col-md-7 mb-3">
+          <div class="col-lg-7 mb-4">
             {% if register %}
-              <div id="checkout-register">{{ register }}</div>
+              <div id="checkout-register" class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                  <h5 class="mb-0"><i class="fa-solid fa-user-plus me-2"></i>Account Details</h5>
+                </div>
+                <div class="card-body">{{ register }}</div>
+              </div>
             {% endif %}
             {% if payment_address %}
-              <div id="checkout-payment-address">{{ payment_address }}</div>
+              <div id="checkout-payment-address" class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                  <h5 class="mb-0"><i class="fa-solid fa-credit-card me-2"></i>Payment Address</h5>
+                </div>
+                <div class="card-body">{{ payment_address }}</div>
+              </div>
             {% endif %}
             {% if shipping_address %}
-              <div id="checkout-shipping-address">{{ shipping_address }}</div>
+              <div id="checkout-shipping-address" class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                  <h5 class="mb-0"><i class="fa-solid fa-truck me-2"></i>Shipping Address</h5>
+                </div>
+                <div class="card-body">{{ shipping_address }}</div>
+              </div>
             {% endif %}
           </div>
         {% endif %}
-        <div class="col">
+
+        <div class="col-lg-5">
           {% if shipping_method %}
-            <div id="checkout-shipping-method" class="mb-3">{{ shipping_method }}</div>
+            <div id="checkout-shipping-method" class="card shadow-sm mb-4">
+              <div class="card-header bg-light">
+                <h5 class="mb-0"><i class="fa-solid fa-shipping-fast me-2"></i>Shipping Method</h5>
+              </div>
+              <div class="card-body">{{ shipping_method }}</div>
+            </div>
           {% endif %}
-          <div id="checkout-payment-method" class="mb-4">{{ payment_method }}</div>
-          <div id="checkout-confirm">{{ confirm }}</div>
+
+          <div id="checkout-payment-method" class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+              <h5 class="mb-0"><i class="fa-solid fa-money-check-alt me-2"></i>Payment Method</h5>
+            </div>
+            <div class="card-body">{{ payment_method }}</div>
+          </div>
+
+          <div id="checkout-confirm" class="card shadow-sm">
+            <div class="card-header bg-light">
+              <h5 class="mb-0"><i class="fa-solid fa-clipboard-check me-2"></i>Order Summary</h5>
+            </div>
+            <div class="card-body">{{ confirm }}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -35,4 +120,76 @@
   </div>
   {{ column_right }}
 </div>
+
+<style>
+.checkout-step {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.checkout-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: #e0e0e0;
+  z-index: -1;
+}
+
+.checkout-step.active:not(:last-child)::after {
+  background: var(--bs-primary);
+}
+
+.step-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #f8f9fa;
+  color: #6c757d;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border: 2px solid #e0e0e0;
+}
+
+.checkout-step.active .step-icon {
+  background: var(--bs-primary);
+  color: white;
+  border-color: var(--bs-primary);
+  transform: scale(1.1);
+}
+
+.step-title {
+  font-weight: 600;
+  color: #6c757d;
+  transition: color 0.3s ease;
+}
+
+.checkout-step.active .step-title {
+  color: var(--bs-primary);
+}
+
+@media (max-width: 768px) {
+  .step-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .step-icon i {
+    font-size: 1.2rem !important;
+  }
+
+  .step-title {
+    font-size: 0.875rem;
+  }
+
+  .checkout-step:not(:last-child)::after {
+    top: 15px;
+  }
+}
+</style>
+
 {{ footer }}

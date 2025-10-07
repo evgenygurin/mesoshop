@@ -15,38 +15,96 @@
     {{ column_left }}
     <div id="content" class="col">
       {{ content_top }}
-      <div class="row">
-        <div class="col mb-3">
-          <div class="border rounded p-3 d-flex flex-column h-100">
-            <h2>{{ text_new_customer }}</h2>
-            <p><strong>{{ text_register }}</strong></p>
-            <p>{{ text_register_account }}</p>
-            <div class="text-end">
-              <a href="{{ register }}" class="btn btn-primary">{{ button_continue }}</a>
+      <div class="row g-4">
+        <!-- New Customer Card -->
+        <div class="col-md-6">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body d-flex flex-column p-4">
+              <div class="mb-3">
+                <div class="icon-shape icon-lg bg-primary bg-opacity-10 text-primary rounded-3 mb-3">
+                  <i class="fa-solid fa-user-plus fa-2x"></i>
+                </div>
+                <h3 class="card-title h4 mb-3">{{ text_new_customer }}</h3>
+                <p class="card-subtitle text-muted mb-2"><strong>{{ text_register }}</strong></p>
+                <p class="card-text text-muted">{{ text_register_account }}</p>
+              </div>
+              <div class="mt-auto">
+                <a href="{{ register }}" class="btn btn-primary w-100 py-2">
+                  {{ button_continue }}
+                  <i class="fa-solid fa-arrow-right ms-2"></i>
+                </a>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col mb-3">
-          <div class="border rounded p-3 d-flex flex-column h-100">
-            <form id="form-login" action="{{ login }}" method="post" data-oc-toggle="ajax">
-              <h2>{{ text_returning_customer }}</h2>
-              <p><strong>{{ text_i_am_returning_customer }}</strong></p>
-              <div class="mb-3">
-                <label for="input-email" class="col-form-label">{{ entry_email }}</label>
-                <input type="email" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control"/>
+
+        <!-- Returning Customer Login Card -->
+        <div class="col-md-6">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+              <div class="mb-4">
+                <div class="icon-shape icon-lg bg-success bg-opacity-10 text-success rounded-3 mb-3">
+                  <i class="fa-solid fa-right-to-bracket fa-2x"></i>
+                </div>
+                <h3 class="card-title h4 mb-3">{{ text_returning_customer }}</h3>
+                <p class="card-subtitle text-muted mb-4"><strong>{{ text_i_am_returning_customer }}</strong></p>
               </div>
-              <div class="mb-3">
-                <label for="input-password" class="col-form-label">{{ entry_password }}</label>
-                <input type="password" name="password" value="{{ password }}" placeholder="{{ entry_password }}" id="input-password" class="form-control mb-1"/>
-                <a href="{{ forgotten }}">{{ text_forgotten }}</a>
-              </div>
-              {% if redirect %}
-                <input type="hidden" name="redirect" value="{{ redirect }}"/>
-              {% endif %}
-              <div class="text-end">
-                <button type="submit" class="btn btn-primary">{{ button_login }}</button>
-              </div>
-            </form>
+
+              <form id="form-login" action="{{ login }}" method="post" data-oc-toggle="ajax">
+                <div class="mb-3">
+                  <label for="input-email" class="form-label fw-semibold">
+                    {{ entry_email }}
+                  </label>
+                  <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-light border-end-0">
+                      <i class="fa-solid fa-envelope text-muted"></i>
+                    </span>
+                    <input type="email"
+                           name="email"
+                           value="{{ email }}"
+                           placeholder="{{ entry_email }}"
+                           id="input-email"
+                           class="form-control border-start-0 ps-0"
+                           required
+                           autocomplete="email"/>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="input-password" class="form-label fw-semibold">
+                    {{ entry_password }}
+                  </label>
+                  <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-light border-end-0">
+                      <i class="fa-solid fa-lock text-muted"></i>
+                    </span>
+                    <input type="password"
+                           name="password"
+                           value="{{ password }}"
+                           placeholder="{{ entry_password }}"
+                           id="input-password"
+                           class="form-control border-start-0 ps-0"
+                           required
+                           autocomplete="current-password"/>
+                  </div>
+                  <div class="mt-2 text-end">
+                    <a href="{{ forgotten }}" class="text-decoration-none small">
+                      <i class="fa-solid fa-question-circle me-1"></i>{{ text_forgotten }}
+                    </a>
+                  </div>
+                </div>
+
+                {% if redirect %}
+                  <input type="hidden" name="redirect" value="{{ redirect }}"/>
+                {% endif %}
+
+                <div class="d-grid gap-2 mt-4">
+                  <button type="submit" class="btn btn-primary btn-lg py-2">
+                    <i class="fa-solid fa-right-to-bracket me-2"></i>{{ button_login }}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -55,4 +113,43 @@
     {{ column_right }}
   </div>
 </div>
+
+<style>
+/* Login Page Enhancements */
+#account-login .icon-shape {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+}
+
+#account-login .card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#account-login .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+}
+
+#account-login .input-group-text {
+  border-right: 0;
+}
+
+#account-login .input-group .form-control:focus {
+  border-color: #dee2e6;
+  box-shadow: none;
+}
+
+#account-login .input-group .form-control:focus ~ .input-group-text {
+  border-color: var(--bs-primary);
+}
+
+#account-login .btn-lg {
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+</style>
+
 {{ footer }}

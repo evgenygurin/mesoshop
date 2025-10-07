@@ -1,8 +1,26 @@
-<div id="cookie">
-  <div class="container">
-    <div class="row mt-2">
-      <div class="col-12 p-2 text-center"><p>{{ text_cookie }}</p>
-        <button type="button" value="{{ agree }}" class="btn bg-primary btn-block text-white">{{ button_agree }}</button>&nbsp;&nbsp;&nbsp;<button type="button" value="{{ disagree }}" class="btn btn-light btn-block">{{ button_disagree }}</button>
+<!-- Modern Cookie Consent Banner -->
+<div id="cookie" class="position-fixed bottom-0 start-0 end-0 bg-white shadow-lg border-top" style="z-index: 1050;">
+  <div class="container py-3">
+    <div class="row align-items-center g-3">
+      <div class="col-lg-8 col-md-7">
+        <div class="d-flex align-items-start">
+          <i class="fa-solid fa-cookie-bite fa-2x text-primary me-3 flex-shrink-0"></i>
+          <p class="mb-0 small text-muted">{{ text_cookie }}</p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-5">
+        <div class="d-flex gap-2 justify-content-md-end">
+          <button type="button"
+                  value="{{ agree }}"
+                  class="btn btn-primary flex-grow-1 flex-md-grow-0 px-4">
+            <i class="fa-solid fa-check me-2"></i>{{ button_agree }}
+          </button>
+          <button type="button"
+                  value="{{ disagree }}"
+                  class="btn btn-outline-secondary flex-grow-1 flex-md-grow-0">
+            {{ button_disagree }}
+          </button>
+        </div>
       </div>
     </div>
   </div>

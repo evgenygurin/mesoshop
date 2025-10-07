@@ -8,54 +8,119 @@
   <div class="row">
     {{ column_left }}
     <div id="content" class="col">{{ content_top }}
-      <h1>{{ heading_title }}</h1>
-      <p>{{ text_account_already }}</p>
-      <form id="form-register" action="{{ register }}" method="post" data-oc-toggle="ajax">
-        <fieldset id="account">
-          <legend>{{ text_your_details }}</legend>
-          {% if customer_groups|length > 1 %}
-            <div class="row mb-3">
-              <label class="col-sm-2 col-form-label">{{ entry_customer_group }}</label>
-              <div class="col-sm-10">
-                <select name="customer_group_id" id="input-customer-group" class="form-select" required>
-                  {% for customer_group in customer_groups %}
-                    <option value="{{ customer_group.customer_group_id }}"{% if customer_group.customer_group_id == customer_group_id %} selected{% endif %}>{{ customer_group.name }}</option>
-                  {% endfor %}
-                </select>
-              </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-9">
+          <!-- Registration Header -->
+          <div class="text-center mb-5">
+            <div class="icon-shape icon-xl bg-primary bg-opacity-10 text-primary rounded-circle mx-auto mb-3">
+              <i class="fa-solid fa-user-plus fa-3x"></i>
             </div>
-          {% endif %}
-          <div class="row mb-3">
-            <label for="input-firstname" class="col-sm-2 col-form-label">{{ entry_firstname }}</label>
-            <div class="col-sm-10">
-              <input type="text" name="firstname" value="" placeholder="{{ entry_firstname }}" id="input-firstname" class="form-control" required/>
-              <div id="error-firstname" class="invalid-feedback"></div>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="input-lastname" class="col-sm-2 col-form-label">{{ entry_lastname }}</label>
-            <div class="col-sm-10">
-              <input type="text" name="lastname" value="" placeholder="{{ entry_lastname }}" id="input-lastname" class="form-control" required/>
-              <div id="error-lastname" class="invalid-feedback"></div>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <label for="input-email" class="col-sm-2 col-form-label">{{ entry_email }}</label>
-            <div class="col-sm-10">
-              <input type="email" name="email" value="" placeholder="{{ entry_email }}" id="input-email" class="form-control" required/>
-              <div id="error-email" class="invalid-feedback"></div>
-            </div>
+            <h1 class="display-6 fw-bold mb-3">{{ heading_title }}</h1>
+            <p class="text-muted fs-5">{{ text_account_already }}</p>
           </div>
 
-          {% if config_telephone_display %}
-            <div class="row mb-3">
-              <label for="input-telephone" class="col-sm-2 col-form-label">{{ entry_telephone }}</label>
-              <div class="col-sm-10">
-                <input type="tel" name="telephone" value="" placeholder="{{ entry_telephone }}" id="input-telephone" class="form-control"{% if config_telephone_required %} required{% endif %}/>
-                <div id="error-telephone" class="invalid-feedback"></div>
-              </div>
-            </div>
-          {% endif %}
+          <!-- Registration Form Card -->
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 p-md-5">
+              <form id="form-register" action="{{ register }}" method="post" data-oc-toggle="ajax">
+                <!-- Personal Details Section -->
+                <fieldset id="account" class="mb-5">
+                  <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                    <div class="icon-shape bg-primary bg-opacity-10 text-primary rounded me-3">
+                      <i class="fa-solid fa-user"></i>
+                    </div>
+                    <h3 class="h5 mb-0 fw-semibold">{{ text_your_details }}</h3>
+                  </div>
+                  {% if customer_groups|length > 1 %}
+                    <div class="mb-4">
+                      <label class="form-label fw-semibold">{{ entry_customer_group }}</label>
+                      <select name="customer_group_id" id="input-customer-group" class="form-select form-select-lg" required>
+                        {% for customer_group in customer_groups %}
+                          <option value="{{ customer_group.customer_group_id }}"{% if customer_group.customer_group_id == customer_group_id %} selected{% endif %}>{{ customer_group.name }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  {% endif %}
+
+                  <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                      <label for="input-firstname" class="form-label fw-semibold">
+                        {{ entry_firstname }} <span class="text-danger">*</span>
+                      </label>
+                      <div class="input-group input-group-lg">
+                        <span class="input-group-text bg-light border-end-0">
+                          <i class="fa-solid fa-user text-muted"></i>
+                        </span>
+                        <input type="text"
+                               name="firstname"
+                               value=""
+                               placeholder="{{ entry_firstname }}"
+                               id="input-firstname"
+                               class="form-control border-start-0 ps-0"
+                               required/>
+                      </div>
+                      <div id="error-firstname" class="invalid-feedback d-block"></div>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="input-lastname" class="form-label fw-semibold">
+                        {{ entry_lastname }} <span class="text-danger">*</span>
+                      </label>
+                      <div class="input-group input-group-lg">
+                        <span class="input-group-text bg-light border-end-0">
+                          <i class="fa-solid fa-user text-muted"></i>
+                        </span>
+                        <input type="text"
+                               name="lastname"
+                               value=""
+                               placeholder="{{ entry_lastname }}"
+                               id="input-lastname"
+                               class="form-control border-start-0 ps-0"
+                               required/>
+                      </div>
+                      <div id="error-lastname" class="invalid-feedback d-block"></div>
+                    </div>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="input-email" class="form-label fw-semibold">
+                      {{ entry_email }} <span class="text-danger">*</span>
+                    </label>
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-text bg-light border-end-0">
+                        <i class="fa-solid fa-envelope text-muted"></i>
+                      </span>
+                      <input type="email"
+                             name="email"
+                             value=""
+                             placeholder="{{ entry_email }}"
+                             id="input-email"
+                             class="form-control border-start-0 ps-0"
+                             required
+                             autocomplete="email"/>
+                    </div>
+                    <div id="error-email" class="invalid-feedback d-block"></div>
+                  </div>
+
+                  {% if config_telephone_display %}
+                    <div class="mb-4">
+                      <label for="input-telephone" class="form-label fw-semibold">
+                        {{ entry_telephone }}{% if config_telephone_required %} <span class="text-danger">*</span>{% endif %}
+                      </label>
+                      <div class="input-group input-group-lg">
+                        <span class="input-group-text bg-light border-end-0">
+                          <i class="fa-solid fa-phone text-muted"></i>
+                        </span>
+                        <input type="tel"
+                               name="telephone"
+                               value=""
+                               placeholder="{{ entry_telephone }}"
+                               id="input-telephone"
+                               class="form-control border-start-0 ps-0"{% if config_telephone_required %} required{% endif %}
+                               autocomplete="tel"/>
+                      </div>
+                      <div id="error-telephone" class="invalid-feedback d-block"></div>
+                    </div>
+                  {% endif %}
 
           {% for custom_field in custom_fields %}
 
@@ -172,40 +237,152 @@
           {% endfor %}
         </fieldset>
 
-        <fieldset>
-          <legend>{{ text_your_password }}</legend>
-          <div class="row mb-3">
-            <label for="input-password" class="col-sm-2 col-form-label">{{ entry_password }}</label>
-            <div class="col-sm-10">
-              <input type="password" name="password" value="" placeholder="{{ entry_password }}" id="input-password" class="form-control" required/>
-              <div id="error-password" class="invalid-feedback"></div>
-            </div>
-          </div>
-        </fieldset>
+                </fieldset>
 
-        <fieldset>
-          <legend>{{ text_newsletter }}</legend>
-          <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">{{ entry_newsletter }}</label>
-            <div class="col-sm-10">
-              <x-switch name="newsletter" value="1" input-id="input-newsletter" input-class="form-switch form-switch-lg"></x-switch>
+                <!-- Password Section -->
+                <fieldset class="mb-5">
+                  <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                    <div class="icon-shape bg-success bg-opacity-10 text-success rounded me-3">
+                      <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h3 class="h5 mb-0 fw-semibold">{{ text_your_password }}</h3>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="input-password" class="form-label fw-semibold">
+                      {{ entry_password }} <span class="text-danger">*</span>
+                    </label>
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-text bg-light border-end-0">
+                        <i class="fa-solid fa-key text-muted"></i>
+                      </span>
+                      <input type="password"
+                             name="password"
+                             value=""
+                             placeholder="{{ entry_password }}"
+                             id="input-password"
+                             class="form-control border-start-0 ps-0"
+                             required
+                             autocomplete="new-password"/>
+                    </div>
+                    <div id="error-password" class="invalid-feedback d-block"></div>
+                    <div class="form-text mt-2">
+                      <i class="fa-solid fa-info-circle me-1"></i>
+                      Password must be at least 4 characters long
+                    </div>
+                  </div>
+                </fieldset>
+
+                <!-- Newsletter Section -->
+                <fieldset class="mb-4">
+                  <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                    <div class="icon-shape bg-info bg-opacity-10 text-info rounded me-3">
+                      <i class="fa-solid fa-envelope-open-text"></i>
+                    </div>
+                    <h3 class="h5 mb-0 fw-semibold">{{ text_newsletter }}</h3>
+                  </div>
+
+                  <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded">
+                    <div>
+                      <label for="input-newsletter" class="form-label mb-1 fw-semibold">{{ entry_newsletter }}</label>
+                      <p class="text-muted small mb-0">Receive updates about new products and special offers</p>
+                    </div>
+                    <div>
+                      <x-switch name="newsletter" value="1" input-id="input-newsletter" input-class="form-switch form-switch-lg"></x-switch>
+                    </div>
+                  </div>
+                </fieldset>
+
+                {{ captcha }}
+
+                <!-- Terms and Submit -->
+                <div class="border-top pt-4 mt-4">
+                  {% if text_agree %}
+                    <div class="d-flex align-items-start p-3 bg-light rounded mb-4">
+                      <div class="flex-shrink-0 me-3 mt-1">
+                        <x-switch name="agree" value="1" input-id="input-agree" input-class="form-switch form-switch-lg"></x-switch>
+                      </div>
+                      <div class="flex-grow-1">
+                        <label for="input-agree" class="form-check-label text-muted small">
+                          {{ text_agree }}
+                        </label>
+                      </div>
+                    </div>
+                  {% endif %}
+
+                  <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg py-3 fw-semibold">
+                      <i class="fa-solid fa-user-plus me-2"></i>{{ button_continue }}
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
-        </fieldset>
-        {{ captcha }}
-        <div class="text-end">
-          {% if text_agree %}
-            <label for="input-agree" class="form-check-label">{{ text_agree }}</label>
-            <x-switch name="agree" value="1" input-id="input-agree" input-class="form-switch form-switch-lg form-check-reverse form-check-inline align-top"></x-switch>
-          {% endif %}
-          <button type="submit" class="btn btn-primary">{{ button_continue }}</button>
         </div>
-      </form>
+      </div>
       {{ content_bottom }}
     </div>
     {{ column_right }}
   </div>
 </div>
+
+<style>
+/* Registration Form Enhancements */
+#account-register .icon-shape {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+}
+
+#account-register .icon-shape.icon-xl {
+  width: 80px;
+  height: 80px;
+}
+
+#account-register .input-group-text {
+  border-right: 0;
+}
+
+#account-register .input-group .form-control:focus {
+  border-color: #dee2e6;
+  box-shadow: none;
+}
+
+#account-register .input-group:focus-within .input-group-text {
+  border-color: var(--bs-primary);
+  background-color: rgba(var(--bs-primary-rgb), 0.05);
+}
+
+#account-register .card {
+  border-radius: 12px;
+}
+
+#account-register fieldset {
+  border: none;
+}
+
+#account-register .form-label.fw-semibold {
+  color: #344767;
+}
+
+#account-register .bg-light {
+  background-color: #f8f9fa !important;
+}
+
+/* Custom Fields Styling */
+#account-register .custom-field {
+  transition: all 0.3s ease;
+}
+
+#account-register .custom-field.required .form-label::after {
+  content: " *";
+  color: var(--bs-danger);
+}
+</style>
+
 <script type="text/javascript"><!--
 $('#input-customer-group').on('change', function() {
     $.ajax({

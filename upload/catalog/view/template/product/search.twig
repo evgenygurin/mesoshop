@@ -1,104 +1,262 @@
 {{ header }}
-<div id="product-search" class="container">
-  <ul class="breadcrumb">
-    {% for breadcrumb in breadcrumbs %}
-      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
-    {% endfor %}
-  </ul>
+<div id="product-search" class="container py-4">
+  {# Breadcrumb Navigation #}
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item{% if loop.last %} active{% endif %}">
+          {% if loop.last %}
+            {{ breadcrumb.text }}
+          {% else %}
+            <a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
+
   <div class="row">
     {{ column_left }}
+
     <div id="content" class="col">
       {{ content_top }}
-      <h1>{{ heading_title }}</h1>
-      <div class="row">
-        <div class="col"><label for="input-search" class="col-form-label">{{ entry_search }}</label></div>
-      </div>
-      <div class="row row-cols-1 row-cols-md-2">
-        <div class="col mb-3">
-          <input type="text" name="search" value="{{ search }}" placeholder="{{ text_keyword }}" id="input-search" class="form-control mb-1"/>
-          <div class="form-check">
-            <input type="checkbox" name="description" value="1" id="input-description" class="form-check-input"{% if description %} checked{% endif %}/>
-            <label for="input-description" class="form-check-label">{{ entry_description }}</label>
+
+      {# Search Page Header #}
+      <div class="search-header mb-4">
+        <h1 class="display-5 fw-bold mb-4">{{ heading_title }}</h1>
+
+        {# Advanced Search Form #}
+        <div class="search-form-wrapper bg-light rounded shadow-sm p-4">
+          <div class="row g-3">
+            {# Search Input with Description Option #}
+            <div class="col-md-6">
+              <label for="input-search" class="form-label fw-semibold">
+                <i class="bi bi-search me-1"></i> {{ entry_search }}
+              </label>
+              <input type="text" name="search" value="{{ search }}" placeholder="{{ text_keyword }}" id="input-search" class="form-control form-control-lg mb-2"/>
+              <div class="form-check">
+                <input type="checkbox" name="description" value="1" id="input-description" class="form-check-input"{% if description %} checked{% endif %}/>
+                <label for="input-description" class="form-check-label">
+                  <i class="bi bi-file-text me-1"></i> {{ entry_description }}
+                </label>
+              </div>
+            </div>
+
+            {# Category Selector with Subcategory Option #}
+            <div class="col-md-6">
+              <label for="input-category" class="form-label fw-semibold">
+                <i class="bi bi-folder2 me-1"></i> {{ text_category }}
+              </label>
+              <select name="category_id" id="input-category" class="form-select form-select-lg mb-2">
+                <option value="0">{{ text_category }}</option>
+                {% for category_1 in categories %}
+                  <option value="{{ category_1.category_id }}"{% if category_1.category_id == category_id %} selected{% endif %}>{{ category_1.name }}</option>
+                  {% for category_2 in category_1.children %}
+                    <option value="{{ category_2.category_id }}"{% if category_2.category_id == category_id %} selected{% endif %}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_2.name }}</option>
+                    {% for category_3 in category_2.children %}
+                      <option value="{{ category_3.category_id }}"{% if category_3.category_id == category_id %} selected{% endif %}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_3.name }}</option>
+                    {% endfor %}
+                  {% endfor %}
+                {% endfor %}
+              </select>
+              <div class="form-check">
+                <input type="checkbox" name="sub_category" value="1" id="input-sub-category" class="form-check-input"{% if sub_category %} checked{% endif %}/>
+                <label for="input-sub-category" class="form-check-label">
+                  <i class="bi bi-folder-symlink me-1"></i> {{ text_sub_category }}
+                </label>
+              </div>
+            </div>
+          </div>
+
+          {# Search Button #}
+          <div class="row mt-3">
+            <div class="col text-end">
+              <button type="button" id="button-search" class="btn btn-primary btn-lg px-5">
+                <i class="bi bi-search me-2"></i> {{ button_search }}
+              </button>
+            </div>
           </div>
         </div>
-        <div class="col mb-3">
-          <select name="category_id" id="input-category" class="form-select mb-1">
-            <option value="0">{{ text_category }}</option>
-            {% for category_1 in categories %}
-              <option value="{{ category_1.category_id }}"{% if category_1.category_id == category_id %} selected{% endif %}>{{ category_1.name }}</option>
-              {% for category_2 in category_1.children %}
-                <option value="{{ category_2.category_id }}"{% if category_2.category_id == category_id %} selected{% endif %}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_2.name }}</option>
-                {% for category_3 in category_2.children %}
-                  <option value="{{ category_3.category_id }}"{% if category_3.category_id == category_id %} selected{% endif %}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_3.name }}</option>
-                {% endfor %}
-              {% endfor %}
+      </div>
+
+      <hr class="my-4"/>
+
+      {# Search Results Section #}
+      <div class="search-results">
+        <h2 class="h4 text-uppercase fw-bold mb-4">
+          <i class="bi bi-box-seam me-2"></i> {{ text_search }}
+        </h2>
+
+        {% if products %}
+          {# Toolbar: Compare, View Toggle, Sort, Limit #}
+          <div class="products-toolbar bg-light rounded p-3 mb-4">
+            <div class="row g-3 align-items-center">
+              {# Compare Button #}
+              <div class="col-lg-2 col-md-3 col-6">
+                <a href="{{ compare }}" id="compare-total" class="btn btn-outline-primary w-100 btn-sm">
+                  <i class="bi bi-arrow-left-right"></i> {{ text_compare }}
+                </a>
+              </div>
+
+              {# View Toggle #}
+              <div class="col-lg-2 col-md-3 col-6 d-none d-md-block">
+                <div class="btn-group w-100" role="group">
+                  <button type="button" id="button-grid" class="btn btn-outline-secondary btn-sm active" data-bs-toggle="tooltip" title="{{ button_grid }}">
+                    <i class="bi bi-grid-3x3-gap"></i>
+                  </button>
+                  <button type="button" id="button-list" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" title="{{ button_list }}">
+                    <i class="bi bi-list-ul"></i>
+                  </button>
+                </div>
+              </div>
+
+              {# Sort Dropdown #}
+              <div class="col-lg-4 col-md-6 col-12">
+                <div class="input-group input-group-sm">
+                  <label for="input-sort" class="input-group-text">
+                    <i class="bi bi-sort-down me-1"></i> {{ text_sort }}
+                  </label>
+                  <select id="input-sort" class="form-select form-select-sm" onchange="location = this.value;">
+                    {% for sorts in sorts %}
+                      <option value="{{ sorts.href }}"{% if sorts.value == '%s-%s'|format(sort, order) %} selected{% endif %}>
+                        {{ sorts.text }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              {# Limit Dropdown #}
+              <div class="col-lg-4 col-md-12 col-12">
+                <div class="input-group input-group-sm">
+                  <label for="input-limit" class="input-group-text">
+                    <i class="bi bi-eye me-1"></i> {{ text_limit }}
+                  </label>
+                  <select id="input-limit" class="form-select form-select-sm" onchange="location = this.value;">
+                    {% for limits in limits %}
+                      <option value="{{ limits.href }}"{% if limits.value == limit %} selected{% endif %}>
+                        {{ limits.text }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {# Products Grid #}
+          <div id="product-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mb-4">
+            {% for product in products %}
+              <div class="col">{{ product }}</div>
             {% endfor %}
-          </select>
-          <div class="form-check">
-            <input type="checkbox" name="sub_category" value="1" id="input-sub-category" class="form-check-input"{% if sub_category %} checked{% endif %}/>
-            <label for="input-sub-category" class="form-check-label">{{ text_sub_category }}</label>
           </div>
-        </div>
+
+          {# Pagination and Results #}
+          <div class="products-footer d-flex justify-content-between align-items-center flex-wrap gap-3 p-3 bg-light rounded">
+            <div class="pagination-wrapper">{{ pagination }}</div>
+            <div class="results-info text-muted small">{{ results }}</div>
+          </div>
+        {% else %}
+          {# No Results Found #}
+          <div class="alert alert-info d-flex align-items-center" role="alert">
+            <i class="bi bi-info-circle-fill me-3 fs-4"></i>
+            <div>
+              <h5 class="alert-heading mb-1">{{ text_no_results }}</h5>
+              <p class="mb-0 small">Try adjusting your search terms or filters to find what you're looking for.</p>
+            </div>
+          </div>
+        {% endif %}
       </div>
-      <div class="row">
-        <div class="col text-end">
-          <button type="button" id="button-search" class="btn btn-primary">{{ button_search }}</button>
-        </div>
-      </div>
-      <hr/>
-      <h2>{{ text_search }}</h2>
-      {% if products %}
-        <div id="display-control" class="row">
-          <div class="col-md-3">
-            <div class="mb-3">
-              <a href="{{ compare }}" id="compare-total" class="btn btn-primary d-block"><i class="fa-solid fa-arrow-right-arrow-left"></i> <span class="d-inline d-md-none d-lg-inline">{{ text_compare }}</span></a>
-            </div>
-          </div>
-          <div class="col-md-1 d-none d-md-block">
-            <div class="btn-group">
-              <button type="button" id="button-list" class="btn btn-light" data-bs-toggle="tooltip" title="{{ button_list }}"><i class="fa-solid fa-table-list"></i></button>
-              <button type="button" id="button-grid" class="btn btn-light" data-bs-toggle="tooltip" title="{{ button_grid }}"><i class="fa-solid fa-table-cells"></i></button>
-            </div>
-          </div>
-          <div class="col-md-4 offset-md-1 col-6">
-            <div class="input-group mb-3">
-              <label for="input-sort" class="input-group-text">{{ text_sort }}</label>
-              <select id="input-sort" class="form-select" onchange="location = this.value;">
-                {% for sorts in sorts %}
-                  <option value="{{ sorts.href }}"{% if sorts.value == '%s-%s'|format(sort, order) %} selected{% endif %}>{{ sorts.text }}</option>
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-          <div class="col-md-3 col-6">
-            <div class="input-group mb-3">
-              <label for="input-limit" class="input-group-text">{{ text_limit }}</label>
-              <select id="input-limit" class="form-select" onchange="location = this.value;">
-                {% for limits in limits %}
-                  <option value="{{ limits.href }}"{% if limits.value == limit %} selected{% endif %}>{{ limits.text }}</option>
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-        </div>
-        <div id="product-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4">
-          {% for product in products %}
-            <div class="col mb-3">{{ product }}</div>
-          {% endfor %}
-        </div>
-        <div class="row">
-          <div class="col-sm-6 text-start">{{ pagination }}</div>
-          <div class="col-sm-6 text-end">{{ results }}</div>
-        </div>
-      {% else %}
-        <p>{{ text_no_results }}</p>
-      {% endif %}
+
       {{ content_bottom }}
     </div>
+
     {{ column_right }}
   </div>
 </div>
-<script type="text/javascript"><!--
+
+<style>
+/* Modern Search Page Styles */
+.search-header {
+  position: relative;
+}
+
+.search-form-wrapper {
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.search-form-wrapper .form-control-lg,
+.search-form-wrapper .form-select-lg {
+  border: 2px solid rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.search-form-wrapper .form-control-lg:focus,
+.search-form-wrapper .form-select-lg:focus {
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+.search-form-wrapper .form-check {
+  padding: 0.5rem 0;
+}
+
+.search-form-wrapper .form-check-input:checked {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+/* Toolbar Styling */
+.products-toolbar {
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* View Toggle Buttons */
+#button-grid.active,
+#button-list.active {
+  background-color: var(--bs-primary);
+  color: white;
+  border-color: var(--bs-primary);
+}
+
+/* List View Styles */
+#product-list.list-view {
+  display: block;
+}
+
+#product-list.list-view .col {
+  width: 100%;
+  max-width: 100%;
+}
+
+#product-list.list-view .product-thumb .card {
+  flex-direction: row;
+}
+
+#product-list.list-view .product-thumb .card img {
+  width: 250px;
+  height: 200px;
+  object-fit: cover;
+}
+
+#product-list.list-view .product-thumb .card-body {
+  flex: 1;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .search-form-wrapper {
+    padding: 1.5rem !important;
+  }
+
+  #button-search {
+    width: 100%;
+  }
+}
+</style>
+
+<script type="text/javascript">
+// Search button click handler
 $('#button-search').on('click', function() {
     url = 'index.php?route=product/search&language={{ language }}';
 
@@ -129,16 +287,49 @@ $('#button-search').on('click', function() {
     location = url;
 });
 
+// Enter key search
 $('#input-search').on('keydown', function(e) {
     if (e.keyCode == 13) {
         $('#button-search').trigger('click');
     }
 });
 
+// Category change handler
 $('#input-category').on('change', function() {
     $('#input-sub-category').prop('disabled', (this.value == '0' ? true : false));
 });
 
 $('#input-category').trigger('change');
-//--></script>
+
+// View Toggle Script
+document.addEventListener('DOMContentLoaded', function() {
+  const btnGrid = document.getElementById('button-grid');
+  const btnList = document.getElementById('button-list');
+  const productList = document.getElementById('product-list');
+
+  if (btnGrid && btnList && productList) {
+    btnGrid.addEventListener('click', function() {
+      productList.classList.remove('list-view');
+      productList.className = 'row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mb-4';
+      btnGrid.classList.add('active');
+      btnList.classList.remove('active');
+      localStorage.setItem('productView', 'grid');
+    });
+
+    btnList.addEventListener('click', function() {
+      productList.classList.add('list-view');
+      btnList.classList.add('active');
+      btnGrid.classList.remove('active');
+      localStorage.setItem('productView', 'list');
+    });
+
+    // Restore saved view preference
+    const savedView = localStorage.getItem('productView');
+    if (savedView === 'list') {
+      btnList.click();
+    }
+  }
+});
+</script>
+
 {{ footer }}

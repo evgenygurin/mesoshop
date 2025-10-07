@@ -1,8 +1,89 @@
 {% if products %}
-  <h3>{{ text_related }}</h3>
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
-    {% for product in products %}
-      <div class="col mb-3">{{ product }}</div>
-    {% endfor %}
+  {# Related Products Section #}
+  <div class="related-products-section mt-5">
+    <div class="section-header mb-4">
+      <div class="d-flex align-items-center">
+        <div class="flex-grow-1">
+          <h3 class="h4 text-uppercase fw-bold mb-1">
+            <i class="bi bi-box-seam me-2 text-primary"></i> {{ text_related }}
+          </h3>
+          <p class="text-muted small mb-0">You might also be interested in these products</p>
+        </div>
+        <div class="text-end d-none d-md-block">
+          <span class="badge bg-primary-soft text-primary fs-6 px-3 py-2">
+            {{ products|length }} Products
+          </span>
+        </div>
+      </div>
+    </div>
+
+    {# Related Products Grid #}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      {% for product in products %}
+        <div class="col">{{ product }}</div>
+      {% endfor %}
+    </div>
   </div>
 {% endif %}
+
+<style>
+/* Modern Related Products Section Styles */
+.related-products-section {
+  position: relative;
+  padding: 2rem 0;
+  border-top: 2px solid rgba(0,0,0,0.1);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.01), transparent);
+}
+
+.related-products-section .section-header {
+  position: relative;
+}
+
+.related-products-section .section-header::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.5rem;
+  width: 60px;
+  height: 3px;
+  background: var(--bs-primary);
+}
+
+/* Badge styling */
+.bg-primary-soft {
+  background-color: rgba(var(--bs-primary-rgb), 0.1);
+}
+
+/* Card animation on load */
+.related-products-section .col {
+  animation: slideInUp 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+.related-products-section .col:nth-child(1) { animation-delay: 0.1s; }
+.related-products-section .col:nth-child(2) { animation-delay: 0.2s; }
+.related-products-section .col:nth-child(3) { animation-delay: 0.3s; }
+.related-products-section .col:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .related-products-section {
+    padding: 1.5rem 0;
+  }
+
+  .related-products-section .section-header h3 {
+    font-size: 1.25rem;
+  }
+}
+</style>

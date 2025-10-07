@@ -1,32 +1,78 @@
-<div class="table-responsive">
-  <table class="table table-bordered table-hover">
-    <thead>
-      <tr>
-        <th class="text-end">{{ column_order_id }}</th>
-        <th>{{ column_status }}</th>
-        <th class="text-end">{{ column_total }}</th>
-        <th>{{ column_date_added }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% if orders %}
-        {% for order in orders %}
-          <tr>
-            <td class="text-end"><a href="{{ order.view }}" target="_blank">{{ order.order_id }}</a></td>
-            <td>{{ order.status }}</td>
-            <td class="text-end"><x-currency code="{{ order.currency_code }}" value="{{ order.currency_value }}" amount="{{ order.total }}"></x-currency></td>
-            <td>{{ order.date_added }}</td>
-          </tr>
-        {% endfor %}
-      {% else %}
-        <tr>
-          <td class="text-center" colspan="4">{{ text_no_results }}</td>
-        </tr>
-      {% endif %}
-    </tbody>
-  </table>
-</div>
-<div class="row">
-  <div class="col-sm-6 text-start">{{ pagination }}</div>
-  <div class="col-sm-6 text-end">{{ results }}</div>
-</div>
+{% if orders %}
+  <!-- Subscription Orders List -->
+  <div class="row g-3 mb-4">
+    {% for order in orders %}
+      <div class="col-12">
+        <div class="card shadow-sm hover-shadow-lg transition-all">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <!-- Order ID -->
+              <div class="col-md-2 text-center mb-3 mb-md-0">
+                <a href="{{ order.view }}" target="_blank" class="text-decoration-none">
+                  <div class="badge bg-primary bg-gradient fs-6 mb-1">
+                    #{{ order.order_id }}
+                  </div>
+                  <br>
+                  <small class="text-muted">
+                    <i class="fa-solid fa-external-link-alt"></i>
+                  </small>
+                </a>
+              </div>
+
+              <!-- Order Status -->
+              <div class="col-md-3 text-center mb-3 mb-md-0">
+                {% set status_class = 'secondary' %}
+                {% if order.status matches '/Complete|Shipped|Delivered/' %}
+                  {% set status_class = 'success' %}
+                {% elseif order.status matches '/Pending|Processing/' %}
+                  {% set status_class = 'warning' %}
+                {% elseif order.status matches '/Cancelled|Failed/' %}
+                  {% set status_class = 'danger' %}
+                {% endif %}
+                <span class="badge bg-{{ status_class }} bg-gradient px-3 py-2">
+                  {{ order.status }}
+                </span>
+              </div>
+
+              <!-- Order Total -->
+              <div class="col-md-4 text-center mb-3 mb-md-0">
+                <div class="h5 mb-0 text-success fw-bold">
+                  <i class="fa-solid fa-dollar-sign me-1"></i>
+                  <x-currency code="{{ order.currency_code }}" value="{{ order.currency_value }}" amount="{{ order.total }}"></x-currency>
+                </div>
+                <small class="text-muted">Order Total</small>
+              </div>
+
+              <!-- Order Date -->
+              <div class="col-md-3 text-center">
+                <div class="text-muted">
+                  <i class="fa-regular fa-calendar me-1"></i>
+                  {{ order.date_added }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Pagination -->
+  <div class="card border-0 bg-light">
+    <div class="card-body">
+      <div class="row align-items-center">
+        <div class="col-sm-6 text-start">{{ pagination }}</div>
+        <div class="col-sm-6 text-end text-muted">{{ results }}</div>
+      </div>
+    </div>
+  </div>
+{% else %}
+  <!-- Empty State -->
+  <div class="card border-0 bg-light">
+    <div class="card-body text-center py-5">
+      <i class="fa-solid fa-receipt fa-4x text-muted mb-3"></i>
+      <h4 class="text-muted">{{ text_no_results }}</h4>
+      <p class="text-muted mb-0">No orders found for this subscription</p>
+    </div>
+  </div>
+{% endif %}

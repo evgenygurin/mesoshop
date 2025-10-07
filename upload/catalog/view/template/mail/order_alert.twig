@@ -1,31 +1,120 @@
-{{ text_received }}<br/>
-<br/>
-{{ text_order_id }} {{ order_id }}<br/>
-{{ text_date_added }} {{ date_added }}<br/>
-{{ text_order_status }} {{ order_status }}<br/>
-<br/>
-{{ text_product }}<br/>
-<br/>
-{% for product in products %}
-{{ product.quantity }}x {{ product.name }} ({{ product.model }}) {{ product.total }}<br/>
-{% if product.option %}
-{% for option in product.option %}
-	- {{ option.name }} {{ option.value }}<br/>
-{% endfor %}
-{% endif %}
-{% endfor %}
-<br/>
-{{ text_total }}<br/>
-<br/>
-{% for total in totals %}
-{{ total.title }}: {{ total.value }}<br/>
-{% endfor %}
-<br/>
-{% if comment %}
-{{ text_comment }}<br/>
-<br/>
-{{ comment }}<br/>
-{% endif %}
-<br/>
-{{ store }}<br/>
-{{ store_url }}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ text_received }}</title>
+  <!--[if mso]>
+  <style type="text/css">
+    body, table, td {font-family: Arial, Helvetica, sans-serif !important;}
+  </style>
+  <![endif]-->
+</head>
+<body style="margin: 0; padding: 0; background-color: #f7f7f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #f7f7f7; padding: 40px 0;">
+    <tr>
+      <td align="center">
+        <!-- Main Container -->
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); max-width: 600px;">
+          <!-- Admin Alert Header -->
+          <tr>
+            <td style="padding: 30px 40px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); border-radius: 8px 8px 0 0;">
+              <h1 style="margin: 0; font-size: 22px; font-weight: 700; color: #ffffff; text-align: center;">{{ text_received }}</h1>
+            </td>
+          </tr>
+
+          <!-- Order Summary -->
+          <tr>
+            <td style="padding: 30px 40px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;">
+                <tr>
+                  <td style="padding: 20px; background-color: #fef2f2; border-bottom: 1px solid #fecaca;">
+                    <p style="margin: 0; font-size: 15px; line-height: 1.8; color: #1f2937;">
+                      <strong style="display: inline-block; width: 140px; color: #991b1b;">{{ text_order_id }}:</strong> <span style="font-weight: 600; color: #1f2937;">{{ order_id }}</span><br>
+                      <strong style="display: inline-block; width: 140px; color: #991b1b;">{{ text_date_added }}:</strong> {{ date_added }}<br>
+                      <strong style="display: inline-block; width: 140px; color: #991b1b;">{{ text_order_status }}:</strong> <span style="display: inline-block; padding: 4px 12px; background-color: #fef3c7; color: #92400e; border-radius: 12px; font-size: 13px; font-weight: 600;">{{ order_status }}</span>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Products Section -->
+          <tr>
+            <td style="padding: 0 40px 20px;">
+              <h2 style="margin: 0 0 15px; font-size: 18px; font-weight: 700; color: #1f2937;">{{ text_product }}</h2>
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;">
+                <tbody>
+                  {% for product in products %}
+                  <tr>
+                    <td style="padding: 15px 20px; border-bottom: 1px solid #e5e7eb; {% if loop.last %}border-bottom: none;{% endif %}">
+                      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                        <tr>
+                          <td style="width: 60px; font-size: 16px; font-weight: 700; color: #1f2937; vertical-align: top;">{{ product.quantity }}x</td>
+                          <td style="font-size: 14px; color: #1f2937; vertical-align: top;">
+                            <strong>{{ product.name }}</strong>
+                            <br><span style="font-size: 13px; color: #6b7280;">{{ product.model }}</span>
+                            {% if product.option %}
+                            {% for option in product.option %}
+                            <br><span style="font-size: 13px; color: #9ca3af;">- {{ option.name }}: {{ option.value }}</span>
+                            {% endfor %}
+                            {% endif %}
+                          </td>
+                          <td style="text-align: right; font-size: 15px; font-weight: 600; color: #1f2937; vertical-align: top; white-space: nowrap;">{{ product.total }}</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Order Totals -->
+          <tr>
+            <td style="padding: 0 40px 30px;">
+              <h2 style="margin: 0 0 15px; font-size: 18px; font-weight: 700; color: #1f2937;">{{ text_total }}</h2>
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden; background-color: #f9fafb;">
+                {% for total in totals %}
+                <tr>
+                  <td style="padding: 12px 20px; border-bottom: 1px solid #e5e7eb; font-size: 14px; {% if loop.last %}font-weight: 700; background-color: #fef3c7; border-bottom: none;{% else %}font-weight: 500;{% endif %} color: #1f2937;">{{ total.title }}:</td>
+                  <td style="padding: 12px 20px; border-bottom: 1px solid #e5e7eb; text-align: right; font-size: 14px; {% if loop.last %}font-weight: 700; background-color: #fef3c7; border-bottom: none;{% else %}font-weight: 600;{% endif %} color: #1f2937;">{{ total.value }}</td>
+                </tr>
+                {% endfor %}
+              </table>
+            </td>
+          </tr>
+
+          <!-- Special Instructions -->
+          {% if comment %}
+          <tr>
+            <td style="padding: 0 40px 30px;">
+              <h2 style="margin: 0 0 15px; font-size: 18px; font-weight: 700; color: #1f2937;">{{ text_comment }}</h2>
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden;">
+                <tr>
+                  <td style="padding: 20px; background-color: #fef3c7; font-size: 14px; line-height: 1.6; color: #1f2937;">{{ comment }}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          {% endif %}
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 30px 40px; background-color: #f9fafb; border-top: 1px solid #e5e7eb; text-align: center; border-radius: 0 0 8px 8px;">
+              <p style="margin: 0 0 10px; font-size: 14px; color: #6b7280;">
+                <strong style="color: #1f2937;">{{ store }}</strong>
+              </p>
+              <p style="margin: 0; font-size: 13px; color: #9ca3af;">
+                <a href="{{ store_url }}" style="color: #3b82f6; text-decoration: none;">{{ store_url }}</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

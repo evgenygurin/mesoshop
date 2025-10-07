@@ -1,57 +1,129 @@
 </main>
-<footer class="mt-auto">
-  <div class="container">
-    <div class="row">
+
+<!-- Modern Footer with Enhanced Visual Hierarchy -->
+<footer class="mt-auto bg-dark text-light">
+  <div class="container py-5">
+    <div class="row g-4">
+      <!-- Information Column -->
       {% if informations or blog %}
-        <div class="col-sm-3">
-          <h5>{{ text_information }}</h5>
-          <ul class="list-unstyled">
+        <div class="col-6 col-md-3">
+          <h6 class="text-uppercase fw-bold mb-3 text-white">{{ text_information }}</h6>
+          <ul class="list-unstyled footer-links">
             {% if blog %}
-              <li><a href="{{ blog }}">{{ text_blog }}</a></li>
+              <li class="mb-2">
+                <a href="{{ blog }}" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+                  <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_blog }}
+                </a>
+              </li>
             {% endif %}
             {% for information in informations %}
-              <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+              <li class="mb-2">
+                <a href="{{ information.href }}" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+                  <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ information.title }}
+                </a>
+              </li>
             {% endfor %}
           </ul>
         </div>
       {% endif %}
-      <div class="col-sm-3">
-        <h5>{{ text_service }}</h5>
-        <ul class="list-unstyled">
-          <li><a href="{{ contact }}">{{ text_contact }}</a></li>
-          <li><a href="{{ return }}">{{ text_return }}</a></li>
+
+      <!-- Service Column -->
+      <div class="col-6 col-md-3">
+        <h6 class="text-uppercase fw-bold mb-3 text-white">{{ text_service }}</h6>
+        <ul class="list-unstyled footer-links">
+          <li class="mb-2">
+            <a href="{{ contact }}" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+              <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_contact }}
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="{{ return }}" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+              <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_return }}
+            </a>
+          </li>
           {% if gdpr %}
-            <li><a href="{{ gdpr }}">{{ text_gdpr }}</a></li>
+            <li class="mb-2">
+              <a href="{{ gdpr }}" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+                <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_gdpr }}
+              </a>
+            </li>
           {% endif %}
-          <li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+          <li class="mb-2">
+            <a href="{{ sitemap }}" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+              <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_sitemap }}
+            </a>
+          </li>
         </ul>
       </div>
-      <div class="col-sm-3">
-        <h5>{{ text_extra }}</h5>
-        <ul class="list-unstyled">
-          <li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+
+      <!-- Extras Column -->
+      <div class="col-6 col-md-3">
+        <h6 class="text-uppercase fw-bold mb-3 text-white">{{ text_extra }}</h6>
+        <ul class="list-unstyled footer-links">
+          <li class="mb-2">
+            <a href="{{ manufacturer }}" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+              <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_manufacturer }}
+            </a>
+          </li>
           {% if affiliate %}
-            <li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+            <li class="mb-2">
+              <a href="{{ affiliate }}" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+                <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_affiliate }}
+              </a>
+            </li>
           {% endif %}
-          <li><a href="{{ special }}">{{ text_special }}</a></li>
+          <li class="mb-2">
+            <a href="{{ special }}" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+              <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_special }}
+            </a>
+          </li>
         </ul>
       </div>
-      <div class="col-sm-3">
-        <h5>{{ text_account }}</h5>
-        <ul class="list-unstyled">
-          <li><a href="{{ account }}">{{ text_account }}</a></li>
-          <li><a href="{{ order }}">{{ text_order }}</a></li>
-          <li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
-          <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+
+      <!-- Account Column -->
+      <div class="col-6 col-md-3">
+        <h6 class="text-uppercase fw-bold mb-3 text-white">{{ text_account }}</h6>
+        <ul class="list-unstyled footer-links">
+          <li class="mb-2">
+            <a href="{{ account }}" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+              <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_account }}
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="{{ order }}" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+              <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_order }}
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="{{ wishlist }}" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+              <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_wishlist }}
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="{{ newsletter }}" class="text-light text-decoration-none opacity-75 hover-opacity-100">
+              <i class="fa-solid fa-chevron-right fa-xs me-2"></i>{{ text_newsletter }}
+            </a>
+          </li>
         </ul>
       </div>
     </div>
-    <hr>
-    <p>{{ powered }}</p>
-    <!--
+
+    <!-- Footer Bottom Bar -->
+    <hr class="my-4 opacity-25">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+        <p class="mb-0 opacity-75 small">{{ powered }}</p>
+        <!--
 OpenCart is open source software and you are free to remove the powered by OpenCart if you want, but its generally accepted practise to make a small donation.
 Please donate via PayPal to donate@opencart.com
 //-->
+      </div>
+      <div class="col-md-6 text-center text-md-end">
+        <p class="mb-0 opacity-75 small">
+          &copy; {{ "now"|date("Y") }} All Rights Reserved
+        </p>
+      </div>
+    </div>
   </div>
 </footer>
 </div> <!-- #container .d-flex //-->
