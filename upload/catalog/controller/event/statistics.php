@@ -50,7 +50,7 @@ class Statistics extends \Opencart\System\Engine\Controller {
 	 * Add History
 	 *
 	 * Trigger
-	 * 
+	 *
 	 * catalog/model/checkout/order.addHistory/before
 	 *
 	 * @param string            $route
