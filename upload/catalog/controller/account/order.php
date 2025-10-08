@@ -88,12 +88,10 @@ class Order extends \Opencart\System\Engine\Controller {
 
 		// Pagination
 		$data['pagination'] = $this->load->controller('common/pagination', [
-			'total' => $order_total,
-			'page'  => $page,
-			'limit' => $limit,
-			'callback' => function(int $page) use ($url): string {
-				return $this->url->link('account/order', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']  . ($page ? '&page=' . $page : ''));
-			}
+			'total'    => $order_total,
+			'page'     => $page,
+			'limit'    => $limit,
+			'callback' => fn (int $page): string => $this->url->link('account/order', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']  . ($page ? '&page=' . $page : ''))
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($order_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($order_total - $limit)) ? $order_total : ((($page - 1) * $limit) + $limit), $order_total, ceil($order_total / $limit));
@@ -460,12 +458,10 @@ class Order extends \Opencart\System\Engine\Controller {
 
 		// Pagination
 		$data['pagination'] = $this->load->controller('common/pagination', [
-			'total' => $history_total,
-			'page'  => $page,
-			'limit' => $limit,
-			'callback' => function(int $page) use ($order_id): string {
-				return $this->url->link('account/order.history', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&order_id=' . $order_id . ($page ? '&page=' . $page : ''));
-			}
+			'total'    => $history_total,
+			'page'     => $page,
+			'limit'    => $limit,
+			'callback' => fn (int $page): string => $this->url->link('account/order.history', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&order_id=' . $order_id . ($page ? '&page=' . $page : ''))
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($history_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($history_total - $limit)) ? $history_total : ((($page - 1) * $limit) + $limit), $history_total, ceil($history_total / $limit));

@@ -111,12 +111,10 @@ class Subscription extends \Opencart\System\Engine\Controller {
 
 		// Pagination
 		$data['pagination'] = $this->load->controller('common/pagination', [
-			'total' => $subscription_total,
-			'page'  => $page,
-			'limit' => $limit,
-			'callback' => function(int $page): string {
-				return $this->url->link('account/subscription', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . ($page ? '&page=' . $page : ''));
-			}
+			'total'    => $subscription_total,
+			'page'     => $page,
+			'limit'    => $limit,
+			'callback' => fn (int $page): string => $this->url->link('account/subscription', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . ($page ? '&page=' . $page : ''))
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($subscription_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($subscription_total - $limit)) ? $subscription_total : ((($page - 1) * $limit) + $limit), $subscription_total, ceil($subscription_total / $limit));
@@ -536,12 +534,10 @@ class Subscription extends \Opencart\System\Engine\Controller {
 
 		// Pagination
 		$data['pagination'] = $this->load->controller('common/pagination', [
-			'total' => $subscription_total,
-			'page'  => $page,
-			'limit' => $limit,
-			'callback' => function(int $page) use ($subscription_id): string {
-				return $this->url->link('account/subscription.history', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&subscription_id=' . $subscription_id . ($page ? '&page=' . $page : ''));
-			}
+			'total'    => $subscription_total,
+			'page'     => $page,
+			'limit'    => $limit,
+			'callback' => fn (int $page): string => $this->url->link('account/subscription.history', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&subscription_id=' . $subscription_id . ($page ? '&page=' . $page : ''))
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($subscription_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($subscription_total - $limit)) ? $subscription_total : ((($page - 1) * $limit) + $limit), $subscription_total, ceil($subscription_total / $limit));
@@ -609,12 +605,10 @@ class Subscription extends \Opencart\System\Engine\Controller {
 
 		// Pagination
 		$data['pagination'] = $this->load->controller('common/pagination', [
-			'total' => $order_total,
-			'page'  => $page,
-			'limit' => $limit,
-			'callback' => function(int $page) use ($subscription_id): string {
-				return $this->url->link('account/subscription.order', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&subscription_id=' . $subscription_id . ($page ? '&page=' . $page : ''));
-			}
+			'total'    => $order_total,
+			'page'     => $page,
+			'limit'    => $limit,
+			'callback' => fn (int $page): string => $this->url->link('account/subscription.order', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&subscription_id=' . $subscription_id . ($page ? '&page=' . $page : ''))
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($order_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($order_total - $limit)) ? $order_total : ((($page - 1) * $limit) + $limit), $order_total, ceil($order_total / $limit));
