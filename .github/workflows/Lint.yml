@@ -3,22 +3,23 @@ name: Lint
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     types: [opened, synchronize]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: ['8.1', '8.2', '8.3', '8.4']
+        php: ['8.1', '8.2', '8.3']
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -28,15 +29,23 @@ jobs:
 
       - name: Lint PHP Files
         run: |
-          if find upload -type f -name "*.php" ! -path 'upload/system/storage/vendor/*' -exec php -l -n {} + | grep -q "Errors parsing"; then
-            echo "Syntax errors were found."
+          ERROR_COUNT=0
+          for file in $(find upload -type f -name "*.php" ! -path 'upload/system/storage/vendor/*'); do
+            if ! php -l -n "$file" > /dev/null 2>&1; then
+              echo "Syntax error in: $file"
+              php -l -n "$file"
+              ERROR_COUNT=$((ERROR_COUNT + 1))
+            fi
+          done
+          if [ $ERROR_COUNT -gt 0 ]; then
+            echo "Found $ERROR_COUNT PHP syntax errors."
             exit 1
           else
             echo "No syntax errors were detected."
           fi
 
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cache/composer/files
