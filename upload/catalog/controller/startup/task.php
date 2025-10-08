@@ -1,4 +1,3 @@
-
 <?php
 namespace Opencart\Catalog\Controller\Startup;
 /**
