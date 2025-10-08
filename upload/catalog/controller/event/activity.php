@@ -37,8 +37,8 @@ class Activity extends \Opencart\System\Engine\Controller {
 	 * Edit Customer
 	 *
 	 * Trigger
-     *
-     * catalog/model/account/customer/editCustomer/after
+	 *
+	 * catalog/model/account/customer/editCustomer/after
 	 *
 	 * @param string            $route
 	 * @param array<int, mixed> $args

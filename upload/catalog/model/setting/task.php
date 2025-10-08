@@ -34,8 +34,6 @@ class Task extends \Opencart\System\Engine\Model {
 	 *
 	 * Get the total number of total task records in the database.
 	 *
-	 * @return int total number of task records
-	 *
 	 * @example
 	 *
 	 * $filter_data = [
@@ -48,6 +46,10 @@ class Task extends \Opencart\System\Engine\Model {
 	 * $this->load->model('setting/task');
 	 *
 	 * $task_total = $this->model_setting_task->getTotalTasks($filter_data);
+	 *
+	 * @param array $data
+	 *
+	 * @return int total number of task records
 	 */
 	public function getTotalTasks(array $data = []): int {
 		$sql = "SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "task`";

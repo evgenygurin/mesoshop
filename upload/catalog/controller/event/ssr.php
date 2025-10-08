@@ -28,6 +28,7 @@ class Ssr extends \Opencart\System\Engine\Controller {
 	 *
 	 * @param string            $route
 	 * @param array<int, mixed> $args
+	 * @param mixed             $output
 	 * @param string            $code
 	 *
 	 * @return void
