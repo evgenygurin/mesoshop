@@ -527,7 +527,7 @@ class Returns extends \Opencart\System\Engine\Controller {
 			'total'    => $return_total,
 			'page'     => $page,
 			'limit'    => $limit,
-			'callback' => fn (int $page): string => $this->url->link('account/return.history', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&return_id=' . $return_id  . ($page ? '&page=' . $page : ''))
+			'callback' => fn (int $page): string => $this->url->link('account/return.history', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&return_id=' . $return_id . ($page ? '&page=' . $page : ''))
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($return_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($return_total - $limit)) ? $return_total : ((($page - 1) * $limit) + $limit), $return_total, ceil($return_total / $limit));
